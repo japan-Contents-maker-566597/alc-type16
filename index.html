@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>酒タイプ診断ポータル</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --secondary-color: #f0f4ff;
+            --background-gradient: linear-gradient(135deg, #f3e5f5, #e1f5fe);
+            --text-color: #333;
+            --accent-color-1: #ffcdd2;
+            --accent-color-2: #c8e6c9;
+            --accent-color-3: #bbdefb;
+            --accent-color-4: #fff9c4;
+            --border-radius: 24px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        body { font-family: 'M PLUS Rounded 1c', sans-serif; background: var(--background-gradient); margin: 0; padding: 20px; color: var(--text-color); }
+        .container { max-width: 800px; width: 100%; margin: 0 auto; background-color: var(--primary-color); border-radius: var(--border-radius); box-shadow: var(--shadow); padding: clamp(20px, 5vw, 40px); box-sizing: border-box; }
+        h1, h2, h3 { text-align: center; font-weight: 800; }
+        h1 { color: #6a1b9a; font-size: clamp(2rem, 6vw, 2.8rem); }
+        h2 { color: #1e88e5; font-size: clamp(1.8rem, 5vw, 2.5rem); }
+        p { line-height: 1.8; }
+        .view { display: none; }
+        .view.active { display: block; }
+        .action-button { display: block; width: 100%; padding: 20px; font-size: 1.5em; font-weight: 700; color: #fff; background: linear-gradient(135deg, #8e24aa, #5e35b1); border: none; border-radius: 16px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; text-align: center; }
+        .action-button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .secondary-button { background: #eee; color: #555; border: 2px solid #ddd; }
+        .secondary-button:hover { background-color: #ddd; }
+        .bottom-nav-wrapper { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .bottom-nav-button { font-family: 'M PLUS Rounded 1c', sans-serif; font-size: 1em; font-weight: 700; padding: 12px 0; width: 240px; border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: center; border: 2px solid #3949ab; background-color: #fff; color: #3949ab; }
+        .bottom-nav-button.primary { background-color: #3949ab; color: #fff; }
+        .bottom-nav-button:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        #view-top .top-description { font-size: 1.2em; text-align: center; padding: 20px; background: var(--secondary-color); border-radius: 16px; }
+        #view-top .button-wrapper { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
+        .name-input-wrapper { text-align: center; margin-bottom: 2em; }
+        .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
+        .name-input:focus { outline: none; border-color: var(--accent-color-3); }
+        .question-card { background-color: var(--secondary-color); padding: 20px; border-radius: 16px; margin-bottom: 20px; border-left: 8px solid var(--accent-color-1); }
+        .question-card:nth-child(4n+2) { border-color: var(--accent-color-2); }
+        .question-card:nth-child(4n+3) { border-color: var(--accent-color-3); }
+        .question-card:nth-child(4n+4) { border-color: var(--accent-color-4); }
+        .question-text { font-weight: 700; font-size: 1.2em; margin-bottom: 15px; }
+        .question-options-wrapper { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 15px; }
+        .option-end-label { flex: 1; font-size: 0.9em; color: #666; text-align: center; }
+        .option-end-label.endpoint-a { color: #d32f2f; font-weight: 700; }
+        .option-end-label.endpoint-b { color: #1976d2; font-weight: 700; }
+        .options-container { display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .option-label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-size: 0.9em; padding: 5px; }
+        .option-label input[type="radio"] { margin-bottom: 5px; -webkit-appearance: none; appearance: none; background-color: #fff; margin: 0; font: inherit; color: currentColor; width: 1.5em; height: 1.5em; border: 0.15em solid currentColor; border-radius: 50%; display: grid; place-content: center; }
+        .option-label input[type="radio"]::before { content: ""; width: 0.8em; height: 0.8em; border-radius: 50%; transform: scale(0); transition: 120ms transform ease-in-out; box-shadow: inset 1em 1em var(--accent-color-3); }
+        .option-label input[type="radio"]:checked::before { transform: scale(1); }
+        @media (max-width: 600px) { .question-options-wrapper { flex-direction: column; } .option-end-label { width: 100%; } .options-container { margin: 10px 0; } }
+        #type-list-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .type-card { background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .type-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .type-card-image-wrapper { width: 120px; height: 120px; border-radius: 50%; background-color: #fff; margin: 0 auto 15px auto; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .type-card-illustration { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; filter: contrast(1.1); }
+        .type-card-name { font-weight: 800; font-size: 1.2em; margin: 0 0 5px 0; color: #3949ab; }
+        .type-card-catchphrase { font-size: 0.9em; color: #666; min-height: 3em; }
+        .result-header { text-align: center; background: linear-gradient(135deg, #fce4ec, #e3f2fd); padding: 20px; border-radius: var(--border-radius); margin-bottom: 20px; }
+        .result-title { font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 800; margin: 0 0 10px 0; background: -webkit-linear-gradient(135deg, #ad1ea2, #2979ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .result-image-wrapper { width: 200px; height: 200px; border-radius: 50%; background-color: #fff; margin: 0 auto 20px auto; display: flex; justify-content: center; align-items: center; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .result-illustration { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; filter: contrast(1.1); }
+        .result-catchphrase-display { font-size: 1.3em; font-weight: 700; color: #555; text-align: center; margin-bottom: 30px; }
+        .result-card { background-color: var(--secondary-color); padding: 25px; border-radius: 16px; margin-bottom: 20px; }
+        .result-card h3 { display: inline-block; font-size: 1.2em; padding: 8px 16px; background-color: var(--accent-color-3); color: #1a237e; border-radius: 12px; margin-top: 0; margin-bottom: 15px; }
+        .result-card p { line-height: 1.8; margin-bottom: 1em; }
+        .result-card p .key-sentence { font-weight: 700; }
+        .result-good, .result-bad { display: flex; padding: 15px; border-radius: 12px; }
+        .result-good { background-color: #e8f5e9; }
+        .result-bad { background-color: #ffebee; }
+        .result-good h4, .result-bad h4 { margin: 0; font-size: 1.1em; line-height: 1.6; }
+        .result-good h4 { color: #2e7d32; }
+        .result-bad h4 { color: #c62828; }
+        .axis-list { list-style: none; padding: 0; }
+        .axis-item { display: flex; align-items: center; margin-bottom: 15px; background: var(--secondary-color); padding: 15px; border-radius: 16px; }
+        .axis-label { flex-shrink: 0; font-weight: 800; font-size: 1.5em; width: 60px; height: 60px; border-radius: 50%; display: grid; place-content: center; color: white; margin-right: 15px; }
+        .axis-label.lf { background-color: var(--accent-color-1); }
+        .axis-label.or { background-color: var(--accent-color-2); }
+        .axis-label.ud { background-color: var(--accent-color-3); }
+        .axis-label.ty { background-color: var(--accent-color-4); color: #555;}
+        .axis-desc h4 { margin: 0 0 5px 0; font-size: 1.2em; }
+        .axis-desc p { margin: 0; line-height: 1.6; }
+
+        /* --- Roulette --- */
+        #roulette-fab { position: fixed; bottom: 25px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
+        #roulette-fab:hover { animation-play-state: paused; transform: scale(1.1); }
+        @keyframes float-anim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .roulette-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1001; opacity: 0; transition: opacity 0.3s; overflow-y: auto; padding: 20px; box-sizing: border-box; }
+        .roulette-overlay.visible { display: flex; opacity: 1; }
+        .roulette-container { position: relative; text-align: center; }
+        #roulette-canvas { transition: transform 9s cubic-bezier(.15,.75,.5,1); }
+        .roulette-pointer { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 30px solid #ff4136; z-index: 2; }
+        .roulette-controls { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; gap: 10px; z-index: 2;}
+        #roulette-result-popup { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; max-width: 400px; width: 90%; animation: popup-anim 0.3s ease-out; }
+        @keyframes popup-anim { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        #roulette-result-image { width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 15px; display: block; object-fit: contain; mix-blend-mode: multiply; filter: contrast(1.1); background: var(--secondary-color); }
+        #roulette-result-title { font-size: 1.8em; margin: 10px 0; color: #3949ab; }
+        #roulette-result-message { font-size: 1.2em; line-height: 1.6; font-weight: 800; color: #d32f2f; margin-bottom: 20px; }
+        
+        #roulette-setup-box { background: #fff; border-radius: 20px; padding: 30px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; }
+        #roulette-member-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin: 20px 0; }
+        .member-item { display: flex; align-items: center; padding: 10px; background: var(--secondary-color); border-radius: 12px; cursor: pointer; }
+        .member-item img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 15px; }
+        .member-item label { flex-grow: 1; text-align: left; }
+        .member-item input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; }
+        .roulette-setup-controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="view-top" class="view"><h1>酒タイプ診断</h1><p class="top-description">飲み会での立ち振る舞いや、酔ったときのあなた。<br>全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！</p><div class="button-wrapper"><button id="start-diagnosis-btn" class="action-button">さっそく診断を始める</button><button id="goto-types-btn" class="action-button secondary-button">16の酒タイプを見る</button><button id="goto-about-btn" class="action-button secondary-button">酒タイプ診断とは？</button></div></div>
+        <div id="view-diagnosis" class="view"><h2>あなたのことを教えてください</h2><form id="diagnosisForm"><div class="name-input-wrapper"><input type="text" id="userName" class="name-input" placeholder="あなたの名前を入力" required></div><div id="questionsContainer"></div><button type="submit" class="action-button">診断する</button></form></div>
+        <div id="view-types" class="view"><h2>16の酒タイプ図鑑</h2><div id="type-list-container"></div><div class="bottom-nav-wrapper"><button id="nav-from-types-to-top" class="bottom-nav-button primary">TOPページに戻る</button></div></div>
+        <div id="view-result" class="view"><div id="resultOutput"></div><div class="bottom-nav-wrapper"><button id="nav-from-result-to-top" class="bottom-nav-button primary">TOPページに戻る</button><button id="nav-from-result-to-types" class="bottom-nav-button">16タイプ図鑑に戻る</button></div></div>
+        <div id="view-about" class="view"><h2>4つの診断軸について</h2><p>この診断では、4つの異なる軸であなたの酒との向き合い方を分析します。</p><ul class="axis-list"><li class="axis-item"><div class="axis-label lf">L/F</div><div class="axis-desc"><h4>リーダー / フォロワー</h4><p>飲み会の主導権を握りたいか、流れに身を任せたいか。</p></div></li><li class="axis-item"><div class="axis-label or">O/R</div><div class="axis-desc"><h4>大雑把 / 几帳面</h4><p>場のノリや楽しさを優先するか、終電や会計を気にするか。</p></div></li><li class="axis-item"><div class="axis-label ud">U/D</div><div class="axis-desc"><h4>アッパー / ダウナー</h4><p>酔うとテンションが上がるか、物静かになるか。</p></div></li><li class="axis-item"><div class="axis-label ty">T/Y</div><div class="axis-desc"><h4>強い / 弱い</h4><p>お酒への耐性が高いか、すぐに酔ってしまうか。</p></div></li></ul><div class="bottom-nav-wrapper"><button id="nav-from-about-to-top" class="bottom-nav-button primary">TOPに戻る</button></div></div>
+    </div>
+    
+    <button id="roulette-fab">ルーレットで遊ぶ🎲</button>
+    <div id="roulette-setup-overlay" class="roulette-overlay"><div id="roulette-setup-box"><h2>参加する酒タイプを選ぶ</h2><div class="roulette-setup-controls"><button id="roulette-select-all" class="secondary-button" style="width: 120px; padding: 10px 0; margin:0;">全選択</button><button id="roulette-deselect-all" class="secondary-button" style="width: 120px; padding: 10px 0; margin:0;">全解除</button></div><div id="roulette-member-list"></div><div class="bottom-nav-wrapper" style="border:none"><button id="create-roulette-btn" class="action-button" style="width:100%">このメンバーでルーレット作成</button><button id="close-roulette-setup-btn" class="bottom-nav-button">戻る</button></div></div></div>
+    <div id="roulette-overlay" class="roulette-overlay"><div class="roulette-container"><div class="roulette-pointer"></div><canvas id="roulette-canvas"></canvas><div class="roulette-controls"><button id="spin-btn" class="action-button" style="width: 120px; padding: 15px;">START</button></div></div></div>
+    <div id="roulette-result-overlay" class="roulette-overlay"><div id="roulette-result-popup"><img id="roulette-result-image" src="" alt="当選結果"><h2 id="roulette-result-title"></h2><p id="roulette-result-message"></p><div class="bottom-nav-wrapper" style="border-top: none; margin-top: 10px;"><button id="spin-again-btn" class="bottom-nav-button primary">もう一度回す</button><button id="close-result-btn" class="bottom-nav-button">戻る</button></div></div></div>
+
+    <audio id="spin-sound" src="spin.mp3" loop></audio>
+    <audio id="fanfare-sound" src="fanfare.mp3"></audio>
+
+    <script>
+        const questions = [
+            { id: 1, axis: "LF", text: "飲み会のお店の選定は？", a: "自分の行きたい店を提案する。", b: "皆の意見を聞いてから決める。" }, { id: 2, axis: "LF", text: "場の雰囲気が微妙になったら？", a: "自分が話題を提供し、流れを変える。", b: "誰かの行動を待ち、流れに任せる。" }, { id: 3, axis: "LF", text: "飲み会での役割は？", a: "幹事や盛り上げ役など、中心にいたい。", b: "聴き役やサポート役など、裏方でいたい。" }, { id: 4, axis: "LF", text: "乾杯の音頭は？", a: "進んで自分が取り、場を仕切りたい。", b: "他の誰かに譲る方が楽だ。" }, { id: 5, axis: "OR", text: "飲み会前に翌日の予定を？", a: "気にせず、その場のノリを優先する。", b: "終電時間や翌朝に響かないかチェックする。" }, { id: 6, axis: "OR", text: "飲酒時の財布のひもは？", a: "大胆になり、奢ったり多めに払いがち。", b: "冷静に予算を管理し、きっちり割る。" }, { id: 7, axis: "OR", text: "飲み会後の後片付けは？", a: "誰かがやるだろうと気にしない。", b: "散らかった場所を率先して片付ける。" }, { id: 8, axis: "OR", text: "飲み会の企画は？", a: "面白さ最優先。面白ければなんでもいい。", b: "バランス重視。楽しみつつちゃんとしたい。" }, { id: 9, axis: "UD", text: "酔い始めの行動は？", a: "陽気になり、声が大きくなる。", b: "物静かになり、思考が深くなる。" }, { id: 10, axis: "UD", text: "酔ったときの感情は？", a: "普段よりもハイになり、無敵感がある。", b: "普段よりも感傷的になり、センチメンタル。" }, { id: 11, axis: "UD", text: "飲み会でのSNS使用は？", a: "楽しんでいる様子はどんどんみんなにシェアしたい。", b: "飲み会の様子はSNSには載せたくない。" }, { id: 12, axis: "UD", text: "酔ったときの身体の動きは？", a: "声やリアクションが大きくなる、笑いのツボが浅くなる。", b: "静かになる、眠くなる、テンションが下がる。" }, { id: 13, axis: "TY", text: "飲むペースは？", a: "周りがどうであろうと、自分のハイペースを維持。", b: "周りのペースに合わせるか、それより遅い。" }, { id: 14, axis: "TY", text: "飲めるお酒の量は？", a: "何杯飲んでも、ほぼ酔ったように見えない。", b: "すぐに酔いが回り、セーブが必要になる。" }, { id: 15, axis: "TY", text: "コールや一気飲みの強要は？", a: "余裕で受け入れ、むしろ楽しむ。", b: "可能な限り拒否して、自分のペースを守る。" }, { id: 16, axis: "TY", text: "翌日の記憶は？", a: "泥酔しても断片的に覚えていることが多い。", b: "少し飲みすぎると、記憶がほぼ飛ぶ。" } 
+        ];
+        const typeData = { LOUT: { name: "アル中番長", catch: "「お酒が強くて、ノリも最高！」場の主導権を握り、みんなを盛り上げる。最強の肉体を持つタフネスリーダー。", base: "基本的特徴：卓越したエネルギー駆動能力\nLOUTの最も顕著な特徴は、お酒を摂取することで思考と行動が加速する性質です。お酒は単なる嗜好品ではなく、自身のバイタリティを最大化させるための高オクタンガソリンのようなものです。どのような多忙な一日の後でも、一杯目のドリンクで細胞が再起動し、瞬時に場のムードメーカーとして機能し始めます。どれだけ飲んでも「機嫌」が崩れることはなく、常にポジティブでアッパーなエネルギーを放出し続けるため、周囲からは「最強のタフネス」として一目置かれています。", feature: "飲み会での特徴：現場主導の回遊魚\n一箇所に留まることを知らず、全テーブルを回遊してはグラスの空き状況と会話の熱量をチェックします。周囲のグラスが空いていれば即座に「次、何いく？」と気遣い、場が停滞していれば得意のネタで繋ぎます。ハシゴ酒の際の意思決定スピードは、仕事の緊急対応よりも速く、誰もその勢いを止めることはできません。", merit: "長所と魅力：圧倒的な「場」の統率力\nどんなに冷え切った空気や、関係性の薄いメンバーが集まる会であっても、このタイプがいれば「なんとかなる」と思わせる圧倒的な統率力があります。その場の熱量を読み取り、誰にどのタイミングで話を振るべきかを本能的に理解しているため、参加者全員に「今日は楽しかった」と思わせる高いホスピタリティを持っています。このバイタリティこそが、組織における「結束力の核」となっています。", stretch: "【静寂力】たまにはグラスを置き、水を飲み、周囲のペースに合わせる勇気を持ちましょう。100%の出力は、時に周囲にとっての「オーバーフロー」を招くことがあります。", good: "FOUT（酒飲み聖母）：常にアクセル全開で暴走しがちなあなたを、FOUTは最高の包容力で全肯定してくれます。あなたが攻め、相手が守ることで、その場の空気は一切の不安がなくなり、参加者全員が解放感に浸れる「無敵の布陣」が完成します。", bad: "LRDY（水泥棒）：泥酔してやらかし、翌朝後悔するLRDYにとって、あなたの限界知らずのノリは「恐怖の加速装置」になってしまいます。翌日の相手の反省文が長文になりすぎる原因は、大抵あなたの圧倒的なパワーにあります。" }, LOUY: { name: "ハイテンション時限爆弾", catch: "「ノリは最高だが、体はガラス…」主導権を握って場を盛り上げるが、限界を超えると一瞬で爆発する陽キャの弱体化版。", base: "基本的特徴：瞬発力特化のパフォーマー\n飲み会における「初速」において右に出る者はいません。開始5分でその場のボルテージを最高潮まで引き上げる、天性のスター性を持っています。しかし、その輝きは非常に短命です。体のスペックがそのパッションに追いついておらず、前半のハイパフォーマンスと引き換えに、中盤以降は急激に機能停止（あるいは暴走）します。この「美しくも儚い」散り際こそが、このタイプの真骨頂と言えるでしょう。", feature: "飲み会における特徴：一軒目限定のファンタジスタ\n一杯目から盛り上げ、誰よりも早くエンジンを全開にする姿は、まさに会の主役です。しかし、2軒目に移る頃には、椅子に座ったままフリーズしているか、お手洗いの住人と化している姿が目撃されます。翌朝、自分のスマホのカメラロールに身に覚えのない「深夜のテンションすぎる自撮りや動画」が大量保存されているのを見て、絶望するのがルーティーンです。", merit: "長所と魅力：空気を一変させる爆発力\n重苦しい雰囲気や、緊張感のある会食の場などで、このタイプの「理性のリミッター解除」は一気に場をカジュアルに変化させます。計算のない純粋なノリは、時に論理では解決できない人間関係の壁を壊し、メンバー間の距離を劇的に縮めることがあります。その「使い切り」の潔さに、周囲は一種の敬意を抱いています。", stretch: "【持続力】「中盤のペース配分」という概念を脳内にインストールしましょう。全エネルギーを一軒目で使い果たそうとせず、デザートまで意識を保つことが、真のコミュ強への道です。", good: "FRDY（空気読みすぎ天使）：あなたが爆発して灰になっている間、FRDYは誰にも気づかれずにそっとお冷を運び、タクシーの手配までしてくれます。あなたの「後始末」を最もスマートに、かつ嫌味なくこなしてくれる最高の介護役です。", bad: "LODT（飲み参謀）：冷静に場をコントロールしたいLODTにとって、あなたの予測不能な暴走は「計算外のリスク」でしかありません。冷ややかな目で見られ、翌日の仕事であなたの失態を静かに詰められる可能性があります。" }, LODT: { name: "飲み参謀", catch: "「酔っても冷静、全て計算通り」お酒は強いけど騒がない。場を仕切りつつ、ダウナーで人間観察を楽しむ影の総帥。", base: "基本的特徴：冷徹なるロジカル・ドランカー\nお酒は強いが、決して飲まれません。アルコールを摂取しても脳内のCPUは常にフル回転しており、場のパワーバランスや会話の文脈を冷静に分析し続ける「影の支配者」です。感情を爆発させることは稀で、強いお酒をちびびと嗜みながら、混沌とした飲み会を俯瞰して楽しむ知的なスタンスを持ちます。この安定感は、仕事のトラブル対応で見せる冷静さと通ずるものがあります。", feature: "飲み会における特徴：深夜のチェスプレイヤー\n端の席を陣取り、失言したメンバーを観察しています。「あ、今あいつ地雷踏んだな」といった空気を誰よりも早く察知し、必要であれば絶妙なタイミングで助け舟を出したり、逆に追い込んだりする、まさに飲み会の戦略家。気づけば全員の弱みを把握していることも。状況を把握した上で、あえて泳がせる余裕さえ持っています。", merit: "長所と魅力：圧倒的なリスク管理能力\n泥酔者が続出するカオスな状況下でも、唯一正気を保ち、会計の齟齬を正し、全員を無事に帰宅させる「最後の砦」です。彼がいることで、飲み会が「事件」にならずに済みます。その信頼感は、組織において不可欠なものであり、周囲からは密かに神格化されています。", stretch: "【感情解放力】たまには論理の鎧を脱ぎ捨てて、意味のないバカ話をしてみてください。あなたの「人間味」が見えたとき、周囲の親近感はさらに高まり、チームの壁がなくなります。", good: "FOUT（酒飲み聖母）：あなたが冷静に場を分析する傍らで、FOUTが全方位に愛を振りまく。このペアがいれば、飲み会の秩序と幸福度は完璧に保たれ、誰も置いていかれない完璧な会になります。", bad: "LOUY（ハイテンション時限爆弾）：予測不能な暴走を繰り返すLOUYは、あなたにとって「計算外のリスク」そのもの。冷ややかな目で見しまいがちですが、たまにはその勢いに乗ってみるのも一興です。" }, LODY: { name: "爆発インキャ", catch: "「酔うと愚痴が止まらない」 場の主導権を握るが、お酒が弱いので静かに愚痴を吐き続け、周りを重くする内向的なボス。", base: "基本的特徴：抑圧された情熱のディレクター\n普段は控えめで聞き手に回ることが多いですが、お酒が入ることで「心のダム」が決壊します。自分のこだわりや、現状への危機感、秘めたる野心が、少しダウナーで重厚な言葉となって溢れ出します。その熱量は凄まじく、一度スイッチが入ると誰にも止められない独自の世界観を展開します。", feature: "飲み会における特徴：一対一のロングインタビュー\nターゲットを一人に絞り、逃げ場のない状況で長時間の「深掘り」を開始します。内容は深いのですが、酒が弱いため徐々に論理が破綻し、最終的には「俺なんて、結局何もできてないんすよ…」という自己批判に陥ることも。翌朝、送った覚えのない熱い長文メッセージを読み返し、布団の中で悶絶するのがお決まりのパターンです。", merit: "長所と魅力：嘘のない真実の言葉\n打算や忖度のない、剥き出しの本音で語り合うことができます。あなたと一晩飲み明かした相手とは、戦友のような深い信頼関係が築かれることが多いです。その純粋さは、複雑な人間関係や利害が絡む社会人生活において、一筋の光のような価値を持ちます。", stretch: "【ポジティブ変換力】話の着地地点を「でも、次こそ頑張ろう」という前向きな結論に設定する努力をしましょう。出口のない議論は、時に自分も周囲も疲れさせてしまいます。", good: "FODT（飲み飲みカウンセラー）：あなたの重厚な本音を、FODTは一切否定せずに最後まで聞き遂げてくれます。あなたの魂が最も解放され、深い満足感を得られる組み合わせです。", bad: "LOUT（アル中番長）：あなたが深く語ろうとしている横で、LOUTが「細かいことはいいから飲もうぜ！」とパワープレイで会話を上書きしてきます。あなたの繊細な世界観が崩される恐れがあります。" }, LRUT: { name: "自称プロ幹事", catch: "「完璧な飲み会設計」 自ら飲み会を企画しつつ、テンション高く場を回す。お祭り好きなプロの盛り上げ屋。", base: "基本的特徴：高解像度のプロデューサー\n飲み会を単なる「遊び」ではなく、一つの「重要プロジェクト」として捉えています。店の選定から座席配置、盛り上げの構成、さらには二次会への動線まで、完璧なクオリティと進行を追求するストイックな盛り上げ屋です。その場をコントロールすることに喜びを感じる、仕事のできる大人の鑑です。", feature: "飲み会での特徴：進行管理の鬼\n常に時計をチェックし、「ラストオーダーまであと少し！全員飲み物決めて！」とテキパキと周囲に指示を出します。本人のテンションは非常に高いですが、その目は常に「この会の着地点」を冷徹に見据えています。会計時、ポイントや予約特典を最も効率的な方法で賢く活用しているのもこのタイプです。", merit: "長所と魅力：円滑な進行のスペシャリスト\nこのタイプがいれば、飲み会で「店が決まらない」「料理が来ない」といったストレスは皆無です。まさに、参加者全員の満足度を最大化させるプロフェッショナル。そのホスピタリティと実行力は、どんな現場でも重宝される最強の武器となります。", stretch: "【偶発性への許容力】予定調和を壊すハプニングこそが飲み会の醍醐味です。たまには進行管理を忘れ、予測不能なカオスに身を任せてみる余裕を持ちましょう。", good: "FRDT（お会計くん）：あなたが前線で指揮を執り、FRDTが後方で実務を完璧にこなす。この二人がタッグを組めば、大人数の宴会も一切の隙なく完璧に回しきることができます。", bad: "LOUY（ハイテンション時限爆弾）：秒刻みで進行を管理したいあなたにとって、序盤で潰れて動かなくなるLOUYは「スケジュールの最大のボトルネック」となり、計算を狂わせる存在です。" }, LRUY: { name: "ちゃんとした人", catch: "「酔う前にすべて出し切る」終電を見据え、短時間で全力投球する効率重視の陽キャ。飲み会に迷い込んだ一般人。", base: "基本的特徴：効率重視のセルフマネージャー\n飲み会は好きだし、参加も全力。しかし、それと同じくらい「翌日の生活の質」を大切にしています。どれだけ場が盛り上がっていても、脳内のアラームが鳴れば一瞬で現実に引き戻される、高い自制心とバランス感覚を持った「大人の酒飲み」です。流されそうで流されない、鉄の意志を持っています。", feature: "飲み会での特徴：鉄の意志を持つフェードアウト\n時間が遅くなってくるとさりげなく時計を見始め、頃合いを見て「あ、私明日早いんで、お先に失礼します」と爽やかに離脱します。周囲の熱狂的な空気に流されず、自分のペースを守り抜く姿は、ある意味で最も強靭な精神の持ち主と言えます。翌朝のタスク管理もこの時点で終わっています。", merit: "長所と魅力：周りに流されない自分軸\nこのタイプがいることで、飲み会が「際限なく長引かせすぎない」という暗黙のリマインドになります。また、翌朝の仕事に唯一シャキッとした顔で現れ、周囲がダウンしている中でチーム全体の崩壊を未然に防ぐ「防波堤」のような役割を果たしています。", stretch: "【没頭力】たまには終電を捨て、翌日の予定もすべて忘れてカオスに身を投じてみては？その限界を超えた先にしか見えない景色や、一生モノの深い絆もあるかもしれません。", good: "FRUT（酔いどれ学級委員長）：お互いに「やりすぎない」マナーを深く理解しているため、非常に心地よいテンションで飲めます。翌日のパフォーマンスを一番に考える最高の同志です。", bad: "LOUT（アル中番長）：あなたがスマートに帰宅しようとすると、「え？まだこれからでしょ！」とタクシーのドアを閉めて引き止めてくる、天敵のような存在です。" }, LRDT: { name: "朝までうんちく先輩", catch: "「情熱と理性を失わない」強い酒を飲みながら、仕事や人生について静かに深く語り続ける。うんちくが止まらない。", base: "基本的特徴：深夜のロジカル・フィロソファー\n強い酒を飲みながら、仕事、人生、社会の本質について語り続ける情熱的な知識人です。酔っても論理が崩れず、むしろ語彙が研ぎ澄まされていくため、周囲は「いつ寝るのか」と驚愕に包まれます。知的好奇心が旺盛で、飲み会を単なる騒ぎの場ではなく「深い議論の場」として愛しています。", feature: "飲み会での特徴：熱血アドバイスの開演\n後輩や友人を捕まえては「君のあの時の考え方、本質的にはこういうことだよ」と熱いアドバイスを開始します。本人は有益なフィードバックのつもりですが、夜が深まるにつれ、話のレイヤーが高まりすぎて周囲がついていけなくなることも。お酒の銘柄やその背景にまでこだわりを見せる凝り性です。", merit: "長所と魅力：圧倒的なパッションと知性\n物事に対する向き合い方は誰よりも真摯です。その深い洞察力に救われ、迷いの中にいたメンバーがモチベーションを再燃させることも少なくありません。組織に「熱」と「指針」を注入する、貴重なエヴァンジェリスト的な存在です。", stretch: "【要約力】「良い話」をいかに短く伝えるか。あなたの素晴らしいアドバイスも、シンプルに伝えられれば相手の心にさらに深く、速く刺さるはずです。", good: "FODT（飲み飲みカウンセラー）：あなたの重厚な話を、最高のリアクション（相槌）で聞き続けてくれます。あなたにとって、これ以上ない「最高の壁打ち相手」となってくれるでしょう。", bad: "FRDY（空気読みすぎ天使）：あなたの熱弁を、相手は「怒られている」「圧が強い」と勘違いしてしまいがちです。FRDYはあなたの横で精神的に疲弊して消えてしまいます。" }, LRDY: { name: "水泥棒", catch: "「お酒は弱いが、しっかり反省」面倒な酔い方をするが、翌日には全ての記憶を回収し、深く反省する。お冷が大好き。", base: "基本的特徴：謝罪駆動型の愛されキャラ\nお酒が弱く、自分の限界もわかっているはずなのに、場のノリに合わせようとして毎度オーバーフローを起こします。しかし、その失態を翌朝の圧倒的な「謝罪スピード」と「誠実なアフターフォロー」で完全に相殺する、驚異的なリカバリー能力を持っています。失敗を恐れない（というか忘れる）挑戦者です。", feature: "飲み会での特徴：水分補給のハイジャック\n酔いが回ると、まるで生存本能のように隣の人の水を奪って飲み干します。「本当にすみません、迷惑かけました…」が口癖ですが、その数分後にはまた別の失態を演じている、矛盾の塊のような存在。翌朝、メッセージの通知が自分の謝罪文で埋まるのが日常茶筆となっています。", merit: "長所と魅力：憎めない人間味と愛嬌\n完璧じゃないからこそ、周囲の保護欲を最大限に引き出します。あなたのやらかしは、翌週のランチタイムの格好のネタとなり、張り詰めた職場の空気を和ませる「天然の中和剤」としての役割を果たしています。愛される才能の持ち主です。", stretch: "【自己管理能力】飲む前に「自分の在庫（肝臓のキャパ）」を正確に把握する習慣を。リカバリー能力は高いですが、たまにはやらかさない平和な夜を作っても誰も怒りませんよ。", good: "FODY（涙腺崩壊ベビー）：お互いに酒に弱く、情けない姿を晒しがちな者同士。二人で手を取り合い、一緒に泣きながら水を飲む時間は、最高にピュアな癒しのひとときになります。", bad: "LRUT（自称プロ幹事）：秒刻みのスケジュールと規律を重視する相手にとって、あなたの予測不能な粗相は「進行を阻害する最大のイレギュラー」として警戒されてしまいます。" }, FOUT: { name: "酒飲み聖母", catch: "「お酒が強く、みんなに優しい」協調性が高く、ハイテンションでみんなを全肯定。どんな飲み会にもいてほしいハッピーな存在。", base: "基本的特徴：アルコール界のホスピタリティ・クイーン\nどれだけ飲んでも表情一つ変えず、場にいる全員を優しく見守る女神のような存在です。自分もお酒を楽しみつつも、意識の多くは常に「周りの幸せ」に割かれており、あなたが座っているだけで、その場は不思議な安心感に包まれます。どんなカオスな状況でも揺るがない、圧倒的な精神的安定感を誇ります。", feature: "飲み会での特徴：全肯定のリスニング・ステーション\nどんなにスベった話も、どんなに重い悩みも、「うんうん、わかるよ」と全てを浄化するように受け入れます。同時に、空いたグラスへの目配りや、遠くで孤立している人へのフォローも忘れない、飲み会におけるマザー・テレサ的な立ち回り。あなたの隣の席は、常に争奪戦になるプレミアムシートです。", merit: "長所と魅力：絶対的な精神的安定感\nあなたがいる飲み会は、心理的安全性が極限まで高まります。誰もが「今日は楽しかった」と思えるのは、あなたの無償の愛（と底知れない酒量）のおかげです。組織の満足度を底上げし、ギスギスした人間関係を溶かす、無くてはならない癒しの要石です。", stretch: "【自己主張力】たまには聖母の座を降りて、自分のワガママを言ってみてください。たまには周囲に甘えて、本音をこぼすあなたの姿を見て、みんなはさらにあなたを好きになります。", good: "LOUT（アル中番長）：常にアクセル全開で暴走しがちなLOUTを、笑顔で全肯定しつつ手綱を握れる唯一の存在。この二人が並ぶと、その飲み会は伝説的な盛り上がりを見せます。", bad: "特になし：全てを包み込み、誰に対してもオープンなあなたに、相性の悪い相手など存在しません。どんなクセの強いタイプも、あなたの前では牙を抜かれてしまいます。" }, FOUY: { name: "情熱のたぎりモンスター", catch: "「お酒が弱く、愛情深い」協調性は高いが、酒が弱く感情が大爆発。みんなに抱きついてしまうイチャイチャ担当。", base: "基本的特徴：愛のオーバーフロー・ベイビー\n協調性が極めて高く、仲間への愛が強すぎます。お酒がスイッチとなり、普段抑えている「好き」という感情が、ハグや肩を組むといった物理的な形でアウトプットされます。理性のフィルターがアルコールで溶け出し、剥き出しの純粋な愛情が溢れ出す姿は、まさに愛の猛獣。嘘をつけない真っ直ぐな心の持ち主です。", feature: "飲み会での特徴：イチャイチャの強制ギグ\n「みんな最高！このチームで良かった！」と絶叫しながら、最終的には誰かの隣で幸せそうに寝落ちします。性別を問わず、その愛は等しく重く、時に暑苦しいですが、その純粋さは疑いようがありません。翌朝、誰にどこまでベタベタしたかを断片的に思い出し、死にたくなるような恥ずかしさに襲われるのがセットです。", merit: "長所と魅力：壁を一瞬で壊すピュアさ\n打算やメンツだらけの堅苦しい関係を、一瞬で「ただの友達」に引き戻すパワーがあります。あなたの暴走の後は、なぜか職場の風通しが良くなっており、翌日からのチーム連携がスムーズになることも。冷え切った関係に火を灯す、唯一無二の着火剤です。", stretch: "【パーソナルスペース保持力】相手が「本気で嫌がっていないか」を、酔う前の冷静な記憶を総動員して判断しましょう。愛は時に、適切な距離感があってこそ、より深く相手に伝わるものです。", good: "FOUT（酒飲み聖母）：あなたの過剰な愛情表現やボディタッチを、聖母は全て笑顔で受け止めてくれます。どんなに甘えても、どんなに抱きついても大丈夫な、最高に安心できる相手です。", bad: "LODT（飲み参謀）：冷静沈着でパーソナルスペースを大事にするLODTは、あなたの物理接触や感情の爆発を「非効率なリスク」と見なします。冷たい視線を浴びて、心が折れる可能性が高いです。" }, FODT: { name: "飲み飲みカウンセラー", catch: "「無言で傾聴、無限の包容力」 協調性が高く、落ち着いてみんなの愚痴をひたすら聞く。お酒が強いので倒れない。", base: "基本的特徴：静寂のリスニング・マシン\nお酒は強いですが、自分が主役になることを好みません。しかし、決して冷淡なのではなく、他人の話を聞くことに最高の悦びを感じる「聴覚特化型」の酒飲みです。相手の言葉の裏にある微妙な感情を読み取る能力に長けており、酒の席を「癒しのカウンセリングルーム」に変える力を持っています。", feature: "飲み会での特徴：深夜の移動式懺悔室\n気づくとあなたの周りには、悩みや秘密を抱えた人が吸い寄せられるように集まっています。何もアドバイスせず、ただ深い相槌を打ちながら共に酒を飲むその姿は、都会の夜に現れた現代の僧侶のようです。翌日、相談した人はスッキリしていますが、あなたの脳内には全員の秘密が蓄積されています。", merit: "長所と魅力：究極の共感力と機密保持力\n「この人になら話せる」と思わせる圧倒的な包容力があります。あなたが知っている秘密が外へ漏れることは万に一つもなく、その誠実さは周囲から絶大な信頼を寄せられています。聞き上手を超えた、魂の理解者です。", stretch: "【アウトプット力】あなたの心の中に溜まった「他人の人生の重圧」を、たまには自分の好きな話や趣味の話などで発散してください。聞き手にも、たまには語り手になってリフレッシュする権利があります。", good: "LODY（爆発インキャ）：語りたくてたまらないLODYと、ひたすら聞きたいあなた。需要と供給が200%一致した、お互いにとって最高に心地よい、完璧なマッチングとなります。", bad: "LOUT（アル中番長）：常にハイテンションで声を張り、場を回し続けるLOUTの横では、あなたの繊細なカウンセリング能力が全く発揮できず、ただ圧倒されて疲弊してしまいます。" }, FODY: { name: "涙腺崩壊ベビー", catch: "「泣き上戸で、かまってちゃん」協調性を大事にするが、お酒が弱すぎてすぐにダウン。みんなに慰めを求め、涙腺が崩壊する。", base: "基本的特徴：センチメンタル・スター\nお酒が弱く、感情の沸点が非常に低いです。飲み会の中盤から、BGMの歌詞や誰かの何気ない一言、あるいは今日という一日の尊さに感動し、ポロポロと大粒の涙を流し始めます。その涙は、日々のストレスや仕事のプレッシャーから自分を解放するための、聖なるデトックス儀式でもあります。", feature: "飲み会での特徴：感動の強制インストール\n「みんな最高！このチームで良かった！」と絶叫しながら握手を求めます。周りに慰められることで、自分が仲間であることを再確認する、究極のかまってちゃん。しかし、その涙には一切の嘘がなく、見る者の心を洗う不思議な力があります。翌朝、目が腫れていても後悔はしていません。", merit: "長所と魅力：場の「情緒」を最大化する\nあなたが泣くことで、その会が「ただの飲み会」から「一生忘れられないエモい思い出」へと昇華されます。なんだかんだで、みんなあなたのピュアな涙を見て「今日は本当に良い夜だな」と実感し、心が浄化されるのです。", stretch: "【感情コントロール力】泣き始めるタイミングを、せめてメインの料理が終わった後に調整できるよう努力しましょう。前菜の段階で泣かれると、周囲も店員さんも、どうしていいか分からず困惑してしまいます。", good: "LRDY（水泥棒）：お互いに酒に弱く、情けない姿を晒しがちな者同士。二人で手を取り合い、情けないエピソードを共有しながら一緒に泣き、水を飲む時間は、最高にピュアな癒しのひとときになります。", bad: "LRUT（自称プロ幹事）：分刻みの完璧な進行を重視するLRUTにとって、あなたの予測不能な涙による中断は「タイムスケジュールを遅延させる不可抗力」として、困惑の対象となってしまいます。" }, FRUT: { name: "酔いどれ学級委員長", catch: "「ルールを守りつつ楽しむ」酔いすぎないようにセーブしながら、明るく振る舞う。最高のバランスを持つコミュ強。", base: "基本的特徴：ノリと理性のハイブリッド・エース\n盛り上げにも全力で参加し、お酒も適度に行く。しかし、決して品位を失わず、翌朝も完璧なコンディションで現れる、非の打ち所がない秀才です。状況適応能力が極めて高く、どこへ行っても「この人がいれば安心だ」と絶大な信頼を寄せられています。自己管理能力と社交性のバランスが完璧なタイプです。", feature: "飲み会での特徴：スマートな多重タスク処理\n会話を回しながら、周囲の動きを察知し、さりげなく注文を通す。泥酔者がいればスマートにタクシーへ誘導し、自分も楽しみながら場を完璧にコントロールします。その洗練された身のこなしは、まさに組織が誇る「次世代のリーダー」そのもの。誰も不快にさせず、全員をハッピーにする圧倒的なコミュ強です。", merit: "長所と魅力：圧倒的な調整力と信頼感\nあなたがいる飲み会に「外れ」はありません。カオスな現場で発揮されるそのマネジメント力は、将来のさらなる活躍を予感させるほど。上司からは頼られ、部下からは慕われる、全方位外交のスペシャリストです。あなたがいるだけで、会の「質」が一段上がります。", stretch: "【狂気力】たまには、その「完璧な仮面」を脱ぎ捨てて、誰も見たことがないような大失敗を演じてみてください。その弱さを見せたとき、周囲との絆は「信頼」を超えて、より深い「親愛」へと変わります。", good: "LRUY（ちゃんとした人）：互いに高い自制心とマナーを持っているため、翌日のパフォーマンスに全く響かない、最高にクリーンで建設的な飲み会を楽しむことができます。仕事の話も弾む最高の同志です。", bad: "LOUY（ハイテンション時限爆弾）：制御不能な暴走を繰り返すLOUYは、あなたの完璧主義な一面を密かに刺激し、ストレスを与えてしまいます。相手のペースに巻き込まれないよう、注意が必要です。" }, FRUY: { name: "飲んだふり常習犯", catch: "「本当はお酒が弱いのに、ノリで飲む」周りの雰囲気を大切にし、飲んだフリで場の空気に合わせて楽しむ。裏で水を大量に飲んでいる。", base: "基本的特徴：ステルス・ホスピタリティの達人\n実はお酒は弱いですが、場の空気感を壊すことを何よりも嫌います。「飲んでいないこと」を周囲に悟らせず、あたかも同じテンションで酔っているかのように振る舞う、超一流の演技派です。その献身的な気遣いは、仕事の厳しい現場を笑顔で乗り切り、周囲を立てる能力と直結しています。", feature: "飲み会での特徴：ウーロン茶の偽装工作\nジョッキの中身をこっそりノンアルにチェンジしたり、飲んでいるフリをしながら会話の熱量を上げたりするスキルはもはや芸術的。周囲に気を遣わせないよう、スマートにノンアルコール飲料をオーダーするその手捌きは、まさに裏方のプロフェッショナル。あなたの努力のおかげで、場の熱量は維持されています。", merit: "長所と魅力：究極の自己犠牲と配慮\n自分の限界を超えないことで、誰にも迷惑をかけず、かつ場を冷めさせない。その高度な気配りは、チームの調和を保つための不可欠な要素です。あなたがいてこそ、飲み会は「安全」かつ「円滑」に盛り上がることができます。影の功労者として、密かに尊敬を集めています。", stretch: "【本音の自己開示】「実は今日、飲んでないんだよね」と笑って言える相手を、少しずつ広げていきましょう。偽装工作の重圧から解放され、より自然体で楽しめるようになれば、あなたの魅力はさらに深まります。", good: "FRDY（空気読みすぎ天使）：お互いに「飲めない苦労」と「空気読みの疲れ」を共有できる、唯一無二の戦友。二人でこっそり水分補給をしながら、戦場のような飲み会を最後まで生き残りましょう。", bad: "LOUT（アル中番長）：「え？飲んでないの？もっといけるでしょ！」とグラスを並べてくるLOUTは、あなたの偽装工作を見破り、計画を破壊する最大の脅威です。適度な距離感が必要です。" }, FRDT: { name: "お会計くん", catch: "「見えないところで動く」 現実的かつ冷静。目立った行動はしないが、会計や後片付けを完璧にこなす隠れた功労者。", base: "基本的特徴：縁の下のロジカル・バックアップ\n派手に目立つことはありませんが、飲み会が「成功」として終わるための全ての土台を支えています。会計、片付け、忘れ物チェック、代行の手配など、実務的なタスクを淡々とこなす、誠実な職人肌です。お酒が入ってもその正確さと責任感は一切狂わず、常に全体をサポートする姿勢を崩しません。", feature: "飲み会での特徴：伝票とのストイックな対話\n会が終盤に差し掛かると、一人で静かにレジへ向かい、事前に支払いを済ませたり、正確な割り勘金額を算出したりしています。あなたが提示する金額は、常に納得感に満ちており、ポイントや決済手段の使い分けも完璧。帰宅後の「精算連絡」の早さは誰もが見習うべきレベルです。", merit: "長所と魅力：圧倒的な実務遂行能力と信頼感\nあなたがいれば、飲み会後の「金銭トラブル」や「忘れ物」というリスクはゼロになります。派手さはありませんが、あなたがいなければ会は成立しません。組織にとっての、真のインフラストラクチャー。その堅実さは、あらゆる仕事において絶大な信頼の源となっています。", stretch: "【主役意識】たまには自分のやった功績（お会計やサポート）を、少しだけドヤ顔でアピールしても良いんですよ！みんな、あなたの支えに本当に感謝し、頭が上がらないと思っているのですから。", good: "LRUT（自称プロ幹事）：企画・演出のLRUTと、実務・管理のあなた。この二人がタッグを組めば、世界一快適でミスのない飲み会が完成します。お互いに背中を預けられる最高のパートナーです。", bad: "LOUY（ハイテンション時限爆弾）：財布やスマホを無くしたり、記憶を失ったりするLOUYの尻拭いは、あなたの貴重な管理リソースを浪費させ、ストレスを蓄積させてしまいます。" }, FRDY: { name: "空気読みすぎ天使", catch: "「お酒は弱いが、迷惑はかけない」周囲の空気を読み、潰れる前に静かに帰る。お酒で迷惑をかけない気遣いの塊。", base: "基本的特徴：繊細なホスピタリティの化身\nお酒は弱く、体力もありませんが、感受性が非常に豊かです。周囲の表情や声のトーンから空気を敏感に読み取り、誰かが困っていれば、名前も告げずにそっと手を差し伸べる、現代の「名もなきヒーロー」です。他人の喜びを自分の喜びと感じられる、優しい精神の持ち主で、組織の調和を支えています。", feature: "飲み会での特徴：静かなる退場劇とアフターケア\n盛り上がりのピークが過ぎる頃、誰にも気づかれずにそっと席を立ち、帰宅します。しかし、帰宅途中に「今日はありがとうございました！」といった丁寧なメッセージを送り、サラダの取り分けなどの細やかな気配りを見せるなど、アフターケアの質が異常に高いのが特徴です。あなたの不在で、会に平和があったことを再確認します。", merit: "長所と魅力：場のギスギスを消し去る中和剤\nあなたがいることで、飲み会から攻撃性が消え、穏やかな空気が流れます。その優しさは、多忙で疲弊したメンバーの心を密かに、かつ深く癒しています。目立たない場所で周囲を支え、精神的な平穏をもたらす、隠れた守護神のような存在です。", stretch: "【自己主張】「私はこう思う」という一言を、勇気を持って発信してみてください。周囲はあなたの優しさを知っているからこそ、あなたの本音の意見を、あなたが思う以上に待っています。", good: "FOUT（酒飲み聖母）：聖母の大きな愛に包まれることで、あなたは「気を遣いすぎる疲れ」から解放され、心からリラックスして過ごすことができます。お互いに平和を愛するため、最も穏やかな時間を共有できます。", bad: "LOUY（ハイテンション時限爆弾）：爆発するLOUYの介護役に、その場の空気でいつの間にか指名されてしまい、自分の貴重な時間が全て削られてしまう可能性があります。優しさが「搾取」されないよう注意が必要です。" } 
+        };
+        const typeMessages = {
+            LOUT: "流石我らが番長！景気よくグイっと1杯いっちゃってください！", LOUY: "爆発寸前！時限爆弾が止まる前に、最後の一杯を流し込め！", LODT: "参謀の計算が狂った！？今日は理性を捨てて、ガツンと飲みましょう！", LODY: "心のダムが決壊寸前！本音を肴に、熱い一杯をどうぞ！", LRUT: "プロ幹事へのご褒美タイム！段取りを忘れて、主役として飲むべし！", LBUY: "ちゃんとした人の限界突破！明日への不安は飲み干して忘れよう！", LRDT: "うんちくのキレが増す一杯！喉を潤して、次なる講義の準備を！", LRDY: "お冷の前にビールを泥棒！翌朝の謝罪メールのネタができましたね！", FOUT: "聖母の愛でみんなを癒す一杯！笑顔で全肯定しながら乾杯！", FOUY: "たぎる情熱、抱きつく愛！千鳥足でみんなに愛を振りまこう！", FODT: "聞き疲れた喉に潤いを！深夜の懺悔室、これにて一杯開店です！", FODY: "涙腺崩壊の着火剤！感動の波に乗って、エモく飲み干しましょう！", FRUT: "学級委員長の羽目を外す時！規律を忘れて、無礼講の始まりだ！", FRUY: "偽装工作失敗！バレたからには、漢気を見せて飲むしかない！", FRDT: "お会計の前にガソリン補給！数字を忘れて、どんぶり勘定で飲もう！", FRDY: "天使に舞い降りた一杯！空気読みの疲れを、この一杯で浄化せよ！"
+        };
+        document.addEventListener('DOMContentLoaded', () => {
+            const allViews = document.querySelectorAll('.view');
+            const resultOutput = document.getElementById('resultOutput');
+            const diagnosisForm = document.getElementById('diagnosisForm');
+            const questionsContainer = document.getElementById('questionsContainer');
+            const typeListContainer = document.getElementById('type-list-container');
+            const userNameInput = document.getElementById('userName');
+
+            function showView(viewId) { allViews.forEach(view => view.classList.remove('active')); document.getElementById(viewId)?.classList.add('active'); window.scrollTo(0, 0); }
+            document.getElementById('start-diagnosis-btn').addEventListener('click', () => showView('view-diagnosis'));
+            document.getElementById('goto-types-btn').addEventListener('click', () => showView('view-types'));
+            document.getElementById('goto-about-btn').addEventListener('click', () => showView('view-about'));
+            document.getElementById('nav-from-types-to-top').addEventListener('click', () => showView('view-top'));
+            document.getElementById('nav-from-result-to-top').addEventListener('click', () => showView('view-top'));
+            document.getElementById('nav-from-result-to-types').addEventListener('click', () => showView('view-types'));
+            document.getElementById('nav-from-about-to-top').addEventListener('click', () => showView('view-top'));
+            
+            function renderTypeList() { typeListContainer.innerHTML = Object.keys(typeData).map(typeCode => { const type = typeData[typeCode]; return `<div class="type-card" data-typecode="${typeCode}"><div class="type-card-image-wrapper"><img src="酒タイプ画像/${typeCode}.jpg" alt="${type.name}のイラスト" class="type-card-illustration"></div><h3 class="type-card-name">${type.name} (${typeCode})</h3><p class="type-card-catchphrase">${type.catch}</p></div>`; }).join(''); } 
+            typeListContainer.addEventListener('click', e => { const card = e.target.closest('.type-card'); if (card) { displayResult(card.dataset.typecode); showView('view-result'); } });
+            
+            function renderQuestions() { questionsContainer.innerHTML = questions.map((q, index) => `<div class="question-card"><p class="question-text">${index + 1}. ${q.text}</p><div class="question-options-wrapper"><div class="option-end-label endpoint-a">${q.a}</div><div class="options-container">${[1,2,3,4,5].map(val => `<label class="option-label"><input type="radio" name="q${q.id}" value="${val}" required><span>${['A', '', '', '', 'B'][val-1]}</span></label>`).join('')}</div><div class="option-end-label endpoint-b">${q.b}</div></div></div>`).join(''); } 
+            diagnosisForm.addEventListener('submit', e => { e.preventDefault(); const userName = userNameInput.value; if (!userName) { alert('名前を入力してください。'); userNameInput.focus(); return; } const formData = new FormData(diagnosisForm); if (Array.from(formData.keys()).length < questions.length) { alert('すべての質問に回答してください。'); return; } const axisScores = { LF: 0, OR: 0, UD: 0, TY: 0 }; questions.forEach(q => { axisScores[q.axis] += parseInt(formData.get(`q${q.id}`), 10); }); let resultType = ''; resultType += (axisScores.LF / 4) < 3.0 ? 'L' : 'F'; resultType += (axisScores.OR / 4) < 3.0 ? 'O' : 'R'; resultType += (axisScores.UD / 4) < 3.0 ? 'U' : 'D'; resultType += (axisScores.TY / 4) < 3.0 ? 'T' : 'Y'; displayResult(resultType, userName); showView('view-result'); });
+            function highlightFirstSentence(text) { if (!text) return ''; const sentences = text.split(/(?<=\n|。)/); if (sentences.length > 0) { sentences[0] = `<span class="key-sentence">${sentences[0]}</span>`; } return sentences.join(''); } 
+            function displayResult(type, name = null) {
+                const result = typeData[type];
+                if (!result) { resultOutput.innerHTML = '<h2>エラー</h2><p>診断結果が見つかりませんでした。</p>'; return; }
+                const formatText = (text) => text.replace(/\n/g, '<br>');
+                const resultName = name ? `${name}さんの酒タイプは...` : 'このタイプの特徴';
+                resultOutput.innerHTML = `<div class="result-header"><p>${resultName}</p><h2 class="result-title">${result.name} (${type})</h2></div><div class="result-image-wrapper"><img src="酒タイプ画像/${type}.jpg" alt="${result.name}のイラスト" class="result-illustration"></div><p class="result-catchphrase-display">${result.catch}</p><div class="result-card"><h3>基本的特徴</h3><p>${highlightFirstSentence(formatText(result.base))}</p></div><div class="result-card"><h3>飲み会での特徴</h3><p>${highlightFirstSentence(formatText(result.feature))}</p></div><div class="result-card"><h3>長所と魅力</h3><p>${highlightFirstSentence(formatText(result.merit))}</p></div><div class="result-card"><h3>成長のヒント</h3><p>${highlightFirstSentence(formatText(result.stretch))}</p></div><div class="result-card"><h3>相性の良いタイプ</h3><div class="result-good"><h4>・ ${formatText(result.good)}</h4></div></div><div class="result-card"><h3>相性の悪いタイプ</h3><div class="result-bad"><h4>・ ${formatText(result.bad)}</h4></div></div>`;
+            }
+
+            // --- Roulette Logic ---
+            const rouletteFab = document.getElementById('roulette-fab');
+            const rouletteSetupOverlay = document.getElementById('roulette-setup-overlay');
+            const rouletteOverlay = document.getElementById('roulette-overlay');
+            const resultOverlay = document.getElementById('roulette-result-overlay');
+            const spinBtn = document.getElementById('spin-btn');
+            const spinAgainBtn = document.getElementById('spin-again-btn');
+            const closeResultBtn = document.getElementById('close-result-btn');
+            const spinSound = document.getElementById('spin-sound');
+            const fanfareSound = document.getElementById('fanfare-sound');
+            const canvas = document.getElementById('roulette-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            let rouletteTypes = [];
+            let currentRotation = 0;
+            let isSpinning = false;
+
+            function drawRouletteWheel(participants) {
+                const numOptions = participants.length;
+                const arc = 2 * Math.PI / numOptions;
+                const size = 500;
+                canvas.width = size;
+                canvas.height = size;
+                ctx.clearRect(0, 0, size, size);
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 2;
+                ctx.font = `bold ${numOptions > 10 ? '14' : '18'}px "M PLUS Rounded 1c", sans-serif`;
+                
+                for (let i = 0; i < numOptions; i++) {
+                    const angle = i * arc;
+                    ctx.fillStyle = colors[i % colors.length];
+                    ctx.beginPath();
+                    ctx.arc(size/2, size/2, size/2 - 2, angle, angle + arc, false);
+                    ctx.arc(size/2, size/2, 50, angle + arc, angle, true);
+                    ctx.stroke();
+                    ctx.fill();
+                    ctx.save();
+                    ctx.fillStyle = "#333";
+                    ctx.translate(size/2 + Math.cos(angle + arc / 2) * 150, size/2 + Math.sin(angle + arc / 2) * 150);
+                    ctx.rotate(angle + arc / 2 + Math.PI / 2);
+                    const text = participants[i];
+                    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+                    ctx.restore();
+                }
+                ctx.fillStyle = '#ff4136';
+                ctx.beginPath();
+                ctx.arc(size/2, size/2, 45, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 20px "M PLUS Rounded 1c"';
+                ctx.fillText("乾杯!", size/2 - ctx.measureText("乾杯!").width / 2, size/2 + 8);
+            }
+
+            function spin() {
+                if (isSpinning) return;
+                isSpinning = true;
+                spinBtn.disabled = true;
+                spinSound.currentTime = 0;
+                spinSound.play().catch(e => console.log("Audio play failed:", e));
+
+                const totalRotations = Math.random() * 5 + 8;
+                const stopAngle = Math.random() * 2 * Math.PI;
+                const targetAngle = currentRotation + totalRotations * 2 * Math.PI + stopAngle;
+                const duration = Math.random() * 4000 + 7000;
+
+                canvas.style.transition = `transform ${duration / 1000}s cubic-bezier(.15,.75,.5,1)`;
+                canvas.style.transform = `rotate(${targetAngle}rad)`;
+                currentRotation = targetAngle;
+
+                setTimeout(() => {
+                    isSpinning = false;
+                    canvas.style.transition = 'none';
+                    const finalAngle = targetAngle % (2 * Math.PI);
+                    canvas.style.transform = `rotate(${finalAngle}rad)`;
+                    
+                    spinSound.pause();
+                    fanfareSound.currentTime = 0;
+                    fanfareSound.play().catch(e => console.log("Audio play failed:", e));
+                    
+                    const arcSize = 2 * Math.PI / rouletteTypes.length;
+                    const pointerAngle = 3 * Math.PI / 2;
+                    const relativeAngle = (2 * Math.PI - finalAngle + pointerAngle) % (2 * Math.PI);
+                    const winnerIndex = Math.floor(relativeAngle / arcSize);
+                    showWinner(rouletteTypes[winnerIndex]);
+                }, duration);
+            }
+            
+            function showWinner(typeCode) {
+                const winner = typeData[typeCode];
+                document.getElementById('roulette-result-image').src = `酒タイプ画像/${typeCode}.jpg`;
+                document.getElementById('roulette-result-title').textContent = `${winner.name} (${typeCode})`;
+                document.getElementById('roulette-result-message').textContent = typeMessages[typeCode];
+                resultOverlay.classList.add('visible');
+            }
+
+            rouletteFab.addEventListener('click', () => {
+                rouletteSetupOverlay.classList.add('visible');
+                rouletteFab.style.opacity = '0';
+            });
+            
+            document.getElementById('close-roulette-setup-btn').addEventListener('click', () => {
+                rouletteSetupOverlay.classList.remove('visible');
+                rouletteFab.style.opacity = '1';
+            });
+            
+            document.getElementById('roulette-select-all').addEventListener('click', () => {
+                document.querySelectorAll('#roulette-member-list input[type="checkbox"]').forEach(cb => cb.checked = true);
+            });
+
+            document.getElementById('roulette-deselect-all').addEventListener('click', () => {
+                document.querySelectorAll('#roulette-member-list input[type="checkbox"]').forEach(cb => cb.checked = false);
+            });
+
+            document.getElementById('create-roulette-btn').addEventListener('click', () => {
+                rouletteTypes = Array.from(document.querySelectorAll('#roulette-member-list input:checked')).map(cb => cb.value);
+                if (rouletteTypes.length < 2) {
+                    alert('ルーレットには2つ以上のタイプを選択してください。');
+                    return;
+                }
+                drawRouletteWheel(rouletteTypes);
+                rouletteSetupOverlay.classList.remove('visible');
+                rouletteOverlay.classList.add('visible');
+            });
+            
+            rouletteOverlay.addEventListener('click', (e) => {
+                 if(e.target === rouletteOverlay && !isSpinning) {
+                    rouletteOverlay.classList.remove('visible');
+                    rouletteFab.style.opacity = '1';
+                }
+            });
+
+            spinBtn.addEventListener('click', spin);
+
+            spinAgainBtn.addEventListener('click', () => {
+                resultOverlay.classList.remove('visible');
+                spinBtn.disabled = false;
+            });
+
+            closeResultBtn.addEventListener('click', () => {
+                resultOverlay.classList.remove('visible');
+                rouletteOverlay.classList.remove('visible');
+                rouletteFab.style.opacity = '1';
+                spinBtn.disabled = false;
+            });
+
+            function renderRouletteSetupList() {
+                const listContainer = document.getElementById('roulette-member-list');
+                listContainer.innerHTML = Object.keys(typeData).map(typeCode => {
+                    const type = typeData[typeCode];
+                    return `
+                        <div class="member-item" onclick="this.querySelector('input').click()">
+                            <img src="酒タイプ画像/${typeCode}.jpg" alt="${type.name}">
+                            <label for="member-${typeCode}">${type.name}</label>
+                            <input type="checkbox" id="member-${typeCode}" value="${typeCode}" checked>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // --- Initial Setup ---
+            renderQuestions();
+            renderTypeList();
+            renderRouletteSetupList();
+            showView('view-top');
+        });
+    </script>
+</body>
+</html>
