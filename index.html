@@ -184,7 +184,8 @@
         }
 
         /* --- Roulette --- */
-        #roulette-fab { position: fixed; bottom: 25px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
+        /* ★修正★ bottomを80pxに変更して広告の上に表示 */
+        #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
         #roulette-fab:hover { animation-play-state: paused; transform: scale(1.1); }
         @keyframes float-anim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .roulette-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1001; opacity: 0; transition: opacity 0.3s; overflow-y: auto; padding: 20px; box-sizing: border-box; }
@@ -221,7 +222,16 @@
         </div>
         <div id="view-diagnosis" class="view"><h2>あなたのことを教えてください</h2><form id="diagnosisForm"><div class="name-input-wrapper"><input type="text" id="userName" class="name-input" placeholder="あなたの名前を入力" required></div><div id="questionsContainer"></div><button type="submit" class="action-button">診断する</button></form></div>
         <div id="view-types" class="view"><h2>16の酒タイプ図鑑</h2><div id="type-list-container"></div><div class="bottom-nav-wrapper"><button id="nav-from-types-to-top" class="bottom-nav-button primary">TOPページに戻る</button></div></div>
-        <div id="view-result" class="view"><div id="resultOutput"></div><div class="bottom-nav-wrapper"><button id="nav-from-result-to-top" class="bottom-nav-button primary">TOPページに戻る</button><button id="nav-from-result-to-types" class="bottom-nav-button">16タイプ図鑑に戻る</button></div></div>
+        
+        <div id="view-result" class="view">
+            <div id="resultOutput"></div>
+
+            <div style="text-align: center; margin: 20px auto;">
+                <script src="https://adm.shinobi.jp/s/aff5e37cd93a72cfb48eee5ae3b4df30"></script>
+                </div>
+            <div class="bottom-nav-wrapper"><button id="nav-from-result-to-top" class="bottom-nav-button primary">TOPページに戻る</button><button id="nav-from-result-to-types" class="bottom-nav-button">16タイプ図鑑に戻る</button></div>
+        </div>
+        
         <div id="view-about" class="view"><h2>4つの診断軸について</h2><p>この診断では、4つの異なる軸であなたの酒との向き合い方を分析します。</p><ul class="axis-list"><li class="axis-item"><div class="axis-label lf">L/F</div><div class="axis-desc"><h4>リーダー / フォロワー</h4><p>飲み会の主導権を握りたいか、流れに身を任せたいか。</p></div></li><li class="axis-item"><div class="axis-label or">O/R</div><div class="axis-desc"><h4>大雑把 / 几帳面</h4><p>場のノリや楽しさを優先するか、終電や会計を気にするか。</p></div></li><li class="axis-item"><div class="axis-label ud">U/D</div><div class="axis-desc"><h4>アッパー / ダウナー</h4><p>酔うとテンションが上がるか、物静かになるか。</p></div></li><li class="axis-item"><div class="axis-label ty">T/Y</div><div class="axis-desc"><h4>強い / 弱い</h4><p>お酒への耐性が高いか、すぐに酔ってしまうか。</p></div></li></ul><div class="bottom-nav-wrapper"><button id="nav-from-about-to-top" class="bottom-nav-button primary">TOPに戻る</button></div></div>
     </div>
     
@@ -514,5 +524,7 @@
             showView('view-top');
         });
     </script>
-</body>
+    
+    <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
+    </body>
 </html>
