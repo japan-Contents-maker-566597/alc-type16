@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YJFPXNF0M"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -12,7 +9,6 @@
 
       gtag('config', 'G-1YJFPXNF0M');
     </script>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【公式】酒タイプ診断</title>
@@ -53,6 +49,13 @@
         .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
         .name-input:focus { outline: none; border-color: var(--accent-color-3); }
         
+        /* --- Contact Section Styles --- */
+        .contact-section { margin-top: 50px; padding-top: 30px; border-top: 2px dashed #ddd; text-align: center; }
+        .contact-title { font-size: 1em; font-weight: bold; color: #666; margin-bottom: 10px; }
+        .contact-name { font-weight: 800; font-size: 1.1em; color: #333; margin-bottom: 5px; }
+        .contact-email { display: inline-block; color: #1976d2; text-decoration: none; font-weight: bold; font-size: 1.1em; padding: 10px; border-radius: 8px; background-color: #f0f8ff; transition: background-color 0.2s; }
+        .contact-email:hover { background-color: #e3f2fd; text-decoration: underline; }
+
         /* --- View 2: Diagnosis (Updated for Usability) --- */
         .question-card {
             background-color: #f8f9fa;
@@ -184,17 +187,6 @@
         .axis-desc h4 { margin: 0 0 5px 0; font-size: 1.2em; }
         .axis-desc p { margin: 0; line-height: 1.6; }
 
-        /* --- Mobile Layout for Questions --- */
-        @media (max-width: 600px) {
-            .options-container {
-                /* On mobile, let them wrap if needed, though 5 should fit */
-                flex-wrap: wrap;
-            }
-             .option-label {
-                padding: 8px 2px; /* Reduce padding slightly */
-            }
-        }
-
         /* --- Roulette --- */
         /* ★修正★ bottomを80pxに変更して広告の上に表示 */
         #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
@@ -231,7 +223,13 @@
                 <button id="goto-types-btn" class="action-button secondary-button">16の酒タイプを見る</button>
                 <button id="goto-about-btn" class="action-button secondary-button">酒タイプ診断とは？</button>
             </div>
-        </div>
+            
+            <div class="contact-section">
+                <p class="contact-title">お問い合わせはこちら</p>
+                <p class="contact-name">酒タイプ診断 運営事務局</p>
+                <a href="mailto:alctype16.official@gmail.com" class="contact-email">alctype16.official@gmail.com</a>
+            </div>
+            </div>
         <div id="view-diagnosis" class="view"><h2>あなたのことを教えてください</h2><form id="diagnosisForm"><div class="name-input-wrapper"><input type="text" id="userName" class="name-input" placeholder="あなたの名前を入力" required></div><div id="questionsContainer"></div><button type="submit" class="action-button">診断する</button></form></div>
         <div id="view-types" class="view"><h2>16の酒タイプ図鑑</h2><div id="type-list-container"></div><div class="bottom-nav-wrapper"><button id="nav-from-types-to-top" class="bottom-nav-button primary">TOPページに戻る</button></div></div>
         
