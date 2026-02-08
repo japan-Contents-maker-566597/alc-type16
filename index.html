@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YJFPXNF0M"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-1YJFPXNF0M');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【公式】酒タイプ診断</title>
@@ -49,13 +41,6 @@
         .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
         .name-input:focus { outline: none; border-color: var(--accent-color-3); }
         
-        /* --- Contact Section Styles --- */
-        .contact-section { margin-top: 50px; padding-top: 30px; border-top: 2px dashed #ddd; text-align: center; }
-        .contact-title { font-size: 1em; font-weight: bold; color: #666; margin-bottom: 10px; }
-        .contact-name { font-weight: 800; font-size: 1.1em; color: #333; margin-bottom: 5px; }
-        .contact-email { display: inline-block; color: #1976d2; text-decoration: none; font-weight: bold; font-size: 1.1em; padding: 10px; border-radius: 8px; background-color: #f0f8ff; transition: background-color 0.2s; }
-        .contact-email:hover { background-color: #e3f2fd; text-decoration: underline; }
-
         /* --- View 2: Diagnosis (Updated for Usability) --- */
         .question-card {
             background-color: #f8f9fa;
@@ -187,9 +172,20 @@
         .axis-desc h4 { margin: 0 0 5px 0; font-size: 1.2em; }
         .axis-desc p { margin: 0; line-height: 1.6; }
 
+        /* --- Mobile Layout for Questions --- */
+        @media (max-width: 600px) {
+            .options-container {
+                /* On mobile, let them wrap if needed, though 5 should fit */
+                flex-wrap: wrap;
+            }
+             .option-label {
+                padding: 8px 2px; /* Reduce padding slightly */
+            }
+        }
+
         /* --- Roulette --- */
         /* ★修正★ bottomを80pxに変更して広告の上に表示 */
-        #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 100000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
+        #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
         #roulette-fab:hover { animation-play-state: paused; transform: scale(1.1); }
         @keyframes float-anim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .roulette-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1001; opacity: 0; transition: opacity 0.3s; overflow-y: auto; padding: 20px; box-sizing: border-box; }
@@ -223,23 +219,16 @@
                 <button id="goto-types-btn" class="action-button secondary-button">16の酒タイプを見る</button>
                 <button id="goto-about-btn" class="action-button secondary-button">酒タイプ診断とは？</button>
             </div>
-            
-            <div class="contact-section">
-                <p class="contact-title">お問い合わせはこちら</p>
-                <p class="contact-name">酒タイプ診断 運営事務局</p>
-                <a href="mailto:alctype16.official@gmail.com" class="contact-email">alctype16.official@gmail.com</a>
-            </div>
-            </div>
+        </div>
         <div id="view-diagnosis" class="view"><h2>あなたのことを教えてください</h2><form id="diagnosisForm"><div class="name-input-wrapper"><input type="text" id="userName" class="name-input" placeholder="あなたの名前を入力" required></div><div id="questionsContainer"></div><button type="submit" class="action-button">診断する</button></form></div>
         <div id="view-types" class="view"><h2>16の酒タイプ図鑑</h2><div id="type-list-container"></div><div class="bottom-nav-wrapper"><button id="nav-from-types-to-top" class="bottom-nav-button primary">TOPページに戻る</button></div></div>
         
         <div id="view-result" class="view">
             <div id="resultOutput"></div>
 
-           <div id="im-9211969d81f340b685e84c9f269df762">
-  <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
-  <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:84523,mid:590601,asid:1923567,type:"banner",display:"inline",elementid:"im-9211969d81f340b685e84c9f269df762"})</script>
-</div>
+            <div style="text-align: center; margin: 20px auto;">
+                <script src="https://adm.shinobi.jp/s/aff5e37cd93a72cfb48eee5ae3b4df30"></script>
+                </div>
             <div class="bottom-nav-wrapper"><button id="nav-from-result-to-top" class="bottom-nav-button primary">TOPページに戻る</button><button id="nav-from-result-to-types" class="bottom-nav-button">16タイプ図鑑に戻る</button></div>
         </div>
         
@@ -536,10 +525,6 @@
         });
     </script>
     
-<div style="position:fixed; bottom:0;left:0;right:0;width:100%;background: rgba(0, 0, 0, 0.7); z-index:99998;text-align:center;transform:translate3d(0, 0, 0);"><div style="margin:auto;z-index:99999;" >
-<div id="im-4791eb957abc4f09852065da57c492c4">
-  <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
-  <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:84523,mid:590601,asid:1923566,type:"banner",display:"inline",elementid:"im-4791eb957abc4f09852065da57c492c4"})</script>
-</div>
-</div></div>    </body>
+    <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
+    </body>
 </html>
