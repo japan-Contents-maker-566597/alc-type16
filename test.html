@@ -41,27 +41,80 @@
         .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
         .name-input:focus { outline: none; border-color: var(--accent-color-3); }
         
-        /* --- Alert Box CSS (New) --- */
-        .alert-box {
-            background-color: #fff3cd;
-            border: 2px solid #ffecb5;
-            color: #856404;
-            padding: 15px;
-            margin: 20px auto;
-            border-radius: 8px;
-            max-width: 600px;
-            text-align: center;
+        /* --- Alert Accordion CSS (New) --- */
+        .alert-accordion {
+            background-color: #fffde7; /* 薄いクリーム色 */
+            border: 1px solid #ffe082;
+            border-radius: 12px;
+            margin: 15px auto;
+            max-width: 95%;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .alert-accordion[open] {
+            background-color: #fff9c4; /* 開いた時は少し濃く */
+        }
+
+        .alert-accordion summary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            cursor: pointer;
+            list-style: none; /* デフォルトの三角を消す */
+            position: relative;
             font-size: 0.9em;
+            color: #5d4037;
+            font-weight: 700;
+            line-height: 1.5;
         }
-        .alert-box h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-            color: #d9534f;
+
+        /* デフォルトの三角を消す（Chrome/Safari用） */
+        .alert-accordion summary::-webkit-details-marker {
+            display: none;
         }
-        .alert-box strong {
-            color: #d9534f;
-            background: linear-gradient(transparent 70%, #ffdfdf 70%);
+
+        .alert-summary-text {
+            text-align: center;
+        }
+
+        .alert-cta {
+            font-size: 0.85em;
+            color: #d32f2f; /* 赤色でCTA */
+            margin-top: 5px;
+            border-bottom: 1px solid #d32f2f; /* 下線でリンクっぽく */
+        }
+
+        .alert-detail {
+            padding: 0 15px 15px 15px;
+            font-size: 0.9em;
+            color: #4e342e;
+            line-height: 1.6;
+            text-align: left;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .alert-detail strong {
+            color: #c62828;
+            background: linear-gradient(transparent 70%, #ffcdd2 70%);
+        }
+
+        .sp-only {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .sp-only {
+                display: block; /* スマホでは改行を入れる */
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- View 2: Diagnosis (Updated for Usability) --- */
@@ -225,15 +278,22 @@
         <div id="view-top" class="view">
             <h1>【公式】酒タイプ診断</h1>
             
-            <div class="alert-box">
-                <h3>⚠️ 画像の無断使用サイトにご注意ください</h3>
-                <p>
-                    現在、当サイトのイラストや診断内容を無断転載している<strong>「恋愛診断系の類似サイト」</strong>が確認されていますが、当サイトとは一切無関係です。<br>
-                    「酒タイプ診断」は、お酒が強い人も弱い人も、<br>
-                    <strong>お酒や飲み会の場を愛するすべての人のためのサイトです！</strong><br>
-                    お酒の飲み過ぎは気を付けつつ、ぜひ本家の「酒タイプ診断」で楽しく遊んでいってください🍻
-                </p>
-            </div>
+            <details class="alert-accordion">
+                <summary>
+                    <span class="alert-summary-text">⚠️ 画像・診断内容を無断使用している<br class="sp-only">類似サイトにご注意ください</span>
+                    <span class="alert-cta">詳細はこちら ▼</span>
+                </summary>
+                <div class="alert-detail">
+                    <p>
+                        <strong>【重要なお知らせ】</strong><br>
+                        現在、当サイトのイラストや診断内容を無断転載した<strong>「恋愛診断系の類似サイト」</strong>が確認されていますが、当サイトとは一切無関係です。<br>
+                        <br>
+                        「酒タイプ診断」は、お酒が強い人も弱い人も、<br>
+                        <strong>お酒や飲み会の場を愛するすべての人のためのサイト</strong>です！<br>
+                        ここが唯一の<strong>【公式】本家サイト</strong>ですので、安心してお楽しみください🍻
+                    </p>
+                </div>
+            </details>
             <p class="top-description">飲み会での立ち振る舞いや、酔ったときのあなた。<br>全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！</p>
             <div class="button-wrapper">
                 <button id="start-diagnosis-btn" class="action-button">さっそく診断を始める</button>
@@ -368,184 +428,4 @@
                     e.target.parentElement.classList.add('selected');
                 }
             });
-            diagnosisForm.addEventListener('submit', e => { e.preventDefault(); const userName = userNameInput.value; if (!userName) { alert('名前を入力してください。'); userNameInput.focus(); return; } const formData = new FormData(diagnosisForm); if (Array.from(formData.keys()).length < questions.length) { alert('すべての質問に回答してください。'); return; } const axisScores = { LF: 0, OR: 0, UD: 0, TY: 0 }; questions.forEach(q => { axisScores[q.axis] += parseInt(formData.get(`q${q.id}`), 10); }); let resultType = ''; resultType += (axisScores.LF / 4) < 3.0 ? 'L' : 'F'; resultType += (axisScores.OR / 4) < 3.0 ? 'O' : 'R'; resultType += (axisScores.UD / 4) < 3.0 ? 'U' : 'D'; resultType += (axisScores.TY / 4) < 3.0 ? 'T' : 'Y'; displayResult(resultType, userName); showView('view-result'); });
-            function highlightFirstSentence(text) { if (!text) return ''; const sentences = text.split(/(?<=\n|。)/); if (sentences.length > 0) { sentences[0] = `<span class="key-sentence">${sentences[0]}</span>`; } return sentences.join(''); } 
-            function displayResult(type, name = null) {
-                const result = typeData[type];
-                if (!result) { resultOutput.innerHTML = '<h2>エラー</h2><p>診断結果が見つかりませんでした。</p>'; return; }
-                const formatText = (text) => text.replace(/\n/g, '<br>');
-                const resultName = name ? `${name}さんの酒タイプは...` : 'このタイプの特徴';
-                resultOutput.innerHTML = `<div class="result-header"><p>${resultName}</p><h2 class="result-title">${result.name} (${type})</h2></div><div class="result-image-wrapper"><img src="酒タイプ画像/${type}.jpg" alt="${result.name}のイラスト" class="result-illustration"></div><p class="result-catchphrase-display">${result.catch}</p><div class="result-card"><h3>基本的特徴</h3><p>${highlightFirstSentence(formatText(result.base))}</p></div><div class="result-card"><h3>飲み会での特徴</h3><p>${highlightFirstSentence(formatText(result.feature))}</p></div><div class="result-card"><h3>長所と魅力</h3><p>${highlightFirstSentence(formatText(result.merit))}</p></div><div class="result-card"><h3>成長のヒント</h3><p>${highlightFirstSentence(formatText(result.stretch))}</p></div><div class="result-card"><h3>相性の良いタイプ</h3><div class="result-good"><h4>・ ${formatText(result.good)}</h4></div></div><div class="result-card"><h3>相性の悪いタイプ</h3><div class="result-bad"><h4>・ ${formatText(result.bad)}</h4></div></div>`;
-            }
-
-            /* --- Roulette Logic --- */
-            const rouletteFab = document.getElementById('roulette-fab');
-            const rouletteSetupOverlay = document.getElementById('roulette-setup-overlay');
-            const rouletteOverlay = document.getElementById('roulette-overlay');
-            const resultOverlay = document.getElementById('roulette-result-overlay');
-            const spinBtn = document.getElementById('spin-btn');
-            const spinAgainBtn = document.getElementById('spin-again-btn');
-            const closeResultBtn = document.getElementById('close-result-btn');
-            const spinSound = document.getElementById('spin-sound');
-            const fanfareSound = document.getElementById('fanfare-sound');
-            const canvas = document.getElementById('roulette-canvas');
-            const ctx = canvas.getContext('2d');
-            
-            let rouletteTypes = [];
-            let currentRotation = 0;
-            let isSpinning = false;
-            const colors = ["#ffcdd2", "#c8e6c9", "#bbdefb", "#fff9c4", "#f8bbd0", "#d1c4e9", "#b2dfdb", "#ffccbc"];
-
-            function drawRouletteWheel(participants) {
-                const numOptions = participants.length;
-                const arc = 2 * Math.PI / numOptions;
-                const size = 500;
-                canvas.width = size;
-                canvas.height = size;
-                ctx.clearRect(0, 0, size, size);
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 2;
-                ctx.font = `bold ${numOptions > 10 ? '14' : '18'}px "M PLUS Rounded 1c", sans-serif`;
-                
-                for (let i = 0; i < numOptions; i++) {
-                    const angle = i * arc;
-                    ctx.fillStyle = colors[i % colors.length];
-                    ctx.beginPath();
-                    ctx.arc(size/2, size/2, size/2 - 2, angle, angle + arc, false);
-                    ctx.arc(size/2, size/2, 50, angle + arc, angle, true);
-                    ctx.stroke();
-                    ctx.fill();
-                    ctx.save();
-                    ctx.fillStyle = "#333";
-                    ctx.translate(size/2 + Math.cos(angle + arc / 2) * 150, size/2 + Math.sin(angle + arc / 2) * 150);
-                    ctx.rotate(angle + arc / 2 + Math.PI / 2);
-                    const text = participants[i];
-                    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
-                    ctx.restore();
-                }
-                ctx.fillStyle = '#ff4136';
-                ctx.beginPath();
-                ctx.arc(size/2, size/2, 45, 0, 2 * Math.PI);
-                ctx.fill();
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 20px "M PLUS Rounded 1c"';
-                ctx.fillText("乾杯!", size/2 - ctx.measureText("乾杯!").width / 2, size/2 + 8);
-            }
-
-            function spin() {
-                if (isSpinning) return;
-                isSpinning = true;
-                spinBtn.disabled = true;
-                spinSound.currentTime = 0;
-                spinSound.play().catch(e => console.log("Audio play failed:", e));
-
-                const totalRotations = Math.random() * 5 + 8;
-                const stopAngle = Math.random() * 2 * Math.PI;
-                const targetAngle = currentRotation + totalRotations * 2 * Math.PI + stopAngle;
-                const duration = Math.random() * 4000 + 7000;
-
-                canvas.style.transition = `transform ${duration / 1000}s cubic-bezier(.15,.75,.5,1)`;
-                canvas.style.transform = `rotate(${targetAngle}rad)`;
-                currentRotation = targetAngle;
-
-                setTimeout(() => {
-                    isSpinning = false;
-                    canvas.style.transition = 'none';
-                    const finalAngle = targetAngle % (2 * Math.PI);
-                    canvas.style.transform = `rotate(${finalAngle}rad)`;
-                    
-                    spinSound.pause();
-                    fanfareSound.currentTime = 0;
-                    fanfareSound.play().catch(e => console.log("Audio play failed:", e));
-                    
-                    const arcSize = 2 * Math.PI / rouletteTypes.length;
-                    const pointerAngle = 3 * Math.PI / 2;
-                    const relativeAngle = (2 * Math.PI - finalAngle + pointerAngle) % (2 * Math.PI);
-                    const winnerIndex = Math.floor(relativeAngle / arcSize);
-                    showWinner(rouletteTypes[winnerIndex]);
-                }, duration);
-            }
-            
-            function showWinner(typeCode) {
-                const winner = typeData[typeCode];
-                document.getElementById('roulette-result-image').src = `酒タイプ画像/${typeCode}.jpg`;
-                document.getElementById('roulette-result-title').textContent = `${winner.name} (${typeCode})`;
-                document.getElementById('roulette-result-message').textContent = typeMessages[typeCode];
-                resultOverlay.classList.add('visible');
-            }
-
-            rouletteFab.addEventListener('click', () => {
-                rouletteSetupOverlay.classList.add('visible');
-                rouletteFab.style.opacity = '0';
-            });
-            
-            document.getElementById('close-roulette-setup-btn').addEventListener('click', () => {
-                rouletteSetupOverlay.classList.remove('visible');
-                rouletteFab.style.opacity = '1';
-            });
-            
-            document.getElementById('roulette-select-all').addEventListener('click', () => {
-                document.querySelectorAll('#roulette-member-list input[type="checkbox"]').forEach(cb => cb.checked = true);
-            });
-
-            document.getElementById('roulette-deselect-all').addEventListener('click', () => {
-                document.querySelectorAll('#roulette-member-list input[type="checkbox"]').forEach(cb => cb.checked = false);
-            });
-
-            document.getElementById('create-roulette-btn').addEventListener('click', () => {
-                rouletteTypes = Array.from(document.querySelectorAll('#roulette-member-list input:checked')).map(cb => cb.value);
-                if (rouletteTypes.length < 2) {
-                    alert('ルーレットには2つ以上のタイプを選択してください。');
-                    return;
-                }
-                drawRouletteWheel(rouletteTypes);
-                rouletteSetupOverlay.classList.remove('visible');
-                rouletteOverlay.classList.add('visible');
-            });
-            
-            rouletteOverlay.addEventListener('click', (e) => {
-                 if(e.target === rouletteOverlay && !isSpinning) {
-                    rouletteOverlay.classList.remove('visible');
-                    rouletteFab.style.opacity = '1';
-                }
-            });
-
-            spinBtn.addEventListener('click', spin);
-
-            spinAgainBtn.addEventListener('click', () => {
-                resultOverlay.classList.remove('visible');
-                spinBtn.disabled = false;
-            });
-
-            closeResultBtn.addEventListener('click', () => {
-                resultOverlay.classList.remove('visible');
-                rouletteOverlay.classList.remove('visible');
-                rouletteFab.style.opacity = '1';
-                spinBtn.disabled = false;
-            });
-
-            function renderRouletteSetupList() {
-                const listContainer = document.getElementById('roulette-member-list');
-                listContainer.innerHTML = Object.keys(typeData).map(typeCode => {
-                    const type = typeData[typeCode];
-                    return `
-                        <div class="member-item">
-                            <img src="酒タイプ画像/${typeCode}.jpg" alt="${type.name}">
-                            <label for="member-${typeCode}">${type.name}</label>
-                            <input type="checkbox" id="member-${typeCode}" value="${typeCode}" checked>
-                        </div>
-                    `;
-                }).join('');
-            }
-
-            /* --- Initial Setup --- */
-            renderQuestions();
-            renderTypeList();
-            renderRouletteSetupList();
-            showView('view-top');
-        });
-    </script>
-    
-    <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
-    </body>
-</html>
+            diagnosisForm.addEventListener('submit', e => { e.preventDefault(); const userName = userNameInput.value; if (!userName) { alert('名前を入力してください。'); userNameInput.focus(); return; } const formData = new FormData(diagnosisForm); if (Array.from(formData.keys()).length < questions.length) { alert('すべての質問に回答してください。'); return; } const axisScores = { LF: 0, OR: 0, UD: 0, TY: 0 }; questions.forEach(q => { axisScores[q.axis] += parseInt(formData.get(`q${q.id}`), 10); }); let resultType = ''; resultType += (axisScores.LF / 4) < 3.0 ? 'L' : 'F'; resultType += (axisScores.OR / 4) < 3.
