@@ -10,12 +10,12 @@
     <meta property="og:title" content="【公式】酒タイプ診断" />
     <meta property="og:description" content="飲み会での立ち振る舞いや、酔ったときのあなた。全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！" />
     <meta property="og:site_name" content="酒タイプ診断" />
-    <meta property="og:image" content="https://japan-contents-maker-566597.github.io/alc-type16/ogp.png" />
+    <meta property="og:image" content="https://japan-contents-maker-566597.github.io/alc-type16/ogp.png?v=final" />
     
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="【公式】酒タイプ診断" />
     <meta name="twitter:description" content="あなたはお酒でどう変わる？全16タイプから診断！" />
-    <meta name="twitter:image" content="https://japan-contents-maker-566597.github.io/alc-type16/ogp.png" />
+    <meta name="twitter:image" content="https://japan-contents-maker-566597.github.io/alc-type16/ogp.png?v=final" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
@@ -75,7 +75,7 @@
         @media (max-width: 480px) { .sp-only { display: block; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- X Share Button CSS --- */
+        /* --- X Share Button CSS (追加) --- */
         .share-section {
             text-align: center;
             margin: 30px 0;
@@ -358,7 +358,8 @@
                 const resultName = name ? `${name}さんの酒タイプは...` : 'このタイプの特徴';
 
                 // --- X Share URL Generation ---
-                const pageUrl = window.location.href; // Get current URL
+                // URLをハードコーディングして確実にOGPを拾わせる
+                const pageUrl = "https://japan-contents-maker-566597.github.io/alc-type16/";
                 // Create custom share text
                 const shareText = `私の酒タイプは【${result.name}】でした！🍻\n『${result.catch.split('」')[0].replace('「', '')}』\n#酒タイプ診断\n\n今すぐ診断👇`;
                 const twitterHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
@@ -368,7 +369,12 @@
                     <div class="result-image-wrapper"><img src="酒タイプ画像/${type}.jpg" alt="${result.name}のイラスト" class="result-illustration"></div>
                     
                     <p class="result-catchphrase-display">${result.catch}</p>
-                    <div class="result-card"><h3>基本的特徴</h3><p>${highlightFirstSentence(formatText(result.base))}</p></div><div class="result-card"><h3>飲み会での特徴</h3><p>${highlightFirstSentence(formatText(result.feature))}</p></div><div class="result-card"><h3>長所と魅力</h3><p>${highlightFirstSentence(formatText(result.merit))}</p></div><div class="result-card"><h3>成長のヒント</h3><p>${highlightFirstSentence(formatText(result.stretch))}</p></div><div class="result-card"><h3>相性の良いタイプ</h3><div class="result-good"><h4>・ ${formatText(result.good)}</h4></div></div><div class="result-card"><h3>相性の悪いタイプ</h3><div class="result-bad"><h4>・ ${formatText(result.bad)}</h4></div></div>
+                    <div class="result-card"><h3>基本的特徴</h3><p>${highlightFirstSentence(formatText(result.base))}</p></div>
+                    <div class="result-card"><h3>飲み会での特徴</h3><p>${highlightFirstSentence(formatText(result.feature))}</p></div>
+                    <div class="result-card"><h3>長所と魅力</h3><p>${highlightFirstSentence(formatText(result.merit))}</p></div>
+                    <div class="result-card"><h3>成長のヒント</h3><p>${highlightFirstSentence(formatText(result.stretch))}</p></div>
+                    <div class="result-card"><h3>相性の良いタイプ</h3><div class="result-good"><h4>・ ${formatText(result.good)}</h4></div></div>
+                    <div class="result-card"><h3>相性の悪いタイプ</h3><div class="result-bad"><h4>・ ${formatText(result.bad)}</h4></div></div>
                     
                     <div class="share-section">
                         <p class="share-title">診断結果をシェアしよう！</p>
