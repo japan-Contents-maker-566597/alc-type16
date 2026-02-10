@@ -41,6 +41,82 @@
         .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
         .name-input:focus { outline: none; border-color: var(--accent-color-3); }
         
+        /* --- Alert Accordion CSS (New) --- */
+        .alert-accordion {
+            background-color: #fffde7; /* 薄いクリーム色 */
+            border: 1px solid #ffe082;
+            border-radius: 12px;
+            margin: 15px auto;
+            max-width: 95%;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .alert-accordion[open] {
+            background-color: #fff9c4; /* 開いた時は少し濃く */
+        }
+
+        .alert-accordion summary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            cursor: pointer;
+            list-style: none; /* デフォルトの三角を消す */
+            position: relative;
+            font-size: 0.9em;
+            color: #5d4037;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        /* デフォルトの三角を消す（Chrome/Safari用） */
+        .alert-accordion summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .alert-summary-text {
+            text-align: center;
+        }
+
+        .alert-cta {
+            font-size: 0.85em;
+            color: #d32f2f; /* 赤色でCTA */
+            margin-top: 5px;
+            border-bottom: 1px solid #d32f2f; /* 下線でリンクっぽく */
+        }
+
+        .alert-detail {
+            padding: 0 15px 15px 15px;
+            font-size: 0.9em;
+            color: #4e342e;
+            line-height: 1.6;
+            text-align: left;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .alert-detail strong {
+            color: #c62828;
+            background: linear-gradient(transparent 70%, #ffcdd2 70%);
+        }
+
+        .sp-only {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .sp-only {
+                display: block; /* スマホでは改行を入れる */
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* --- View 2: Diagnosis (Updated for Usability) --- */
         .question-card {
             background-color: #f8f9fa;
@@ -172,19 +248,7 @@
         .axis-desc h4 { margin: 0 0 5px 0; font-size: 1.2em; }
         .axis-desc p { margin: 0; line-height: 1.6; }
 
-        /* --- Mobile Layout for Questions --- */
-        @media (max-width: 600px) {
-            .options-container {
-                /* On mobile, let them wrap if needed, though 5 should fit */
-                flex-wrap: wrap;
-            }
-             .option-label {
-                padding: 8px 2px; /* Reduce padding slightly */
-            }
-        }
-
         /* --- Roulette --- */
-        /* ★修正★ bottomを80pxに変更して広告の上に表示 */
         #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
         #roulette-fab:hover { animation-play-state: paused; transform: scale(1.1); }
         @keyframes float-anim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -213,6 +277,23 @@
     <div class="container">
         <div id="view-top" class="view">
             <h1>【公式】酒タイプ診断</h1>
+            
+            <details class="alert-accordion">
+                <summary>
+                    <span class="alert-summary-text">⚠️ 画像・診断内容を無断使用している<br class="sp-only">類似サイトにご注意ください</span>
+                    <span class="alert-cta">詳細はこちら ▼</span>
+                </summary>
+                <div class="alert-detail">
+                    <p>
+                        <strong>【重要なお知らせ】</strong><br>
+                        現在、当サイトのイラストや診断内容を無断転載した<strong>「恋愛診断系の類似サイト」</strong>が確認されていますが、当サイトとは一切無関係です。<br>
+                        <br>
+                        「酒タイプ診断」は、お酒が強い人も弱い人も、<br>
+                        <strong>お酒や飲み会の場を愛するすべての人のためのサイト</strong>です！<br>
+                        ここが唯一の<strong>【公式】本家サイト</strong>ですので、安心してお楽しみください🍻
+                    </p>
+                </div>
+            </details>
             <p class="top-description">飲み会での立ち振る舞いや、酔ったときのあなた。<br>全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！</p>
             <div class="button-wrapper">
                 <button id="start-diagnosis-btn" class="action-button">さっそく診断を始める</button>
