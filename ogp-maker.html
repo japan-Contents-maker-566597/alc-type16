@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>OGPメーカー</title>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* OGPの黄金比サイズ (1200x630) */
+        .ogp-container {
+            width: 1200px;
+            height: 630px;
+            position: relative;
+            background-color: #f0f4ff;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap; /* 画像を折り返して並べる */
+        }
+
+        /* 背景の16タイプ画像 */
+        .bg-grid {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr); /* 横8列 */
+            grid-template-rows: repeat(2, 1fr);    /* 縦2行 */
+        }
+        
+        .bg-item {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6; /* 少し薄くして文字を目立たせる */
+            mix-blend-mode: multiply; /* 乗算で馴染ませる */
+        }
+
+        /* 中央のタイトルエリア */
+        .center-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 80px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            border: 8px solid #3949ab; /* サイトのメインカラー */
+            z-index: 10;
+        }
+
+        .title {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 80px;
+            color: #3949ab;
+            margin: 0;
+            line-height: 1.2;
+            white-space: nowrap;
+            text-shadow: 4px 4px 0px #fff, 6px 6px 0px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 32px;
+            color: #d32f2f;
+            margin-top: 15px;
+            font-weight: 800;
+        }
+
+        /* 装飾：キラキラアイコンなど入れたければ */
+        .deco {
+            position: absolute;
+            font-size: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ogp-container">
+        
+        <div class="bg-grid">
+            <img src="酒タイプ画像/LOUT.jpg" class="bg-item">
+            <img src="酒タイプ画像/LOUY.jpg" class="bg-item">
+            <img src="酒タイプ画像/LODT.jpg" class="bg-item">
+            <img src="酒タイプ画像/LODY.jpg" class="bg-item">
+            <img src="酒タイプ画像/LRUT.jpg" class="bg-item">
+            <img src="酒タイプ画像/LRUY.jpg" class="bg-item">
+            <img src="酒タイプ画像/LRDT.jpg" class="bg-item">
+            <img src="酒タイプ画像/LRDY.jpg" class="bg-item">
+            <img src="酒タイプ画像/FOUT.jpg" class="bg-item">
+            <img src="酒タイプ画像/FOUY.jpg" class="bg-item">
+            <img src="酒タイプ画像/FODT.jpg" class="bg-item">
+            <img src="酒タイプ画像/FODY.jpg" class="bg-item">
+            <img src="酒タイプ画像/FRUT.jpg" class="bg-item">
+            <img src="酒タイプ画像/FRUY.jpg" class="bg-item">
+            <img src="酒タイプ画像/FRDT.jpg" class="bg-item">
+            <img src="酒タイプ画像/FRDY.jpg" class="bg-item">
+        </div>
+
+        <div class="center-box">
+            <h1 class="title">酒タイプ診断</h1>
+            <div class="subtitle">あなたはお酒でどう変わる？【全16タイプ】</div>
+        </div>
+
+    </div>
+
+</body>
+</html>
