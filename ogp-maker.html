@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>OGPメーカー</title>
+    <title>OGPメーカー（修正版）</title>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
     <style>
         body {
@@ -22,7 +22,7 @@
             background-color: #f0f4ff;
             overflow: hidden;
             display: flex;
-            flex-wrap: wrap; /* 画像を折り返して並べる */
+            flex-wrap: wrap;
         }
 
         /* 背景の16タイプ画像 */
@@ -30,16 +30,16 @@
             width: 100%;
             height: 100%;
             display: grid;
-            grid-template-columns: repeat(8, 1fr); /* 横8列 */
-            grid-template-rows: repeat(2, 1fr);    /* 縦2行 */
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(2, 1fr);
         }
         
         .bg-item {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.6; /* 少し薄くして文字を目立たせる */
-            mix-blend-mode: multiply; /* 乗算で馴染ませる */
+            opacity: 0.7; /* 背景も少しだけ濃くしました */
+            mix-blend-mode: multiply;
         }
 
         /* 中央のタイトルエリア */
@@ -48,37 +48,79 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px 80px;
+            /* ▼修正: 透過度を強めて(0.95→0.8)後ろが見えるように */
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px 60px;
             border-radius: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             text-align: center;
-            border: 8px solid #3949ab; /* サイトのメインカラー */
+            /* ▼修正: 枠線をサイトの紫カラーに変更 */
+            border: 6px solid #6a1b9a;
             z-index: 10;
+            /* 背景をぼかして文字を見やすくする（すりガラス効果） */
+            backdrop-filter: blur(2px);
         }
 
         .title {
             font-family: 'M PLUS Rounded 1c', sans-serif;
-            font-size: 80px;
-            color: #3949ab;
+            font-size: 90px;
+            /* ▼修正: 文字色をサイトの紫カラーに変更 */
+            color: #6a1b9a;
             margin: 0;
-            line-height: 1.2;
+            line-height: 1.1;
             white-space: nowrap;
-            text-shadow: 4px 4px 0px #fff, 6px 6px 0px rgba(0,0,0,0.1);
+            /* 白フチを強くして、背景が透けても読めるように */
+            text-shadow: 
+                5px 5px 0 #fff, -5px -5px 0 #fff,
+                -5px 5px 0 #fff, 5px -5px 0 #fff,
+                5px 0 0 #fff, -5px 0 0 #fff,
+                0 5px 0 #fff, 0 -5px 0 #fff,
+                0 4px 10px rgba(0,0,0,0.1);
         }
 
         .subtitle {
             font-family: 'M PLUS Rounded 1c', sans-serif;
-            font-size: 32px;
-            color: #d32f2f;
-            margin-top: 15px;
+            font-size: 36px;
+            /* サブタイトルは少し濃い目のグレーか紫系で引き締め */
+            color: #4a148c;
+            margin-top: 20px;
             font-weight: 800;
+            line-height: 1.4;
+        }
+        
+        .subtitle-sub {
+            display: block;
+            margin-top: 5px;
+            font-size: 1.1em;
+            color: #d32f2f; /* ここだけ赤でアクセント */
         }
 
-        /* 装飾：キラキラアイコンなど入れたければ */
-        .deco {
+        /* ▼追加: 右下のCTAボタン */
+        .cta-button {
             position: absolute;
-            font-size: 60px;
+            bottom: 30px;
+            right: 40px;
+            width: 160px;
+            height: 160px;
+            background-color: #d32f2f; /* 目立つ赤色 */
+            border: 6px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 20;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transform: rotate(-10deg); /* 動きをつける */
+        }
+
+        .cta-text {
+            color: #fff;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 34px;
+            font-weight: 800;
+            line-height: 1.2;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -107,7 +149,14 @@
 
         <div class="center-box">
             <h1 class="title">酒タイプ診断</h1>
-            <div class="subtitle">あなたはお酒でどう変わる？【全16タイプ】</div>
+            <div class="subtitle">
+                お酒を飲んだあなたの<br>本当の姿は？<br>
+                <span class="subtitle-sub">🍶全16タイプ🍻</span>
+            </div>
+        </div>
+
+        <div class="cta-button">
+            <div class="cta-text">今すぐ<br>診断！</div>
         </div>
 
     </div>
