@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【公式】酒タイプ診断</title>
+    
+    <meta property="og:url" content="https://japan-contents-maker-566597.github.io/alc-type16/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="【公式】酒タイプ診断" />
+    <meta property="og:description" content="飲み会での立ち振る舞いや、酔ったときのあなた。全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！" />
+    <meta property="og:site_name" content="酒タイプ診断" />
+    <meta property="og:image" content="https://japan-contents-maker-566597.github.io/alc-type16/ogp.jpg?v=fix2" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="【公式】酒タイプ診断" />
+    <meta name="twitter:description" content="あなたはお酒でどう変わる？全16タイプから診断！" />
+    <meta name="twitter:image" content="https://japan-contents-maker-566597.github.io/alc-type16/ogp.jpg?v=fix2" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
@@ -41,9 +53,9 @@
         .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
         .name-input:focus { outline: none; border-color: var(--accent-color-3); }
         
-        /* --- Alert Accordion CSS (New) --- */
+        /* --- Alert Accordion CSS --- */
         .alert-accordion {
-            background-color: #fffde7; /* 薄いクリーム色 */
+            background-color: #fffde7;
             border: 1px solid #ffe082;
             border-radius: 12px;
             margin: 15px auto;
@@ -52,170 +64,78 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
         }
+        .alert-accordion[open] { background-color: #fff9c4; }
+        .alert-accordion summary { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; cursor: pointer; list-style: none; position: relative; font-size: 0.9em; color: #5d4037; font-weight: 700; line-height: 1.5; }
+        .alert-accordion summary::-webkit-details-marker { display: none; }
+        .alert-summary-text { text-align: center; }
+        .alert-cta { font-size: 0.85em; color: #d32f2f; margin-top: 5px; border-bottom: 1px solid #d32f2f; }
+        .alert-detail { padding: 0 15px 15px 15px; font-size: 0.9em; color: #4e342e; line-height: 1.6; text-align: left; animation: fadeIn 0.3s ease-in-out; }
+        .alert-detail strong { color: #c62828; background: linear-gradient(transparent 70%, #ffcdd2 70%); }
+        .sp-only { display: none; }
+        @media (max-width: 480px) { .sp-only { display: block; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .alert-accordion[open] {
-            background-color: #fff9c4; /* 開いた時は少し濃く */
+        /* --- X Share Button CSS --- */
+        .share-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 16px;
         }
-
-        .alert-accordion summary {
-            display: flex;
-            flex-direction: column;
+        .share-title {
+            font-size: 1.1em;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .x-share-button {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 12px;
-            cursor: pointer;
-            list-style: none; /* デフォルトの三角を消す */
-            position: relative;
-            font-size: 0.9em;
-            color: #5d4037;
-            font-weight: 700;
-            line-height: 1.5;
+            width: 100%;
+            max-width: 280px;
+            padding: 15px 0;
+            background-color: #000;
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.1em;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: transform 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin: 0 auto;
+        }
+        .x-share-button:hover {
+            transform: translateY(-3px);
+            opacity: 0.8;
+        }
+        .x-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            fill: #fff;
         }
 
-        /* デフォルトの三角を消す（Chrome/Safari用） */
-        .alert-accordion summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .alert-summary-text {
-            text-align: center;
-        }
-
-        .alert-cta {
-            font-size: 0.85em;
-            color: #d32f2f; /* 赤色でCTA */
-            margin-top: 5px;
-            border-bottom: 1px solid #d32f2f; /* 下線でリンクっぽく */
-        }
-
-        .alert-detail {
-            padding: 0 15px 15px 15px;
-            font-size: 0.9em;
-            color: #4e342e;
-            line-height: 1.6;
-            text-align: left;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .alert-detail strong {
-            color: #c62828;
-            background: linear-gradient(transparent 70%, #ffcdd2 70%);
-        }
-
-        .sp-only {
-            display: none;
-        }
-
-        @media (max-width: 480px) {
-            .sp-only {
-                display: block; /* スマホでは改行を入れる */
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- View 2: Diagnosis (Updated for Usability) --- */
-        .question-card {
-            background-color: #f8f9fa;
-            padding: clamp(15px, 4vw, 25px);
-            border-radius: 16px;
-            margin-bottom: 25px;
-            border: 1px solid #e9ecef;
-        }
-        .question-text {
-            font-weight: 700;
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+        /* --- Diagnosis View Styles --- */
+        .question-card { background-color: #f8f9fa; padding: clamp(15px, 4vw, 25px); border-radius: 16px; margin-bottom: 25px; border: 1px solid #e9ecef; }
+        .question-text { font-weight: 700; font-size: 1.2em; margin-bottom: 20px; text-align: center; }
         .question-choice { font-size: 1.1em; font-weight: 700; padding: 12px; border-radius: 12px; text-align: center; }
         .question-choice-a { color: var(--accent-color-a); background-color: #ffebee; }
         .question-choice-b { color: var(--accent-color-b); background-color: #e3f2fd; }
+        .options-container { display: flex; justify-content: space-around; width: 100%; margin: 20px 0; padding: 0; }
+        .option-label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-size: 0.9em; padding: 8px 4px; border-radius: 8px; transition: background-color 0.2s; flex: 1; }
+        .option-ruby { font-size: 0.8em; color: #6c757d; margin-top: 4px; font-weight: 400; }
+        .option-label input[type="radio"] { -webkit-appearance: none; appearance: none; background-color: #fff; margin: 0; font: inherit; color: #adb5bd; width: 1.8em; height: 1.8em; border: 0.2em solid #adb5bd; border-radius: 50%; display: grid; place-content: center; transition: border-color 0.2s, background-color 0.2s; }
+        .option-label:hover input[type="radio"] { border-color: #495057; }
+        .option-label input[type="radio"]::before { content: ""; width: 1em; height: 1em; border-radius: 50%; transform: scale(0); transition: 120ms transform ease-in-out; background-color: #343a40; }
+        .option-label input[type="radio"]:checked { border-color: #343a40; background-color: #343a40; }
+        .option-label input[type="radio"]:checked::before { transform: scale(1); }
+        .option-label.selected { background-color: #dbeafe; }
+        .option-label.selected .option-ruby { color: #1e3a8a; font-weight: 700; }
+        @media (max-width: 600px) { .options-container { flex-wrap: wrap; } .option-label { padding: 8px 2px; } }
 
-        .options-container {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            margin: 20px 0;
-            padding: 0;
-        }
-        .option-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            text-align: center;
-            font-size: 0.9em;
-            padding: 8px 4px;
-            border-radius: 8px;
-            transition: background-color 0.2s;
-            flex: 1;
-        }
-        .option-ruby {
-            font-size: 0.8em;
-            color: #6c757d;
-            margin-top: 4px;
-            font-weight: 400;
-        }
-        .option-label input[type="radio"] {
-            -webkit-appearance: none;
-            appearance: none;
-            background-color: #fff;
-            margin: 0;
-            font: inherit;
-            color: #adb5bd;
-            width: 1.8em;
-            height: 1.8em;
-            border: 0.2em solid #adb5bd;
-            border-radius: 50%;
-            display: grid;
-            place-content: center;
-            transition: border-color 0.2s, background-color 0.2s;
-        }
-        .option-label:hover input[type="radio"] {
-            border-color: #495057;
-        }
-        .option-label input[type="radio"]::before {
-            content: "";
-            width: 1em;
-            height: 1em;
-            border-radius: 50%;
-            transform: scale(0);
-            transition: 120ms transform ease-in-out;
-            background-color: #343a40;
-        }
-        .option-label input[type="radio"]:checked {
-            border-color: #343a40;
-            background-color: #343a40;
-        }
-        .option-label input[type="radio"]:checked::before {
-            transform: scale(1);
-        }
-
-        /* Selection Feedback */
-        .option-label.selected {
-            background-color: #dbeafe;
-        }
-        .option-label.selected .option-ruby {
-            color: #1e3a8a;
-            font-weight: 700;
-        }
-
-        /* --- Mobile Layout for Questions --- */
-        @media (max-width: 600px) {
-            .options-container {
-                /* On mobile, let them wrap if needed, though 5 should fit */
-                flex-wrap: wrap;
-            }
-             .option-label {
-                padding: 8px 2px; /* Reduce padding slightly */
-            }
-        }
-
-        /* --- Views 3 & 4 etc. --- */
+        /* --- Other Views --- */
         #type-list-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .type-card { background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
         .type-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
@@ -430,12 +350,40 @@
             });
             diagnosisForm.addEventListener('submit', e => { e.preventDefault(); const userName = userNameInput.value; if (!userName) { alert('名前を入力してください。'); userNameInput.focus(); return; } const formData = new FormData(diagnosisForm); if (Array.from(formData.keys()).length < questions.length) { alert('すべての質問に回答してください。'); return; } const axisScores = { LF: 0, OR: 0, UD: 0, TY: 0 }; questions.forEach(q => { axisScores[q.axis] += parseInt(formData.get(`q${q.id}`), 10); }); let resultType = ''; resultType += (axisScores.LF / 4) < 3.0 ? 'L' : 'F'; resultType += (axisScores.OR / 4) < 3.0 ? 'O' : 'R'; resultType += (axisScores.UD / 4) < 3.0 ? 'U' : 'D'; resultType += (axisScores.TY / 4) < 3.0 ? 'T' : 'Y'; displayResult(resultType, userName); showView('view-result'); });
             function highlightFirstSentence(text) { if (!text) return ''; const sentences = text.split(/(?<=\n|。)/); if (sentences.length > 0) { sentences[0] = `<span class="key-sentence">${sentences[0]}</span>`; } return sentences.join(''); } 
+            
             function displayResult(type, name = null) {
                 const result = typeData[type];
                 if (!result) { resultOutput.innerHTML = '<h2>エラー</h2><p>診断結果が見つかりませんでした。</p>'; return; }
                 const formatText = (text) => text.replace(/\n/g, '<br>');
                 const resultName = name ? `${name}さんの酒タイプは...` : 'このタイプの特徴';
-                resultOutput.innerHTML = `<div class="result-header"><p>${resultName}</p><h2 class="result-title">${result.name} (${type})</h2></div><div class="result-image-wrapper"><img src="酒タイプ画像/${type}.jpg" alt="${result.name}のイラスト" class="result-illustration"></div><p class="result-catchphrase-display">${result.catch}</p><div class="result-card"><h3>基本的特徴</h3><p>${highlightFirstSentence(formatText(result.base))}</p></div><div class="result-card"><h3>飲み会での特徴</h3><p>${highlightFirstSentence(formatText(result.feature))}</p></div><div class="result-card"><h3>長所と魅力</h3><p>${highlightFirstSentence(formatText(result.merit))}</p></div><div class="result-card"><h3>成長のヒント</h3><p>${highlightFirstSentence(formatText(result.stretch))}</p></div><div class="result-card"><h3>相性の良いタイプ</h3><div class="result-good"><h4>・ ${formatText(result.good)}</h4></div></div><div class="result-card"><h3>相性の悪いタイプ</h3><div class="result-bad"><h4>・ ${formatText(result.bad)}</h4></div></div>`;
+
+                // --- X Share URL Generation ---
+                // URLをハードコーディングして確実にOGPを拾わせる
+                const pageUrl = "https://japan-contents-maker-566597.github.io/alc-type16/";
+                // Create custom share text
+                const shareText = `私の酒タイプは【${result.name}】でした！🍻\n『${result.catch.split('」')[0].replace('「', '')}』\n#酒タイプ診断\n\n今すぐ診断👇`;
+                const twitterHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
+
+                resultOutput.innerHTML = `
+                    <div class="result-header"><p>${resultName}</p><h2 class="result-title">${result.name} (${type})</h2></div>
+                    <div class="result-image-wrapper"><img src="酒タイプ画像/${type}.jpg" alt="${result.name}のイラスト" class="result-illustration"></div>
+                    
+                    <p class="result-catchphrase-display">${result.catch}</p>
+                    <div class="result-card"><h3>基本的特徴</h3><p>${highlightFirstSentence(formatText(result.base))}</p></div>
+                    <div class="result-card"><h3>飲み会での特徴</h3><p>${highlightFirstSentence(formatText(result.feature))}</p></div>
+                    <div class="result-card"><h3>長所と魅力</h3><p>${highlightFirstSentence(formatText(result.merit))}</p></div>
+                    <div class="result-card"><h3>成長のヒント</h3><p>${highlightFirstSentence(formatText(result.stretch))}</p></div>
+                    <div class="result-card"><h3>相性の良いタイプ</h3><div class="result-good"><h4>・ ${formatText(result.good)}</h4></div></div>
+                    <div class="result-card"><h3>相性の悪いタイプ</h3><div class="result-bad"><h4>・ ${formatText(result.bad)}</h4></div></div>
+                    
+                    <div class="share-section">
+                        <p class="share-title">診断結果をシェアしよう！</p>
+                        <a href="${twitterHref}" target="_blank" class="x-share-button">
+                            <svg class="x-logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                            Xで投稿する
+                        </a>
+                    </div>
+                    `;
             }
 
             /* --- Roulette Logic --- */
@@ -609,3 +557,4 @@
     <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
     </body>
 </html>
+}
