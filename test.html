@@ -75,7 +75,7 @@
         @media (max-width: 480px) { .sp-only { display: block; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- X Share Button CSS (New) --- */
+        /* --- X Share Button CSS --- */
         .share-section {
             text-align: center;
             margin: 30px 0;
@@ -168,7 +168,7 @@
         .axis-desc h4 { margin: 0 0 5px 0; font-size: 1.2em; }
         .axis-desc p { margin: 0; line-height: 1.6; }
 
-        /* --- Roulette Styles --- */
+        /* --- Roulette --- */
         #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
         #roulette-fab:hover { animation-play-state: paused; transform: scale(1.1); }
         @keyframes float-anim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -367,6 +367,9 @@
                     <div class="result-header"><p>${resultName}</p><h2 class="result-title">${result.name} (${type})</h2></div>
                     <div class="result-image-wrapper"><img src="酒タイプ画像/${type}.jpg" alt="${result.name}のイラスト" class="result-illustration"></div>
                     
+                    <p class="result-catchphrase-display">${result.catch}</p>
+                    <div class="result-card"><h3>基本的特徴</h3><p>${highlightFirstSentence(formatText(result.base))}</p></div><div class="result-card"><h3>飲み会での特徴</h3><p>${highlightFirstSentence(formatText(result.feature))}</p></div><div class="result-card"><h3>長所と魅力</h3><p>${highlightFirstSentence(formatText(result.merit))}</p></div><div class="result-card"><h3>成長のヒント</h3><p>${highlightFirstSentence(formatText(result.stretch))}</p></div><div class="result-card"><h3>相性の良いタイプ</h3><div class="result-good"><h4>・ ${formatText(result.good)}</h4></div></div><div class="result-card"><h3>相性の悪いタイプ</h3><div class="result-bad"><h4>・ ${formatText(result.bad)}</h4></div></div>
+                    
                     <div class="share-section">
                         <p class="share-title">診断結果をシェアしよう！</p>
                         <a href="${twitterHref}" target="_blank" class="x-share-button">
@@ -374,8 +377,7 @@
                             Xで投稿する
                         </a>
                     </div>
-                    <p class="result-catchphrase-display">${result.catch}</p>
-                    <div class="result-card"><h3>基本的特徴</h3><p>${highlightFirstSentence(formatText(result.base))}</p></div><div class="result-card"><h3>飲み会での特徴</h3><p>${highlightFirstSentence(formatText(result.feature))}</p></div><div class="result-card"><h3>長所と魅力</h3><p>${highlightFirstSentence(formatText(result.merit))}</p></div><div class="result-card"><h3>成長のヒント</h3><p>${highlightFirstSentence(formatText(result.stretch))}</p></div><div class="result-card"><h3>相性の良いタイプ</h3><div class="result-good"><h4>・ ${formatText(result.good)}</h4></div></div><div class="result-card"><h3>相性の悪いタイプ</h3><div class="result-bad"><h4>・ ${formatText(result.bad)}</h4></div></div>`;
+                    `;
             }
 
             /* --- Roulette Logic --- */
