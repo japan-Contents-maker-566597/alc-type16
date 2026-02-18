@@ -301,8 +301,8 @@
         </div>
     </div>
 
-    <audio id="spin-sound" src="spin.mp3" loop></audio>
-    <audio id="fanfare-sound" src="fanfare.mp3"></audio>
+    <audio id="spin-sound" src="../spin.mp3" loop></audio>
+    <audio id="fanfare-sound" src="../fanfare.mp3"></audio>
 
     <script>
         const questions = [
@@ -383,7 +383,7 @@
             document.getElementById('goto-policy-btn').addEventListener('click', () => showView('view-policy'));
             document.getElementById('nav-from-policy-to-top').addEventListener('click', () => showView('view-top'));
             
-            function renderTypeList() { typeListContainer.innerHTML = Object.keys(typeData).map(typeCode => { const type = typeData[typeCode]; return `<div class="type-card" data-typecode="${typeCode}"><div class="type-card-image-wrapper"><img src="酒タイプ画像/${typeCode}.jpg" alt="${type.name}のイラスト" class="type-card-illustration"></div><h3 class="type-card-name">${type.name} (${typeCode})</h3><p class="type-card-catchphrase">${type.catch}</p></div>`; }).join(''); } 
+            function renderTypeList() { typeListContainer.innerHTML = Object.keys(typeData).map(typeCode => { const type = typeData[typeCode]; return `<div class="type-card" data-typecode="${typeCode}"><div class="type-card-image-wrapper"><img src="../酒タイプ画像/${typeCode}.jpg" alt="${type.name}のイラスト" class="type-card-illustration"></div><h3 class="type-card-name">${type.name} (${typeCode})</h3><p class="type-card-catchphrase">${type.catch}</p></div>`; }).join(''); } 
             typeListContainer.addEventListener('click', e => { const card = e.target.closest('.type-card'); if (card) { displayResult(card.dataset.typecode); showView('view-result'); } });
             
             function renderQuestions() {
@@ -429,7 +429,7 @@
 
                 resultOutput.innerHTML = `
                     <div class="result-header"><p>${resultName}</p><h2 class="result-title">${result.name} (${type})</h2></div>
-                    <div class="result-image-wrapper"><img src="酒タイプ画像/${type}.jpg" alt="${result.name}のイラスト" class="result-illustration"></div>
+                    <div class="result-image-wrapper"><img src="../酒タイプ画像/${type}.jpg" alt="${result.name}のイラスト" class="result-illustration"></div>
                     
                     <p class="result-catchphrase-display">${result.catch}</p>
                     <div class="result-card"><h3>基本的特徴</h3><p>${highlightFirstSentence(formatText(result.base))}</p></div>
@@ -539,7 +539,7 @@
             
             function showWinner(typeCode) {
                 const winner = typeData[typeCode];
-                document.getElementById('roulette-result-image').src = `酒タイプ画像/${typeCode}.jpg`;
+                document.getElementById('roulette-result-image').src = `../酒タイプ画像/${typeCode}.jpg`;
                 document.getElementById('roulette-result-title').textContent = `${winner.name} (${typeCode})`;
                 document.getElementById('roulette-result-message').textContent = typeMessages[typeCode];
                 resultOverlay.classList.add('visible');
@@ -601,7 +601,7 @@
                     const type = typeData[typeCode];
                     return `
                         <div class="member-item">
-                            <img src="酒タイプ画像/${typeCode}.jpg" alt="${type.name}">
+                            <img src="../酒タイプ画像/${typeCode}.jpg" alt="${type.name}">
                             <label for="member-${typeCode}">${type.name}</label>
                             <input type="checkbox" id="member-${typeCode}" value="${typeCode}" checked>
                         </div>
