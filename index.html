@@ -361,7 +361,7 @@
                 // URLをハードコーディングして確実にOGPを拾わせる
                 const pageUrl = "https://sync-loft.com/";
                 // Create custom share text
-                const shareText = `私の酒タイプは【${result.name}】でした！🍻\n『${result.catch.split('」')[0].replace('「', '')}』\n#酒タイプ診断\n\n今すぐ診断👇`;
+                const shareText = `私の酒タイプは【${result.name}】でした！🍻\n『${result.catch.split('」')[0].replace('「', '')}』\n#酒タイプ診断\n\n今すぐ診断👇\n`;
                 const twitterHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
 
                 resultOutput.innerHTML = `
