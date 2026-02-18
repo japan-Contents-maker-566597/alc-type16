@@ -15,10 +15,12 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="【公式】酒タイプ診断" />
     <meta name="twitter:description" content="あなたはお酒でどう変わる？全16タイプから診断！" />
-    <meta name="twitter:image" content="https://japan-contents-maker-566597.github.io/alc-type16/ogp.jpg?v=fix2" />
+    <meta name="twitter:image" content="https://sync-loft.com/img/ogp.jpg" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary-color: #ffffff;
@@ -31,15 +33,17 @@
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        body { font-family: 'M PLUS Rounded 1c', sans-serif; background: var(--background-gradient); margin: 0; padding: 20px; color: var(--text-color); }
+        body { font-family: 'M PLUS Rounded 1c', sans-serif; background: var(--background-gradient); margin: 0; padding: 20px; color: var(--text-color); padding-bottom: 100px; }
         .container { max-width: 800px; width: 100%; margin: 0 auto; background-color: var(--primary-color); border-radius: var(--border-radius); box-shadow: var(--shadow); padding: clamp(20px, 5vw, 40px); box-sizing: border-box; }
         h1, h2, h3 { text-align: center; font-weight: 800; }
         h1 { color: #6a1b9a; font-size: clamp(2rem, 6vw, 2.8rem); }
         h2 { color: #1e88e5; font-size: clamp(1.8rem, 5vw, 2.5rem); }
         p { line-height: 1.8; }
         .view { display: none; }
-        .view.active { display: block; }
-        .action-button { display: block; width: 100%; padding: 20px; font-size: 1.5em; font-weight: 700; color: #fff; background: linear-gradient(135deg, #8e24aa, #5e35b1); border: none; border-radius: 16px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; text-align: center; }
+        .view.active { display: block; animation: fadeInView 0.3s ease-in-out; }
+        @keyframes fadeInView { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .action-button { display: block; width: 100%; padding: 20px; font-size: 1.5em; font-weight: 700; color: #fff; background: linear-gradient(135deg, #8e24aa, #5e35b1); border: none; border-radius: 16px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; text-align: center; text-decoration: none; }
         .action-button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
         .secondary-button { background: #eee; color: #555; border: 2px solid #ddd; }
         .secondary-button:hover { background-color: #ddd; }
@@ -47,23 +51,15 @@
         .bottom-nav-button { font-family: 'M PLUS Rounded 1c', sans-serif; font-size: 1em; font-weight: 700; padding: 12px 0; width: 240px; border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: center; border: 2px solid #3949ab; background-color: #fff; color: #3949ab; }
         .bottom-nav-button.primary { background-color: #3949ab; color: #fff; }
         .bottom-nav-button:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
         #view-top .top-description { font-size: 1.2em; text-align: center; padding: 20px; background: var(--secondary-color); border-radius: 16px; }
         #view-top .button-wrapper { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
         .name-input-wrapper { text-align: center; margin-bottom: 2em; }
         .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
-        .name-input:focus { outline: none; border-color: var(--accent-color-3); }
+        .name-input:focus { outline: none; border-color: var(--accent-color-b); }
         
-        /* --- Alert Accordion CSS --- */
-        .alert-accordion {
-            background-color: #fffde7;
-            border: 1px solid #ffe082;
-            border-radius: 12px;
-            margin: 15px auto;
-            max-width: 95%;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
+        /* Alert Accordion */
+        .alert-accordion { background-color: #fffde7; border: 1px solid #ffe082; border-radius: 12px; margin: 15px auto; max-width: 95%; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.3s ease; }
         .alert-accordion[open] { background-color: #fff9c4; }
         .alert-accordion summary { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; cursor: pointer; list-style: none; position: relative; font-size: 0.9em; color: #5d4037; font-weight: 700; line-height: 1.5; }
         .alert-accordion summary::-webkit-details-marker { display: none; }
@@ -73,51 +69,15 @@
         .alert-detail strong { color: #c62828; background: linear-gradient(transparent 70%, #ffcdd2 70%); }
         .sp-only { display: none; }
         @media (max-width: 480px) { .sp-only { display: block; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- X Share Button CSS --- */
-        .share-section {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            border-radius: 16px;
-        }
-        .share-title {
-            font-size: 1.1em;
-            font-weight: 800;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        .x-share-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 280px;
-            padding: 15px 0;
-            background-color: #000;
-            color: #fff;
-            font-weight: 800;
-            font-size: 1.1em;
-            text-decoration: none;
-            border-radius: 50px;
-            transition: transform 0.2s, opacity 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            margin: 0 auto;
-        }
-        .x-share-button:hover {
-            transform: translateY(-3px);
-            opacity: 0.8;
-        }
-        .x-logo {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            fill: #fff;
-        }
+        /* Share Button */
+        .share-section { text-align: center; margin: 30px 0; padding: 20px; background-color: #f5f5f5; border-radius: 16px; }
+        .share-title { font-size: 1.1em; font-weight: 800; color: #333; margin-bottom: 15px; }
+        .x-share-button { display: inline-flex; align-items: center; justify-content: center; width: 100%; max-width: 280px; padding: 15px 0; background-color: #000; color: #fff; font-weight: 800; font-size: 1.1em; text-decoration: none; border-radius: 50px; transition: transform 0.2s, opacity 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin: 0 auto; }
+        .x-share-button:hover { transform: translateY(-3px); opacity: 0.8; }
+        .x-logo { width: 20px; height: 20px; margin-right: 10px; fill: #fff; }
 
-        /* --- Diagnosis View Styles --- */
+        /* Diagnosis */
         .question-card { background-color: #f8f9fa; padding: clamp(15px, 4vw, 25px); border-radius: 16px; margin-bottom: 25px; border: 1px solid #e9ecef; }
         .question-text { font-weight: 700; font-size: 1.2em; margin-bottom: 20px; text-align: center; }
         .question-choice { font-size: 1.1em; font-weight: 700; padding: 12px; border-radius: 12px; text-align: center; }
@@ -135,7 +95,7 @@
         .option-label.selected .option-ruby { color: #1e3a8a; font-weight: 700; }
         @media (max-width: 600px) { .options-container { flex-wrap: wrap; } .option-label { padding: 8px 2px; } }
 
-        /* --- Other Views --- */
+        /* Types & Results */
         #type-list-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .type-card { background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
         .type-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
@@ -158,6 +118,8 @@
         .result-good h4, .result-bad h4 { margin: 0; font-size: 1.1em; line-height: 1.6; }
         .result-good h4 { color: #2e7d32; }
         .result-bad h4 { color: #c62828; }
+
+        /* Axis List */
         .axis-list { list-style: none; padding: 0; }
         .axis-item { display: flex; align-items: center; margin-bottom: 15px; background: var(--secondary-color); padding: 15px; border-radius: 16px; }
         .axis-label { flex-shrink: 0; font-weight: 800; font-size: 1.5em; width: 60px; height: 60px; border-radius: 50%; display: grid; place-content: center; color: white; margin-right: 15px; }
@@ -168,7 +130,16 @@
         .axis-desc h4 { margin: 0 0 5px 0; font-size: 1.2em; }
         .axis-desc p { margin: 0; line-height: 1.6; }
 
-        /* --- Roulette --- */
+        /* Privacy Policy & Footer */
+        .policy-content { text-align: left; font-size: 0.9em; line-height: 1.6; background: #f9f9f9; padding: 20px; border-radius: 12px; }
+        .policy-content h4 { margin-top: 20px; border-left: 4px solid #6a1b9a; padding-left: 10px; color: #333; }
+        .policy-content a { color: #1976d2; text-decoration: underline; }
+        
+        .footer-nav { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.8em; color: #666; background: rgba(255,255,255,0.5); border-radius: 12px; }
+        .footer-nav a { color: #666; text-decoration: underline; margin: 0 10px; cursor: pointer; }
+        .footer-nav p { margin-top: 10px; }
+
+        /* Roulette */
         #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
         #roulette-fab:hover { animation-play-state: paused; transform: scale(1.1); }
         @keyframes float-anim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -190,7 +161,6 @@
         .member-item label { flex-grow: 1; text-align: left; }
         .member-item input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; }
         .roulette-setup-controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
-
     </style>
 </head>
 <body>
@@ -221,25 +191,111 @@
                 <button id="goto-about-btn" class="action-button secondary-button">酒タイプ診断とは？</button>
             </div>
         </div>
-        <div id="view-diagnosis" class="view"><h2>あなたのことを教えてください</h2><form id="diagnosisForm"><div class="name-input-wrapper"><input type="text" id="userName" class="name-input" placeholder="あなたの名前を入力" required></div><div id="questionsContainer"></div><button type="submit" class="action-button">診断する</button></form></div>
-        <div id="view-types" class="view"><h2>16の酒タイプ図鑑</h2><div id="type-list-container"></div><div class="bottom-nav-wrapper"><button id="nav-from-types-to-top" class="bottom-nav-button primary">TOPページに戻る</button></div></div>
+
+        <div id="view-diagnosis" class="view">
+            <h2>あなたのことを教えてください</h2>
+            <form id="diagnosisForm">
+                <div class="name-input-wrapper"><input type="text" id="userName" class="name-input" placeholder="あなたの名前を入力" required></div>
+                <div id="questionsContainer"></div>
+                <button type="submit" class="action-button">診断する</button>
+            </form>
+        </div>
+
+        <div id="view-types" class="view">
+            <h2>16の酒タイプ図鑑</h2>
+            <div id="type-list-container"></div>
+            <div class="bottom-nav-wrapper">
+                <button id="nav-from-types-to-top" class="bottom-nav-button primary">TOPページに戻る</button>
+            </div>
+        </div>
         
         <div id="view-result" class="view">
             <div id="resultOutput"></div>
-
             <div style="text-align: center; margin: 20px auto;">
                 <script src="https://adm.shinobi.jp/s/aff5e37cd93a72cfb48eee5ae3b4df30"></script>
-                </div>
-            <div class="bottom-nav-wrapper"><button id="nav-from-result-to-top" class="bottom-nav-button primary">TOPページに戻る</button><button id="nav-from-result-to-types" class="bottom-nav-button">16タイプ図鑑に戻る</button></div>
+            </div>
+            <div class="bottom-nav-wrapper">
+                <button id="nav-from-result-to-top" class="bottom-nav-button primary">TOPページに戻る</button>
+                <button id="nav-from-result-to-types" class="bottom-nav-button">16タイプ図鑑に戻る</button>
+            </div>
         </div>
         
-        <div id="view-about" class="view"><h2>4つの診断軸について</h2><p>この診断では、4つの異なる軸であなたの酒との向き合い方を分析します。</p><ul class="axis-list"><li class="axis-item"><div class="axis-label lf">L/F</div><div class="axis-desc"><h4>リーダー / フォロワー</h4><p>飲み会の主導権を握りたいか、流れに身を任せたいか。</p></div></li><li class="axis-item"><div class="axis-label or">O/R</div><div class="axis-desc"><h4>大雑把 / 几帳面</h4><p>場のノリや楽しさを優先するか、終電や会計を気にするか。</p></div></li><li class="axis-item"><div class="axis-label ud">U/D</div><div class="axis-desc"><h4>アッパー / ダウナー</h4><p>酔うとテンションが上がるか、物静かになるか。</p></div></li><li class="axis-item"><div class="axis-label ty">T/Y</div><div class="axis-desc"><h4>強い / 弱い</h4><p>お酒への耐性が高いか、すぐに酔ってしまうか。</p></div></li></ul><div class="bottom-nav-wrapper"><button id="nav-from-about-to-top" class="bottom-nav-button primary">TOPに戻る</button></div></div>
+        <div id="view-about" class="view">
+            <h2>4つの診断軸について</h2>
+            <p>この診断では、4つの異なる軸であなたの酒との向き合い方を分析します。</p>
+            <ul class="axis-list">
+                <li class="axis-item"><div class="axis-label lf">L/F</div><div class="axis-desc"><h4>リーダー / フォロワー</h4><p>飲み会の主導権を握りたいか、流れに身を任せたいか。</p></div></li>
+                <li class="axis-item"><div class="axis-label or">O/R</div><div class="axis-desc"><h4>大雑把 / 几帳面</h4><p>場のノリや楽しさを優先するか、終電や会計を気にするか。</p></div></li>
+                <li class="axis-item"><div class="axis-label ud">U/D</div><div class="axis-desc"><h4>アッパー / ダウナー</h4><p>酔うとテンションが上がるか、物静かになるか。</p></div></li>
+                <li class="axis-item"><div class="axis-label ty">T/Y</div><div class="axis-desc"><h4>強い / 弱い</h4><p>お酒への耐性が高いか、すぐに酔ってしまうか。</p></div></li>
+            </ul>
+            <div class="bottom-nav-wrapper"><button id="nav-from-about-to-top" class="bottom-nav-button primary">TOPに戻る</button></div>
+        </div>
+
+        <div id="view-policy" class="view">
+            <h2>プライバシーポリシー</h2>
+            <div class="policy-content">
+                <h4>1. 広告の配信について</h4>
+                <p>当サイトでは、第三者配信の広告サービス（Googleアドセンス、忍者AdMaxなど）を利用しています。このような広告配信事業者は、ユーザーの興味に応じた商品やサービスの広告を表示するため、当サイトや他サイトへのアクセスに関する情報 「Cookie」(氏名、住所、メール アドレス、電話番号は含まれません) を使用することがあります。</p>
+                
+                <h4>2. アクセス解析ツールについて</h4>
+                <p>当サイトでは、Googleによるアクセス解析ツール「Googleアナリティクス」を利用する場合があります。このGoogleアナリティクスはトラフィックデータの収集のためにCookieを使用しています。このトラフィックデータは匿名で収集されており、個人を特定するものではありません。この機能はCookieを無効にすることで収集を拒否することが出来ますので、お使いのブラウザの設定をご確認ください。</p>
+                
+                <h4>3. 免責事項</h4>
+                <p>当サイトからリンクやバナーなどによって他のサイトに移動された場合、移動先サイトで提供される情報、サービス等について一切の責任を負いません。<br>当サイトの診断結果はあくまでエンターテインメント（娯楽）を目的としたものであり、医学的根拠に基づくものではありません。当サイトに掲載された内容によって生じた損害等の一切の責任を負いかねますのでご了承ください。</p>
+                
+                <h4>4. お問い合わせ窓口</h4>
+                <p>酒タイプ診断 運営事務局<br>
+                お仕事のご相談、取材依頼、削除依頼等はこちら：<br>
+                <a href="mailto:alctype16.official@gmail.com">alctype16.official@gmail.com</a></p>
+            </div>
+            <div class="bottom-nav-wrapper">
+                <button id="nav-from-policy-to-top" class="bottom-nav-button primary">TOPページに戻る</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-nav">
+        <a id="goto-policy-btn">プライバシーポリシー</a>
+        <a href="mailto:alctype16.official@gmail.com">お問い合わせ窓口</a>
+        <p>© 2024-2026 酒タイプ診断 運営事務局</p>
     </div>
     
     <button id="roulette-fab">ルーレットで遊ぶ🎲</button>
-    <div id="roulette-setup-overlay" class="roulette-overlay"><div id="roulette-setup-box"><h2>参加する酒タイプを選ぶ</h2><div class="roulette-setup-controls"><button id="roulette-select-all" class="secondary-button" style="width: 120px; padding: 10px 0; margin:0;">全選択</button><button id="roulette-deselect-all" class="secondary-button" style="width: 120px; padding: 10px 0; margin:0;">全解除</button></div><div id="roulette-member-list"></div><div class="bottom-nav-wrapper" style="border:none"><button id="create-roulette-btn" class="action-button" style="width:100%">このメンバーでルーレット作成</button><button id="close-roulette-setup-btn" class="bottom-nav-button">戻る</button></div></div></div>
-    <div id="roulette-overlay" class="roulette-overlay"><div class="roulette-container"><div class="roulette-pointer"></div><canvas id="roulette-canvas"></canvas><div class="roulette-controls"><button id="spin-btn" class="action-button" style="width: 120px; padding: 15px;">START</button></div></div></div>
-    <div id="roulette-result-overlay" class="roulette-overlay"><div id="roulette-result-popup"><img id="roulette-result-image" src="" alt="当選結果"><h2 id="roulette-result-title"></h2><p id="roulette-result-message"></p><div class="bottom-nav-wrapper" style="border-top: none; margin-top: 10px;"><button id="spin-again-btn" class="bottom-nav-button primary">もう一度回す</button><button id="close-result-btn" class="bottom-nav-button">戻る</button></div></div></div>
+    <div id="roulette-setup-overlay" class="roulette-overlay">
+        <div id="roulette-setup-box">
+            <h2>参加する酒タイプを選ぶ</h2>
+            <div class="roulette-setup-controls">
+                <button id="roulette-select-all" class="secondary-button" style="width: 120px; padding: 10px 0; margin:0;">全選択</button>
+                <button id="roulette-deselect-all" class="secondary-button" style="width: 120px; padding: 10px 0; margin:0;">全解除</button>
+            </div>
+            <div id="roulette-member-list"></div>
+            <div class="bottom-nav-wrapper" style="border:none">
+                <button id="create-roulette-btn" class="action-button" style="width:100%">このメンバーでルーレット作成</button>
+                <button id="close-roulette-setup-btn" class="bottom-nav-button">戻る</button>
+            </div>
+        </div>
+    </div>
+    <div id="roulette-overlay" class="roulette-overlay">
+        <div class="roulette-container">
+            <div class="roulette-pointer"></div>
+            <canvas id="roulette-canvas"></canvas>
+            <div class="roulette-controls">
+                <button id="spin-btn" class="action-button" style="width: 120px; padding: 15px;">START</button>
+            </div>
+        </div>
+    </div>
+    <div id="roulette-result-overlay" class="roulette-overlay">
+        <div id="roulette-result-popup">
+            <img id="roulette-result-image" src="" alt="当選結果">
+            <h2 id="roulette-result-title"></h2>
+            <p id="roulette-result-message"></p>
+            <div class="bottom-nav-wrapper" style="border-top: none; margin-top: 10px;">
+                <button id="spin-again-btn" class="bottom-nav-button primary">もう一度回す</button>
+                <button id="close-result-btn" class="bottom-nav-button">戻る</button>
+            </div>
+        </div>
+    </div>
 
     <audio id="spin-sound" src="spin.mp3" loop></audio>
     <audio id="fanfare-sound" src="fanfare.mp3"></audio>
@@ -309,6 +365,8 @@
             const userNameInput = document.getElementById('userName');
 
             function showView(viewId) { allViews.forEach(view => view.classList.remove('active')); document.getElementById(viewId)?.classList.add('active'); window.scrollTo(0, 0); }
+            
+            // 既存イベント
             document.getElementById('start-diagnosis-btn').addEventListener('click', () => showView('view-diagnosis'));
             document.getElementById('goto-types-btn').addEventListener('click', () => showView('view-types'));
             document.getElementById('goto-about-btn').addEventListener('click', () => showView('view-about'));
@@ -316,6 +374,10 @@
             document.getElementById('nav-from-result-to-top').addEventListener('click', () => showView('view-top'));
             document.getElementById('nav-from-result-to-types').addEventListener('click', () => showView('view-types'));
             document.getElementById('nav-from-about-to-top').addEventListener('click', () => showView('view-top'));
+
+            // 新規追加イベント（ポリシー関連）
+            document.getElementById('goto-policy-btn').addEventListener('click', () => showView('view-policy'));
+            document.getElementById('nav-from-policy-to-top').addEventListener('click', () => showView('view-top'));
             
             function renderTypeList() { typeListContainer.innerHTML = Object.keys(typeData).map(typeCode => { const type = typeData[typeCode]; return `<div class="type-card" data-typecode="${typeCode}"><div class="type-card-image-wrapper"><img src="酒タイプ画像/${typeCode}.jpg" alt="${type.name}のイラスト" class="type-card-illustration"></div><h3 class="type-card-name">${type.name} (${typeCode})</h3><p class="type-card-catchphrase">${type.catch}</p></div>`; }).join(''); } 
             typeListContainer.addEventListener('click', e => { const card = e.target.closest('.type-card'); if (card) { displayResult(card.dataset.typecode); showView('view-result'); } });
@@ -357,10 +419,7 @@
                 const formatText = (text) => text.replace(/\n/g, '<br>');
                 const resultName = name ? `${name}さんの酒タイプは...` : 'このタイプの特徴';
 
-                // --- X Share URL Generation ---
-                // URLをハードコーディングして確実にOGPを拾わせる
                 const pageUrl = "https://sync-loft.com/";
-                // Create custom share text
                 const shareText = `私の酒タイプは【${result.name}】でした！🍻\n『${result.catch.split('」')[0].replace('「', '')}』\n#酒タイプ診断\n\n今すぐ診断👇\n`;
                 const twitterHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
 
@@ -553,8 +612,6 @@
             showView('view-top');
         });
     </script>
-    
     <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
-    </body>
+</body>
 </html>
-}
