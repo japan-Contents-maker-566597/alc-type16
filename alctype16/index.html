@@ -432,7 +432,7 @@
                 const formatText = (text) => text.replace(/\n/g, '<br>');
                 const resultName = name ? `${name}さんの酒タイプは...` : 'このタイプの特徴';
 
-                const pageUrl = "https://sync-loft.com/";
+                const pageUrl = "https://sync-loft.com/alctype16/";
                 const shareText = `私の酒タイプは【${result.name}】でした！🍻\n『${result.catch.split('」')[0].replace('「', '')}』\n#酒タイプ診断\n\n今すぐ診断👇\n`;
                 const twitterHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
 
