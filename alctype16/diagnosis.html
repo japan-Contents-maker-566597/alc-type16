@@ -71,9 +71,15 @@
     .option-label.selected { background-color: #dbeafe; }
     .option-label.selected .option-ruby { color: #1e3a8a; font-weight: 700; }
     @media (max-width: 600px) { .options-container { flex-wrap: wrap; } .option-label { padding: 8px 2px; } }
-    .name-input-wrapper { text-align: center; margin-bottom: 2em; }
+    .name-input-wrapper { text-align: center; margin-bottom: 1.5em; }
     .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
     .name-input:focus { outline: none; border-color: var(--accent-color-b); }
+    .select-input-wrapper { text-align: center; margin-bottom: 1.5em; }
+    .select-input-label { display: block; margin-bottom: 6px; font-size: 0.9em; font-weight: 700; color: #555; }
+    .select-input { width: 80%; max-width: 320px; padding: 12px; border-radius: 16px; border: 2px solid #ddd; font-size: 1em; font-family: inherit; background-color: #fff; }
+    .select-input:focus { outline: none; border-color: var(--accent-color-b); }
+    .consent-note { font-size: 0.85rem; color: #666; margin-top: 10px; text-align: center; line-height: 1.6; }
+    .consent-note a { color: #1976d2; text-decoration: underline; }
     .bottom-nav-wrapper { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
     .bottom-nav-button { font-family: 'M PLUS Rounded 1c', sans-serif; font-size: 1em; font-weight: 700; padding: 12px 0; width: 240px; border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: center; border: 2px solid #3949ab; background-color: #fff; color: #3949ab; text-decoration: none; box-sizing: border-box; }
     .bottom-nav-button.primary { background-color: #3949ab; color: #fff; }
@@ -86,10 +92,22 @@
     <h2>あなたのことを教えてください</h2>
     <form id="diagnosisForm">
       <div class="name-input-wrapper">
-        <input type="text" id="userName" class="name-input" placeholder="あなたの名前を入力" required>
+        <input type="text" id="userName" class="name-input" placeholder="ニックネームを入力">
+      </div>
+      <div class="select-input-wrapper">
+        <span class="select-input-label">性別（任意）</span>
+        <select id="userGender" class="select-input">
+          <option value="回答しない" selected>回答しない</option>
+          <option value="男性">男性</option>
+          <option value="女性">女性</option>
+        </select>
       </div>
       <div id="questionsContainer"></div>
       <button type="submit" class="action-button">診断する</button>
+      <p class="consent-note">
+        ※ご入力いただいた情報は診断および分析にのみ利用されます。<br>
+        <a href="policy.html" target="_blank" rel="noopener">プライバシーポリシー</a>に同意の上ご利用ください。
+      </p>
     </form>
     <div class="bottom-nav-wrapper">
       <a href="./index.html" class="bottom-nav-button primary">TOPページに戻る</a>
@@ -97,6 +115,7 @@
   </div>
 
   <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGq72C-ukIViED8rTiRYx7jMrp4PXapxOdBn5h6aU1OGbis4X5tBJvqM6rzDRerfE/exec";
     const questions = [
       { id: 1, axis: "LF", text: "飲み会のお店の選定は？", a: "A: 自分の行きたい店を提案する。", b: "B: 皆の意見を聞いてから決める。" },
       { id: 2, axis: "LF", text: "場の雰囲気が微妙になったら？", a: "A: 自分が話題を提供し、流れを変える。", b: "B: 誰かの行動を待ち、流れに任せる。" },
@@ -120,6 +139,7 @@
       const diagnosisForm = document.getElementById('diagnosisForm');
       const questionsContainer = document.getElementById('questionsContainer');
       const userNameInput = document.getElementById('userName');
+      const genderSelect = document.getElementById('userGender');
 
       function renderQuestions() {
         const rubies = ['Aに近い', 'ややA', '中間', 'ややB', 'Bに近い'];
@@ -150,14 +170,8 @@
         }
       });
 
-      diagnosisForm.addEventListener('submit', e => {
+      diagnosisForm.addEventListener('submit', async e => {
         e.preventDefault();
-        const userName = userNameInput.value;
-        if (!userName) {
-          alert('名前を入力してください。');
-          userNameInput.focus();
-          return;
-        }
         const formData = new FormData(diagnosisForm);
         if (Array.from(formData.keys()).length < questions.length) {
           alert('すべての質問に回答してください。');
@@ -173,6 +187,35 @@
         resultType += (axisScores.UD / 4) < 3.0 ? 'U' : 'D';
         resultType += (axisScores.TY / 4) < 3.0 ? 'T' : 'Y';
         const resultCode = resultType.toLowerCase();
+
+        const nicknameRaw = userNameInput.value.trim();
+        const nickname = nicknameRaw || 'ゲスト';
+        const gender = genderSelect ? genderSelect.value : '回答しない';
+        const payload = {
+          name: nickname,
+          gender,
+          result: resultCode,
+          device: navigator.userAgent || ''
+        };
+
+        try {
+          if (SCRIPT_URL && SCRIPT_URL.startsWith('http')) {
+            const sendPromise = fetch(SCRIPT_URL, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            }).catch(() => {});
+
+            await Promise.race([
+              sendPromise,
+              new Promise(resolve => setTimeout(resolve, 1000))
+            ]);
+          }
+        } catch (err) {
+          console.error('send error', err);
+        }
+
         window.location.href = './types/' + resultCode + '.html';
       });
 
