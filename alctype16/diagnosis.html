@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3644642136582562" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YJFPXNF0M"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1YJFPXNF0M');
+  </script>
+  <title>【公式】酒タイプ診断 - 診断ページ</title>
+  <meta property="og:url" content="https://sync-loft.com/alctype16/diagnosis.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="【公式】酒タイプ診断 - 診断ページ" />
+  <meta property="og:description" content="全16問の質問に答えて、あなたの酒タイプを診断します。" />
+  <meta property="og:site_name" content="酒タイプ診断" />
+  <meta property="og:image" content="https://sync-loft.com/ogp.jpg?v=2" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="【公式】酒タイプ診断 - 診断ページ" />
+  <meta name="twitter:description" content="全16問の質問に答えて、あなたの酒タイプを診断します。" />
+  <meta name="twitter:image" content="https://sync-loft.com/ogp.jpg?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #ffffff;
+      --secondary-color: #f0f4ff;
+      --background-gradient: linear-gradient(135deg, #f3e5f5, #e1f5fe);
+      --text-color: #333;
+      --accent-color-a: #d32f2f;
+      --accent-color-b: #1976d2;
+      --border-radius: 24px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    body { font-family: 'M PLUS Rounded 1c', sans-serif; background: var(--background-gradient); margin: 0; padding: 20px; color: var(--text-color); padding-bottom: 100px; }
+    .container { max-width: 800px; width: 100%; margin: 0 auto; background-color: var(--primary-color); border-radius: var(--border-radius); box-shadow: var(--shadow); padding: clamp(20px, 5vw, 40px); box-sizing: border-box; }
+    h1, h2, h3 { text-align: center; font-weight: 800; }
+    h1 {
+      color: #6a1b9a;
+      font-size: clamp(1.4rem, 6vw, 2.8rem);
+      white-space: nowrap;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      background: -webkit-linear-gradient(135deg, #ad1ea2, #2979ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0 0 20px 0;
+    }
+    p { line-height: 1.8; }
+    .action-button { display: block; width: 100%; padding: 20px; font-size: 1.5em; font-weight: 700; color: #fff; background: linear-gradient(135deg, #8e24aa, #5e35b1); border: none; border-radius: 16px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; text-align: center; text-decoration: none; box-sizing: border-box; }
+    .action-button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .question-card { background-color: #f8f9fa; padding: clamp(15px, 4vw, 25px); border-radius: 16px; margin-bottom: 25px; border: 1px solid #e9ecef; }
+    .question-text { font-weight: 700; font-size: 1.2em; margin-bottom: 20px; text-align: center; }
+    .question-choice { font-size: 1.1em; font-weight: 700; padding: 12px; border-radius: 12px; text-align: center; }
+    .question-choice-a { color: var(--accent-color-a); background-color: #ffebee; }
+    .question-choice-b { color: var(--accent-color-b); background-color: #e3f2fd; }
+    .options-container { display: flex; justify-content: space-around; width: 100%; margin: 20px 0; padding: 0; }
+    .option-label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-size: 0.9em; padding: 8px 4px; border-radius: 8px; transition: background-color 0.2s; flex: 1; }
+    .option-ruby { font-size: 0.8em; color: #6c757d; margin-top: 4px; font-weight: 400; }
+    .option-label input[type="radio"] { -webkit-appearance: none; appearance: none; background-color: #fff; margin: 0; font: inherit; color: #adb5bd; width: 1.8em; height: 1.8em; border: 0.2em solid #adb5bd; border-radius: 50%; display: grid; place-content: center; transition: border-color 0.2s, background-color 0.2s; }
+    .option-label:hover input[type="radio"] { border-color: #495057; }
+    .option-label input[type="radio"]::before { content: ""; width: 1em; height: 1em; border-radius: 50%; transform: scale(0); transition: 120ms transform ease-in-out; background-color: #343a40; }
+    .option-label input[type="radio"]:checked { border-color: #343a40; background-color: #343a40; }
+    .option-label input[type="radio"]:checked::before { transform: scale(1); }
+    .option-label.selected { background-color: #dbeafe; }
+    .option-label.selected .option-ruby { color: #1e3a8a; font-weight: 700; }
+    @media (max-width: 600px) { .options-container { flex-wrap: wrap; } .option-label { padding: 8px 2px; } }
+    .name-input-wrapper { text-align: center; margin-bottom: 2em; }
+    .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
+    .name-input:focus { outline: none; border-color: var(--accent-color-b); }
+    .bottom-nav-wrapper { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+    .bottom-nav-button { font-family: 'M PLUS Rounded 1c', sans-serif; font-size: 1em; font-weight: 700; padding: 12px 0; width: 240px; border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: center; border: 2px solid #3949ab; background-color: #fff; color: #3949ab; text-decoration: none; box-sizing: border-box; }
+    .bottom-nav-button.primary { background-color: #3949ab; color: #fff; }
+    .bottom-nav-button:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>【公式】酒タイプ診断</h1>
+    <h2>あなたのことを教えてください</h2>
+    <form id="diagnosisForm">
+      <div class="name-input-wrapper">
+        <input type="text" id="userName" class="name-input" placeholder="あなたの名前を入力" required>
+      </div>
+      <div id="questionsContainer"></div>
+      <button type="submit" class="action-button">診断する</button>
+    </form>
+    <div class="bottom-nav-wrapper">
+      <a href="./index.html" class="bottom-nav-button primary">TOPページに戻る</a>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { id: 1, axis: "LF", text: "飲み会のお店の選定は？", a: "A: 自分の行きたい店を提案する。", b: "B: 皆の意見を聞いてから決める。" },
+      { id: 2, axis: "LF", text: "場の雰囲気が微妙になったら？", a: "A: 自分が話題を提供し、流れを変える。", b: "B: 誰かの行動を待ち、流れに任せる。" },
+      { id: 3, axis: "LF", text: "飲み会での役割は？", a: "A: 幹事や盛り上げ役など、中心にいたい。", b: "B: 聴き役やサポート役など、裏方でいたい。" },
+      { id: 4, axis: "LF", text: "乾杯の音頭は？", a: "A: 進んで自分が取り、場を仕切りたい。", b: "B: 他の誰かに譲る方が楽だ。" },
+      { id: 5, axis: "OR", text: "飲み会前に翌日の予定を？", a: "A: 気にせず、その場のノリを優先する。", b: "B: 終電時間や翌朝に響かないかチェックする。" },
+      { id: 6, axis: "OR", text: "飲酒時の財布のひもは？", a: "A: 大胆になり、奢ったり多めに払いがち。", b: "B: 冷静に予算を管理し、きっちり割る。" },
+      { id: 7, axis: "OR", text: "飲み会後の後片付けは？", a: "A: 誰かがやるだろうと気にしない。", b: "B: 散らかった場所を率先して片付ける。" },
+      { id: 8, axis: "OR", text: "飲み会の企画は？", a: "A: 面白さ最優先。面白ければなんでもいい。", b: "B: バランス重視。楽しみつつちゃんとしたい。" },
+      { id: 9, axis: "UD", text: "酔い始めの行動は？", a: "A: 陽気になり、声が大きくなる。", b: "B: 物静かになり、思考が深くなる。" },
+      { id: 10, axis: "UD", text: "酔ったときの感情は？", a: "A: 普段よりもハイになり、無敵感がある。", b: "B: 普段よりも感傷的になり、センチメンタル。" },
+      { id: 11, axis: "UD", text: "飲み会でのSNS使用は？", a: "A: 楽しんでいる様子はどんどんみんなにシェアしたい。", b: "B: 飲み会の様子はSNSには載せたくない。" },
+      { id: 12, axis: "UD", text: "酔ったときの身体の動きは？", a: "A: 声やリアクションが大きくなる、笑いのツボが浅くなる。", b: "B: 静かになる、眠くなる、テンションが下がる。" },
+      { id: 13, axis: "TY", text: "飲むペースは？", a: "A: 周りがどうであろうと、自分のハイペースを維持。", b: "B: 周りのペースに合わせるか、それより遅い。" },
+      { id: 14, axis: "TY", text: "飲めるお酒の量は？", a: "A: 何杯飲んでも、ほぼ酔ったように見えない。", b: "B: すぐに酔いが回り、セーブが必要になる。" },
+      { id: 15, axis: "TY", text: "コールや一気飲みの強要は？", a: "A: 余裕で受け入れ、むしろ楽しむ。", b: "B: 可能な限り拒否して、自分のペースを守る。" },
+      { id: 16, axis: "TY", text: "翌日の記憶は？", a: "A: 泥酔しても断片的に覚えていることが多い。", b: "B: 少し飲みすぎると、記憶がほぼ飛ぶ。" }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const diagnosisForm = document.getElementById('diagnosisForm');
+      const questionsContainer = document.getElementById('questionsContainer');
+      const userNameInput = document.getElementById('userName');
+
+      function renderQuestions() {
+        const rubies = ['Aに近い', 'ややA', '中間', 'ややB', 'Bに近い'];
+        questionsContainer.innerHTML = questions.map((q, index) => `
+          <div class="question-card" data-question-id="${q.id}">
+            <p class="question-text">${index + 1}. ${q.text}</p>
+            <div class="question-choice question-choice-a">${q.a}</div>
+            <div class="options-container">
+              ${[1,2,3,4,5].map((val, i) => `
+                <label class="option-label">
+                  <input type="radio" name="q${q.id}" value="${val}" required>
+                  <span class="option-ruby">${rubies[i]}</span>
+                </label>
+              `).join('')}
+            </div>
+            <div class="question-choice question-choice-b">${q.b}</div>
+          </div>
+        `).join('');
+      }
+
+      questionsContainer.addEventListener('change', e => {
+        if (e.target.type === 'radio') {
+          const questionCard = e.target.closest('.question-card');
+          questionCard.querySelectorAll('.option-label').forEach(label => {
+            label.classList.remove('selected');
+          });
+          e.target.parentElement.classList.add('selected');
+        }
+      });
+
+      diagnosisForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const userName = userNameInput.value;
+        if (!userName) {
+          alert('名前を入力してください。');
+          userNameInput.focus();
+          return;
+        }
+        const formData = new FormData(diagnosisForm);
+        if (Array.from(formData.keys()).length < questions.length) {
+          alert('すべての質問に回答してください。');
+          return;
+        }
+        const axisScores = { LF: 0, OR: 0, UD: 0, TY: 0 };
+        questions.forEach(q => {
+          axisScores[q.axis] += parseInt(formData.get(`q${q.id}`), 10);
+        });
+        let resultType = '';
+        resultType += (axisScores.LF / 4) < 3.0 ? 'L' : 'F';
+        resultType += (axisScores.OR / 4) < 3.0 ? 'O' : 'R';
+        resultType += (axisScores.UD / 4) < 3.0 ? 'U' : 'D';
+        resultType += (axisScores.TY / 4) < 3.0 ? 'T' : 'Y';
+        const resultCode = resultType.toLowerCase();
+        window.location.href = './types/' + resultCode + '.html';
+      });
+
+      renderQuestions();
+    });
+  </script>
+  <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
+</body>
+</html>
+
