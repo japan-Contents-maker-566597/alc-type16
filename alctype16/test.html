@@ -10,7 +10,8 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YJFPXNF0M"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}\n      gtag('js', new Date());
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
       gtag('config', 'G-1YJFPXNF0M');
     </script>
@@ -23,11 +24,11 @@
     <meta property="og:description" content="飲み会での立ち振る舞いや、酔ったときのあなた。全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！" />
     <meta property="og:site_name" content="酒タイプ診断" />
     
-    <meta property="og:image" content="https://sync-loft.com/alctype16/img/ogp.jpg" />
+    <meta property="og:image" content="https://sync-loft.com/ogp.jpg?v=2" />    
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="【公式】酒タイプ診断" />
-    <meta name="twitter:description" content="全16問であなたの「お酒のタイプ」を診断！" />
-    <meta name="twitter:image" content="https://sync-loft.com/alctype16/img/ogp.jpg" />
+    <meta name="twitter:description" content="あなたはお酒でどう変わる？全16タイプから診断！" />
+    <meta name="twitter:image" content="https://sync-loft.com/ogp.jpg?v=2" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,443 +36,470 @@
     
     <style>
         :root {
-            --primary-color: #f39c12;
-            --secondary-color: #e67e22;
-            --bg-color: #fdf6e3;
-            --text-color: #5d4037;
-            --accent-color: #d35400;
+            --primary-color: #ffffff;
+            --secondary-color: #f0f4ff;
+            --background-gradient: linear-gradient(135deg, #f3e5f5, #e1f5fe);
+            --text-color: #333;
+            --accent-color-a: #d32f2f;
+            --accent-color-b: #1976d2;
+            --border-radius: 24px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        body {
-            font-family: 'M PLUS Rounded 1c', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        header {
-            margin-bottom: 30px;
-        }
-
-        .logo {
-            max-width: 250px;
-            height: auto;
+        body { font-family: 'M PLUS Rounded 1c', sans-serif; background: var(--background-gradient); margin: 0; padding: 20px; color: var(--text-color); padding-bottom: 100px; }
+        .container { max-width: 800px; width: 100%; margin: 0 auto; background-color: var(--primary-color); border-radius: var(--border-radius); box-shadow: var(--shadow); padding: clamp(20px, 5vw, 40px); box-sizing: border-box; }
+        
+        h1, h2, h3 { text-align: center; font-weight: 800; }
+        
+        /* タイトル設定 */
+        h1 { 
+            color: #6a1b9a; 
+            font-size: clamp(1.4rem, 6vw, 2.8rem); 
+            white-space: nowrap; 
             margin-bottom: 20px;
         }
+        
+        h2 { color: #1e88e5; font-size: clamp(1.8rem, 5vw, 2.5rem); }
+        p { line-height: 1.8; }
+        .view { display: none; }
+        .view.active { display: block; animation: fadeInView 0.3s ease-in-out; }
+        @keyframes fadeInView { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        h1 {
-            font-size: 1.8rem;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            font-weight: 800;
+        .action-button { display: block; width: 100%; padding: 20px; font-size: 1.5em; font-weight: 700; color: #fff; background: linear-gradient(135deg, #8e24aa, #5e35b1); border: none; border-radius: 16px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; text-align: center; text-decoration: none; box-sizing: border-box; }
+        .action-button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .secondary-button { background: #eee; color: #555; border: 2px solid #ddd; }
+        .secondary-button:hover { background-color: #ddd; }
+        .bottom-nav-wrapper { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .bottom-nav-button { font-family: 'M PLUS Rounded 1c', sans-serif; font-size: 1em; font-weight: 700; padding: 12px 0; width: 240px; border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: center; border: 2px solid #3949ab; background-color: #fff; color: #3949ab; }
+        .bottom-nav-button.primary { background-color: #3949ab; color: #fff; }
+        .bottom-nav-button:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        #view-top .top-description { font-size: 1.2em; text-align: center; padding: 20px; background: var(--secondary-color); border-radius: 16px; }
+        #view-top .button-wrapper { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
+        
+        /* NEWバッジ */
+        .btn-relative-wrap {
+            position: relative;
+            width: 100%;
+            margin-top: 25px;
+        }
+        .new-pop-badge {
+            position: absolute;
+            top: -28px;
+            left: 10px;
+            color: #e53935;
+            font-weight: 900;
+            font-size: 1.0em;
+            letter-spacing: 1px;
+            animation: bounce-text 1s ease-in-out infinite alternate;
+            z-index: 10;
+            text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+            pointer-events: none;
+        }
+        @keyframes bounce-text {
+            from { transform: translateY(0) rotate(-2deg); }
+            to { transform: translateY(-5px) rotate(0deg); }
         }
 
-        .description {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        /* LINEスタンプ告知バナー（ボタン直上配置用） */
-        .line-stamp-promo-banner {
+        /* LINEスタンプ告知バナー追加 CSS */
+        .line-stamp-horizontal-banner {
             display: block;
             background: linear-gradient(135deg, #06c755, #05b34c);
-            color: white;
+            color: white !important;
             text-decoration: none;
             padding: 15px;
             border-radius: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3);
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 255, 255, 0.2);
-            animation: pulse-light 2s infinite;
+            animation: pulse-animation 2s infinite;
         }
-
-        .line-stamp-promo-banner:hover {
+        .line-stamp-horizontal-banner:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(6, 199, 85, 0.4);
-            filter: brightness(1.1);
         }
-
-        .line-banner-text-main {
+        .line-banner-main-text {
             font-weight: 800;
             font-size: 1.1rem;
             display: block;
             margin-bottom: 2px;
         }
-
-        .line-banner-text-sub {
+        .line-banner-sub-text {
             font-size: 0.8rem;
             opacity: 0.95;
         }
-
-        @keyframes pulse-light {
-            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); }
-            50% { transform: scale(1.02); box-shadow: 0 4px 25px rgba(6, 199, 85, 0.5); }
-            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); }
+        @keyframes pulse-animation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
-        .action-button {
-            display: block;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            padding: 18px 40px;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            box-shadow: 0 6px 0 var(--secondary-color);
-            transition: all 0.1s ease;
-            margin-bottom: 20px;
-        }
+        .name-input-wrapper { text-align: center; margin-bottom: 2em; }
+        .name-input { width: 80%; padding: 15px; border-radius: 16px; border: 2px solid #ddd; font-size: 1.1em; font-family: inherit; text-align: center; transition: border-color 0.3s; }
+        .name-input:focus { outline: none; border-color: var(--accent-color-b); }
+        
+        /* Alert Accordion */
+        .alert-accordion { background-color: #fffde7; border: 1px solid #ffe082; border-radius: 12px; margin: 15px auto; max-width: 95%; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.3s ease; }
+        .alert-accordion[open] { background-color: #fff9c4; }
+        .alert-accordion summary { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; cursor: pointer; list-style: none; position: relative; font-size: 0.9em; color: #5d4037; font-weight: 700; line-height: 1.5; }
+        .alert-accordion summary::-webkit-details-marker { display: none; }
+        .alert-summary-text { text-align: center; }
+        .alert-cta { font-size: 0.85em; color: #d32f2f; margin-top: 5px; border-bottom: 1px solid #d32f2f; }
+        .alert-detail { padding: 0 15px 15px 15px; font-size: 0.9em; color: #4e342e; line-height: 1.6; text-align: left; animation: fadeIn 0.3s ease-in-out; }
+        .alert-detail strong { color: #c62828; background: linear-gradient(transparent 70%, #ffcdd2 70%); }
+        .sp-only { display: none; }
+        @media (max-width: 480px) { .sp-only { display: block; } }
 
-        .action-button:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 var(--secondary-color);
-        }
+        /* Share Button */
+        .share-section { text-align: center; margin: 30px 0; padding: 20px; background-color: #f5f5f5; border-radius: 16px; }
+        .share-title { font-size: 1.1em; font-weight: 800; color: #333; margin-bottom: 15px; }
+        .x-share-button { display: inline-flex; align-items: center; justify-content: center; width: 100%; max-width: 280px; padding: 15px 0; background-color: #000; color: #fff; font-weight: 800; font-size: 1.1em; text-decoration: none; border-radius: 50px; transition: transform 0.2s, opacity 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin: 0 auto; }
+        .x-share-button:hover { transform: translateY(-3px); opacity: 0.8; }
+        .x-logo { width: 20px; height: 20px; margin-right: 10px; fill: #fff; }
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 30px;
-        }
+        /* Diagnosis */
+        .question-card { background-color: #f8f9fa; padding: clamp(15px, 4vw, 25px); border-radius: 16px; margin-bottom: 25px; border: 1px solid #e9ecef; }
+        .question-text { font-weight: 700; font-size: 1.2em; margin-bottom: 20px; text-align: center; }
+        .question-choice { font-size: 1.1em; font-weight: 700; padding: 12px; border-radius: 12px; text-align: center; }
+        .question-choice-a { color: var(--accent-color-a); background-color: #ffebee; }
+        .question-choice-b { color: var(--accent-color-b); background-color: #e3f2fd; }
+        .options-container { display: flex; justify-content: space-around; width: 100%; margin: 20px 0; padding: 0; }
+        .option-label { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center; font-size: 0.9em; padding: 8px 4px; border-radius: 8px; transition: background-color 0.2s; flex: 1; }
+        .option-ruby { font-size: 0.8em; color: #6c757d; margin-top: 4px; font-weight: 400; }
+        .option-label input[type="radio"] { -webkit-appearance: none; appearance: none; background-color: #fff; margin: 0; font: inherit; color: #adb5bd; width: 1.8em; height: 1.8em; border: 0.2em solid #adb5bd; border-radius: 50%; display: grid; place-content: center; transition: border-color 0.2s, background-color 0.2s; }
+        .option-label:hover input[type="radio"] { border-color: #495057; }
+        .option-label input[type="radio"]::before { content: ""; width: 1em; height: 1em; border-radius: 50%; transform: scale(0); transition: 120ms transform ease-in-out; background-color: #343a40; }
+        .option-label input[type="radio"]:checked { border-color: #343a40; background-color: #343a40; }
+        .option-label input[type="radio"]:checked::before { transform: scale(1); }
+        .option-label.selected { background-color: #dbeafe; }
+        .option-label.selected .option-ruby { color: #1e3a8a; font-weight: 700; }
+        @media (max-width: 600px) { .options-container { flex-wrap: wrap; } .option-label { padding: 8px 2px; } }
 
-        .menu-item {
-            background-color: white;
-            padding: 15px;
-            border-radius: 15px;
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 700;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease;
-        }
+        /* Types & Results */
+        #type-list-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .type-card { background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .type-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .type-card-image-wrapper { width: 120px; height: 120px; border-radius: 50%; background-color: #fff; margin: 0 auto 15px auto; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .type-card-illustration { width: 100%; height: 100%; object-fit: cover; }
+        .type-card-name { font-weight: 800; font-size: 1.2em; margin: 0 0 5px 0; color: #3949ab; }
+        .type-card-catchphrase { font-size: 0.9em; color: #666; min-height: 3em; }
+        .result-header { text-align: center; background: linear-gradient(135deg, #fce4ec, #e3f2fd); padding: 20px; border-radius: var(--border-radius); margin-bottom: 20px; }
+        .result-title { font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 800; margin: 0 0 10px 0; background: -webkit-linear-gradient(135deg, #ad1ea2, #2979ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .result-image-wrapper { width: 200px; height: 200px; border-radius: 50%; background-color: #fff; margin: 0 auto 20px auto; display: flex; justify-content: center; align-items: center; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .result-illustration { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; filter: contrast(1.1); }
+        .result-catchphrase-display { font-size: 1.3em; font-weight: 700; color: #555; text-align: center; margin-bottom: 30px; }
+        .result-card { background-color: var(--secondary-color); padding: 25px; border-radius: 16px; margin-bottom: 20px; }
+        .result-card h3 { display: inline-block; font-size: 1.2em; padding: 8px 16px; background-color: #d1c4e9; color: #311b92; border-radius: 12px; margin-top: 0; margin-bottom: 15px; }
+        .result-card p { line-height: 1.8; margin-bottom: 1em; }
+        .result-card p .key-sentence { font-weight: 800; background: linear-gradient(to top, #fff9c4 50%, transparent 50%); }
+        .result-good, .result-bad { display: flex; padding: 15px; border-radius: 12px; }
+        .result-good { background-color: #e8f5e9; }
+        .result-bad { background-color: #ffebee; }
+        .result-good h4, .result-bad h4 { margin: 0; font-size: 1.1em; line-height: 1.6; }
+        .result-good h4 { color: #2e7d32; }
+        .result-bad h4 { color: #c62828; }
 
-        .menu-item:hover {
-            transform: scale(1.03);
-        }
+        /* Axis List */
+        .axis-list { list-style: none; padding: 0; }
+        .axis-item { display: flex; align-items: center; margin-bottom: 15px; background: var(--secondary-color); padding: 15px; border-radius: 16px; }
+        .axis-label { flex-shrink: 0; font-weight: 800; font-size: 1.5em; width: 60px; height: 60px; border-radius: 50%; display: grid; place-content: center; color: white; margin-right: 15px; }
+        .axis-label.lf { background-color: #ffcdd2; }
+        .axis-label.or { background-color: #c8e6c9; }
+        .axis-label.ud { background-color: #bbdefb; }
+        .axis-label.ty { background-color: #fff9c4; color: #555;}
+        .axis-desc h4 { margin: 0 0 5px 0; font-size: 1.2em; }
+        .axis-desc p { margin: 0; line-height: 1.6; }
 
-        footer {
-            margin-top: 50px;
-            padding-bottom: 30px;
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
+        /* Privacy Policy & Footer */
+        .policy-content { text-align: left; font-size: 0.9em; line-height: 1.6; background: #f9f9f9; padding: 20px; border-radius: 12px; }
+        .policy-content h4 { margin-top: 20px; border-left: 4px solid #6a1b9a; padding-left: 10px; color: #333; }
+        .policy-content a { color: #1976d2; text-decoration: underline; }
+        
+        .footer-nav { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.8em; color: #666; background: rgba(255,255,255,0.5); border-radius: 12px; }
+        .footer-nav a { color: #666; text-decoration: underline; margin: 0 10px; cursor: pointer; }
+        .footer-nav p { margin-top: 10px; }
 
-        /* ルーレット関連のCSS */
-        #roulette-fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #ff5722;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 30px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            z-index: 1000;
-            transition: transform 0.3s;
-        }
-        #roulette-fab:hover { transform: scale(1.1); }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-        .overlay.visible { display: flex; }
-
-        .modal {
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            max-width: 90%;
-            width: 400px;
-            text-align: center;
-            position: relative;
-        }
-
-        #wheel-container {
-            width: 300px;
-            height: 300px;
-            margin: 20px auto;
-            position: relative;
-        }
-
-        #wheel-canvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 5px solid #333;
-        }
-
-        #wheel-pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #e91e63;
-            z-index: 10;
-        }
-
-        #spin-btn {
-            background: #ff5722;
-            color: white;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 25px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        #spin-btn:disabled { background: #ccc; }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .member-list {
-            max-height: 200px;
-            overflow-y: auto;
-            text-align: left;
-            margin-top: 15px;
-            padding: 10px;
-            background: #f9f9f9;
-            border-radius: 10px;
-        }
-
-        .member-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .member-item img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        @media (max-width: 480px) {
-            h1 { font-size: 1.5rem; }
-            .action-button { font-size: 1.1rem; padding: 15px 30px; }
-            .line-banner-text-main { font-size: 1rem; }
-            .line-banner-text-sub { font-size: 0.75rem; }
-        }
+        /* Roulette */
+        #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
+        #roulette-fab:hover { animation-play-state: paused; transform: scale(1.1); }
+        @keyframes float-anim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .roulette-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1001; opacity: 0; transition: opacity 0.3s; overflow-y: auto; padding: 20px; box-sizing: border-box; }
+        .roulette-overlay.visible { display: flex; opacity: 1; }
+        .roulette-container { position: relative; text-align: center; }
+        #roulette-canvas { transition: transform 9s cubic-bezier(.15,.75,.5,1); }
+        .roulette-pointer { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 30px solid #ff4136; z-index: 2; }
+        .roulette-controls { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; gap: 10px; z-index: 2;}
+        #roulette-result-popup { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; max-width: 400px; width: 90%; animation: popup-anim 0.3s ease-out; }
+        @keyframes popup-anim { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        #roulette-result-image { width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 15px; display: block; object-fit: contain; mix-blend-mode: multiply; filter: contrast(1.1); background: var(--secondary-color); }
+        #roulette-result-title { font-size: 1.8em; margin: 10px 0; color: #3949ab; }
+        #roulette-result-message { font-size: 1.2em; line-height: 1.6; font-weight: 800; color: #d32f2f; margin-bottom: 20px; }
+        #roulette-setup-box { background: #fff; border-radius: 20px; padding: 30px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; }
+        #roulette-member-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin: 20px 0; }
+        .member-item { display: flex; align-items: center; padding: 10px; background: var(--secondary-color); border-radius: 12px; cursor: pointer; }
+        .member-item img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 15px; }
+        .member-item label { flex-grow: 1; text-align: left; }
+        .member-item input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; }
+        .roulette-setup-controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <img src="./img/logo.jpg" alt="酒タイプ診断ロゴ" class="logo">
-            <h1>酒タイプ診断</h1>
-        </header>
-
-        <main>
-            <div class="description">
-                飲み会での振る舞いや酔い方から、あなたの「お酒のタイプ」を16種類の中から診断します！<br><br>
-                本当のあなたは「陽気な酒豪」？それとも「静かな哲学者」？<br>
-                自分でも気づかなかった一面が見つかるかもしれません。
-            </div>
-
-            <a href="https://store.line.me/stickershop/product/33138149/ja?utm_source=gnsh_stickerDetail" target="_blank" rel="noopener" class="line-stamp-promo-banner">
-                <span class="line-banner-text-main">🍻 公式LINEスタンプ発売中！</span>
-                <span class="line-banner-text-sub">全16タイプのキャラが勢揃い✨</span>
-            </a>
-
-            <a href="./diagnosis.html" class="action-button">さっそく診断を始める</a>
-
-            <div class="menu-grid">
-                <a href="./list.html" class="menu-item">タイプ一覧を見る</a>
-                <a href="./about.html" class="menu-item">診断について</a>
-            </div>
-        </main>
-
-        <footer>
-            &copy; 2024 酒タイプ診断 / SyncLoft
-            <br>
-            <a href="./policy.html" style="color: inherit; text-decoration: none; margin-top: 10px; display: inline-block;">プライバシーポリシー</a>
-        </footer>
-    </div>
-
-    <div id="roulette-fab">🎡</div>
-
-    <div id="roulette-overlay" class="overlay">
-        <div class="modal">
-            <span class="close-btn" id="close-roulette">&times;</span>
-            <h2>誰が回す？</h2>
-            <p>診断済みのメンバーを選択してください</p>
-            <div class="member-list" id="roulette-member-list">
+        <div id="view-top">
+            <h1>【公式】酒タイプ診断</h1>
+            
+            <details class="alert-accordion">
+                <summary>
+                    <span class="alert-summary-text">⚠️ 画像・診断内容を無断使用している<br class="sp-only">類似サイトにご注意ください</span>
+                    <span class="alert-cta">詳細はこちら ▼</span>
+                </summary>
+                <div class="alert-detail">
+                    <p>
+                        <strong>【重要なお知らせ】</strong><br>
+                        現在、当サイトのイラストや診断内容を無断転載した<strong>「恋愛診断系の類似サイト」</strong>が確認されていますが、当サイトとは一切無関係です。<br>
+                        <br>
+                        「酒タイプ診断」は、お酒が強い人も弱い人も、<br>
+                        <strong>お酒や飲み会の場を愛するすべての人のためのサイト</strong>です！<br>
+                        ここが唯一の<strong>【公式】本家サイト</strong>ですので、安心してお楽しみください🍻
+                    </p>
                 </div>
-            <button id="spin-btn">ルーレット開始！</button>
+            </details>
+            <p class="top-description">飲み会での立ち振る舞いや、酔ったときのあなた。<br>全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！</p>
+            <div class="button-wrapper">
+                
+                <a href="https://store.line.me/stickershop/product/33138149/ja?utm_source=gnsh_stickerDetail" target="_blank" rel="noopener" class="line-stamp-horizontal-banner">
+                    <span class="line-banner-main-text">🍻 公式LINEスタンプ発売中！</span>
+                    <span class="line-banner-sub-text">全16タイプのキャラが勢揃い✨</span>
+                </a>
+
+                <a href="./diagnosis.html" class="action-button">さっそく診断を始める</a>
+                <a href="./list.html" class="action-button secondary-button">16の酒タイプを見る</a>
+                <a href="./about.html" class="action-button secondary-button">酒タイプ診断とは？</a>
+                
+                <div class="btn-relative-wrap">
+                    <span class="new-pop-badge">＼NEW!!／</span>
+                    <a href="./supplement/index.html" class="action-button secondary-button" style="background: linear-gradient(135deg, #fff9c4, #fff59d); color: #5d4037; border: 2px solid #fbc02d; text-decoration: none; font-weight: 800; display: block; margin-top:0; font-size: 1.1em; white-space: nowrap;">
+                        🍺 飲み会の翌朝対策特集
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-nav">
+        <a href="./policy.html">プライバシーポリシー</a>
+        <a href="mailto:alctype16.official@gmail.com">お問い合わせ窓口</a>
+        <p>© 2024-2026 酒タイプ診断 運営事務局</p>
+    </div>
+    
+    <button id="roulette-fab">ルーレットで遊ぶ🎲</button>
+    <div id="roulette-setup-overlay" class="roulette-overlay">
+        <div id="roulette-setup-box">
+            <h2>参加する酒タイプを選ぶ</h2>
+            <div class="roulette-setup-controls">
+                <button id="roulette-select-all" class="secondary-button" style="width: 120px; padding: 10px 0; margin:0;">全選択</button>
+                <button id="roulette-deselect-all" class="secondary-button" style="width: 120px; padding: 10px 0; margin:0;">全解除</button>
+            </div>
+            <div id="roulette-member-list"></div>
+            <div class="bottom-nav-wrapper" style="border:none">
+                <button id="create-roulette-btn" class="action-button" style="width:100%">このメンバーでルーレット作成</button>
+                <button id="close-roulette-setup-btn" class="bottom-nav-button">戻る</button>
+            </div>
+        </div>
+    </div>
+    <div id="roulette-overlay" class="roulette-overlay">
+        <div class="roulette-container">
+            <div class="roulette-pointer"></div>
+            <canvas id="roulette-canvas"></canvas>
+            <div class="roulette-controls">
+                <button id="spin-btn" class="action-button" style="width: 120px; padding: 15px;">START</button>
+            </div>
+        </div>
+    </div>
+    <div id="roulette-result-overlay" class="roulette-overlay">
+        <div id="roulette-result-popup">
+            <img id="roulette-result-image" src="" alt="当選結果">
+            <h2 id="roulette-result-title"></h2>
+            <p id="roulette-result-message"></p>
+            <div class="bottom-nav-wrapper" style="border-top: none; margin-top: 10px;">
+                <button id="spin-again-btn" class="bottom-nav-button primary">もう一度回す</button>
+                <button id="close-result-btn" class="bottom-nav-button">戻る</button>
+            </div>
         </div>
     </div>
 
-    <div id="result-overlay" class="overlay">
-        <div class="modal">
-            <span class="close-btn" id="close-result">&times;</span>
-            <div id="wheel-container">
-                <div id="wheel-pointer"></div>
-                <canvas id="wheel-canvas" width="300" height="300"></canvas>
-            </div>
-            <div id="spin-result" style="display:none;">
-                <h2 id="winner-name"></h2>
-                <button id="spin-again-btn">もう一度</button>
-            </div>
-        </div>
-    </div>
+    <audio id="spin-sound" src="../spin.mp3" loop></audio>
+    <audio id="fanfare-sound" src="../fanfare.mp3"></audio>
 
     <script>
         const typeData = {
-            'A': { name: '陽気な酒豪', color: '#FF5722' },
-            'B': { name: '静かな哲学者', color: '#2196F3' },
-            'C': { name: '介抱の達人', color: '#4CAF50' },
-            'D': { name: '絡み酒の王', color: '#E91E63' },
-            'E': { name: '記憶喪失の神', color: '#9C27B0' },
-            'F': { name: '説教マシーン', color: '#795548' },
-            'G': { name: '泣き上戸の天使', color: '#FFEB3B' },
-            'H': { name: '笑い上戸の妖精', color: '#00BCD4' },
-            'I': { name: '脱走兵', color: '#607D8B' },
-            'J': { name: '注文リーダー', color: '#FF9800' },
-            'K': { name: '撮影担当', color: '#3F51B5' },
-            'L': { name: 'SNS実況者', color: '#03A9F4' },
-            'M': { name: '寝落ちの達人', color: '#673AB7' },
-            'N': { name: '無限おかわり', color: '#FFC107' },
-            'O': { name: 'ダンスホール', color: '#F44336' },
-            'P': { name: '千鳥足の貴公子', color: '#8BC34A' }
+            LOUT: { name: "アル中番長" },
+            LOUY: { name: "ハイテンション時限爆弾" },
+            LODT: { name: "飲み参謀" },
+            LODY: { name: "爆発インキャ" },
+            LRUT: { name: "自称プロ幹事" },
+            LRUY: { name: "ちゃんとした人" },
+            LRDT: { name: "朝までうんちく先輩" },
+            LRDY: { name: "水泥棒" },
+            FOUT: { name: "酒飲み聖母" },
+            FOUY: { name: "情熱のたぎりモンスター" },
+            FODT: { name: "飲み飲みカウンセラー" },
+            FODY: { name: "涙腺崩壊ベビー" },
+            FRUT: { name: "酔いどれ学級委員長" },
+            FRUY: { name: "飲んだふり常習犯" },
+            FRDT: { name: "お会計くん" },
+            FRDY: { name: "空気読みすぎ天使" }
+        };
+        const typeMessages = {
+            LOUT: "流石我らが番長！景気よくグイっと1杯いっちゃってください！",
+            LOUY: "爆発寸前！時限爆弾が止まる前に、最後の一杯を流し込め！",
+            LODT: "参謀の計算が狂った！？今日は理性を捨てて、ガツンと飲みましょう！",
+            LODY: "心のダムが決壊寸前！本音を肴に、熱い一杯をどうぞ！",
+            LRUT: "プロ幹事へのご褒美タイム！段取りを忘れて、主役として飲むべし！",
+            LRUY: "ちゃんとした人の限界突破！明日への不安は飲み干して忘れよう！",
+            LRDT: "うんちくのキレが増す一杯！喉を潤して、次なる講義の準備を！",
+            LRDY: "お冷の前にビールを泥棒！翌朝の謝罪メールのネタができましたね！",
+            FOUT: "聖母の愛でみんなを癒す一杯！笑顔で全肯定しながら乾杯！",
+            FOUY: "たぎる情熱、抱きつく愛！千鳥足でみんなに愛を振りまこう！",
+            FODT: "聞き疲れた喉に潤いを！深夜の懺復室、これにて一杯開店です！",
+            FODY: "涙腺崩壊の着火剤！感動の波に乗って、エモく飲み干しましょう！",
+            FRUT: "学級委員長の羽目を外す時！規律を忘れて、無礼講の始まりだ！",
+            FRUY: "偽装工作失敗！バレたからには、漢気を見せて飲むしかない！",
+            FRDT: "お会計の前にガソリン補給！数字を忘れて、どんぶり勘定で飲もう！",
+            FRDY: "天使に舞い降りた一杯！空気読みの疲れを、この一杯で浄化せよ！"
         };
 
         document.addEventListener('DOMContentLoaded', () => {
             const rouletteFab = document.getElementById('roulette-fab');
+            const rouletteSetupOverlay = document.getElementById('roulette-setup-overlay');
             const rouletteOverlay = document.getElementById('roulette-overlay');
-            const resultOverlay = document.getElementById('result-overlay');
-            const closeRouletteBtn = document.getElementById('close-roulette');
-            const closeResultBtn = document.getElementById('close-result');
+            const resultOverlay = document.getElementById('roulette-result-overlay');
             const spinBtn = document.getElementById('spin-btn');
             const spinAgainBtn = document.getElementById('spin-again-btn');
-            const canvas = document.getElementById('wheel-canvas');
+            const closeResultBtn = document.getElementById('close-result-btn');
+            const spinSound = document.getElementById('spin-sound');
+            const fanfareSound = document.getElementById('fanfare-sound');
+            const canvas = document.getElementById('roulette-canvas');
             const ctx = canvas.getContext('2d');
-
-            let selectedMembers = [];
+            
+            let rouletteTypes = [];
             let currentRotation = 0;
+            let isSpinning = false;
+            const colors = ["#ffcdd2", "#c8e6c9", "#bbdefb", "#fff9c4", "#f8bbd0", "#d1c4e9", "#b2dfdb", "#ffccbc"];
 
-            function drawWheel(members) {
-                const sliceAngle = (2 * Math.PI) / members.length;
-                members.forEach((m, i) => {
+            function drawRouletteWheel(participants) {
+                const numOptions = participants.length;
+                const arc = 2 * Math.PI / numOptions;
+                const size = 500;
+                canvas.width = size;
+                canvas.height = size;
+                ctx.clearRect(0, 0, size, size);
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 2;
+                ctx.font = `bold ${numOptions > 10 ? '14' : '18'}px "M PLUS Rounded 1c", sans-serif`;
+                
+                for (let i = 0; i < numOptions; i++) {
+                    const angle = i * arc;
+                    ctx.fillStyle = colors[i % colors.length];
                     ctx.beginPath();
-                    ctx.fillStyle = typeData[m].color;
-                    ctx.moveTo(150, 150);
-                    ctx.arc(150, 150, 145, i * sliceAngle, (i + 1) * sliceAngle);
+                    ctx.arc(size/2, size/2, size/2 - 2, angle, angle + arc, false);
+                    ctx.arc(size/2, size/2, 50, angle + arc, angle, true);
+                    ctx.stroke();
                     ctx.fill();
-                    
                     ctx.save();
-                    ctx.translate(150, 150);
-                    ctx.rotate(i * sliceAngle + sliceAngle / 2);
-                    ctx.textAlign = "right";
-                    ctx.fillStyle = "#fff";
-                    ctx.font = "bold 14px sans-serif";
-                    ctx.fillText(typeData[m].name, 130, 5);
+                    ctx.fillStyle = "#333";
+                    ctx.translate(size/2 + Math.cos(angle + arc / 2) * 150, size/2 + Math.sin(angle + arc / 2) * 150);
+                    ctx.rotate(angle + arc / 2 + Math.PI / 2);
+                    const text = participants[i];
+                    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
                     ctx.restore();
-                });
+                }
+                ctx.fillStyle = '#ff4136';
+                ctx.beginPath();
+                ctx.arc(size/2, size/2, 45, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 20px "M PLUS Rounded 1c"';
+                ctx.fillText("乾杯!", size/2 - ctx.measureText("乾杯!").width / 2, size/2 + 8);
             }
 
             function spin() {
-                const members = Array.from(document.querySelectorAll('.member-item input:checked')).map(el => el.value);
-                if (members.length === 0) {
-                    alert('メンバーを1人以上選択してください');
-                    return;
-                }
-
-                rouletteOverlay.classList.remove('visible');
-                resultOverlay.classList.add('visible');
-                
-                drawWheel(members);
-                
+                if (isSpinning) return;
+                isSpinning = true;
                 spinBtn.disabled = true;
-                const extraSpins = 5 + Math.random() * 5;
-                const finalRotation = extraSpins * 2 * Math.PI;
-                
-                const startTime = performance.now();
-                const duration = 4000;
+                spinSound.currentTime = 0;
+                spinSound.play().catch(e => console.log("Audio play failed:", e));
 
-                function animate(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                const totalRotations = Math.random() * 5 + 8;
+                const stopAngle = Math.random() * 2 * Math.PI;
+                const targetAngle = currentRotation + totalRotations * 2 * Math.PI + stopAngle;
+                const duration = Math.random() * 4000 + 7000;
+
+                canvas.style.transition = `transform ${duration / 1000}s cubic-bezier(.15,.75,.5,1)`;
+                canvas.style.transform = `rotate(${targetAngle}rad)`;
+                currentRotation = targetAngle;
+
+                setTimeout(() => {
+                    isSpinning = false;
+                    canvas.style.transition = 'none';
+                    const finalAngle = targetAngle % (2 * Math.PI);
+                    canvas.style.transform = `rotate(${finalAngle}rad)`;
                     
-                    const rotation = easeOut * finalRotation;
-                    canvas.style.transform = `rotate(${rotation}rad)`;
-
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        const actualRotation = rotation % (2 * Math.PI);
-                        const sliceAngle = (2 * Math.PI) / members.length;
-                        // ポインターが真上（-Math.PI/2）にあるため調整
-                        const winningIndex = members.length - 1 - Math.floor(((actualRotation + Math.PI/2) % (2 * Math.PI)) / sliceAngle);
-                        const winner = members[(winningIndex + members.length) % members.length];
-                        
-                        document.getElementById('winner-name').textContent = typeData[winner].name + 'さん！';
-                        document.getElementById('spin-result').style.display = 'block';
-                    }
-                }
-                requestAnimationFrame(animate);
+                    spinSound.pause();
+                    fanfareSound.currentTime = 0;
+                    fanfareSound.play().catch(e => console.log("Audio play failed:", e));
+                    
+                    const arcSize = 2 * Math.PI / rouletteTypes.length;
+                    const pointerAngle = 3 * Math.PI / 2;
+                    const relativeAngle = (2 * Math.PI - finalAngle + pointerAngle) % (2 * Math.PI);
+                    const winnerIndex = Math.floor(relativeAngle / arcSize);
+                    showWinner(rouletteTypes[winnerIndex]);
+                }, duration);
+            }
+            
+            function showWinner(typeCode) {
+                const winner = typeData[typeCode];
+                document.getElementById('roulette-result-image').src = `../酒タイプ画像/${typeCode}.jpg`;
+                document.getElementById('roulette-result-title').textContent = `${winner.name} (${typeCode})`;
+                document.getElementById('roulette-result-message').textContent = typeMessages[typeCode];
+                resultOverlay.classList.add('visible');
             }
 
             rouletteFab.addEventListener('click', () => {
-                rouletteOverlay.classList.add('visible');
+                rouletteSetupOverlay.classList.add('visible');
                 rouletteFab.style.opacity = '0';
             });
-
-            closeRouletteBtn.addEventListener('click', () => {
-                rouletteOverlay.classList.remove('visible');
+            
+            document.getElementById('close-roulette-setup-btn').addEventListener('click', () => {
+                rouletteSetupOverlay.classList.remove('visible');
                 rouletteFab.style.opacity = '1';
             });
+            
+            document.getElementById('roulette-select-all').addEventListener('click', () => {
+                document.querySelectorAll('#roulette-member-list input[type="checkbox"]').forEach(cb => cb.checked = true);
+            });
 
-            window.addEventListener('click', (e) => {
-                if (e.target === rouletteOverlay) {
+            document.getElementById('roulette-deselect-all').addEventListener('click', () => {
+                document.querySelectorAll('#roulette-member-list input[type="checkbox"]').forEach(cb => cb.checked = false);
+            });
+
+            document.getElementById('create-roulette-btn').addEventListener('click', () => {
+                rouletteTypes = Array.from(document.querySelectorAll('#roulette-member-list input:checked')).map(cb => cb.value);
+                if (rouletteTypes.length < 2) {
+                    alert('ルーレットには2つ以上のタイプを選択してください。');
+                    return;
+                }
+                drawRouletteWheel(rouletteTypes);
+                rouletteSetupOverlay.classList.remove('visible');
+                rouletteOverlay.classList.add('visible');
+            });
+            
+            rouletteOverlay.addEventListener('click', (e) => {
+                 if(e.target === rouletteOverlay && !isSpinning) {
                     rouletteOverlay.classList.remove('visible');
                     rouletteFab.style.opacity = '1';
                 }
@@ -480,9 +508,8 @@
             spinBtn.addEventListener('click', spin);
 
             spinAgainBtn.addEventListener('click', () => {
-                document.getElementById('spin-result').style.display = 'none';
+                resultOverlay.classList.remove('visible');
                 spinBtn.disabled = false;
-                spin();
             });
 
             closeResultBtn.addEventListener('click', () => {
@@ -490,7 +517,6 @@
                 rouletteOverlay.classList.remove('visible');
                 rouletteFab.style.opacity = '1';
                 spinBtn.disabled = false;
-                document.getElementById('spin-result').style.display = 'none';
             });
 
             function renderRouletteSetupList() {
@@ -499,8 +525,8 @@
                     const type = typeData[typeCode];
                     return `
                         <div class="member-item">
-                            <img src="./酒タイプ画像/${typeCode}.jpg" alt="${type.name}">
-                            <label for="member-${typeCode}">${type.name}</label>&nbsp;
+                            <img src="../酒タイプ画像/${typeCode}.jpg" alt="${type.name}">
+                            <label for="member-${typeCode}">${type.name}</label>
                             <input type="checkbox" id="member-${typeCode}" value="${typeCode}" checked>
                         </div>
                     `;
