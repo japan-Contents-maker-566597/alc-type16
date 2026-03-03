@@ -14,6 +14,14 @@
       gtag('js', new Date());
 
       gtag('config', 'G-1YJFPXNF0M');
+
+      // 計測用関数：LINEスタンプボタンが押された時に実行
+      function trackLineStampClick() {
+          gtag('event', 'line_stamp_click', {
+              'event_category': 'engagement',
+              'event_label': 'TOP_banner'
+          });
+      }
     </script>
 
     <title>【公式】酒タイプ診断</title>
@@ -54,20 +62,15 @@
         h1 { color: #6a1b9a; font-size: clamp(1.4rem, 6vw, 2.8rem); white-space: nowrap; margin-bottom: 20px; }
         h2 { color: #1e88e5; font-size: clamp(1.8rem, 5vw, 2.5rem); }
         p { line-height: 1.8; }
-        .view { display: none; }
-        .view.active { display: block; animation: fadeInView 0.3s ease-in-out; }
-        @keyframes fadeInView { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .action-button { display: block; width: 100%; padding: 20px; font-size: 1.5em; font-weight: 700; color: #fff; background: linear-gradient(135deg, #8e24aa, #5e35b1); border: none; border-radius: 16px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; text-align: center; text-decoration: none; box-sizing: border-box; }
         .action-button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
         .secondary-button { background: #eee; color: #555; border: 2px solid #ddd; }
         .secondary-button:hover { background-color: #ddd; }
-        .bottom-nav-wrapper { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
         
         #view-top .top-description { font-size: 1.2em; text-align: center; padding: 20px; background: var(--secondary-color); border-radius: 16px; }
         #view-top .button-wrapper { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
         
-        /* NEWバッジ */
         .btn-relative-wrap { position: relative; width: 100%; margin-top: 25px; }
         .new-pop-badge {
             position: absolute;
@@ -87,40 +90,39 @@
             to { transform: translateY(-5px) rotate(0deg); }
         }
 
-        /* LINEバナー専用スタイル */
+        /* LINEバナー：1行表示・サブコピー対応 */
         .line-stamp-btn {
             background: linear-gradient(135deg, #06c755, #05b34c) !important;
             color: #fff !important;
             border: none !important;
+            padding: 15px 10px !important;
+            line-height: 1.2 !important;
+        }
+        .line-main-text {
+            display: block;
+            font-size: clamp(1rem, 4vw, 1.4rem); /* 画面幅に合わせて可変 */
+            white-space: nowrap; /* 強制1行 */
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+        .line-sub-text {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            opacity: 0.9;
         }
 
         /* Alert Accordion */
         .alert-accordion { background-color: #fffde7; border: 1px solid #ffe082; border-radius: 12px; margin: 15px auto; max-width: 95%; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.3s ease; }
-        .alert-accordion[open] { background-color: #fff9c4; }
         .alert-accordion summary { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; cursor: pointer; list-style: none; position: relative; font-size: 0.9em; color: #5d4037; font-weight: 700; line-height: 1.5; }
-        .alert-accordion summary::-webkit-details-marker { display: none; }
-        .alert-summary-text { text-align: center; }
         .alert-cta { font-size: 0.85em; color: #d32f2f; margin-top: 5px; border-bottom: 1px solid #d32f2f; }
-        .alert-detail { padding: 0 15px 15px 15px; font-size: 0.9em; color: #4e342e; line-height: 1.6; text-align: left; animation: fadeIn 0.3s ease-in-out; }
-        
+        .alert-detail { padding: 0 15px 15px 15px; font-size: 0.9em; color: #4e342e; line-height: 1.6; text-align: left; }
+
         .footer-nav { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.8em; color: #666; background: rgba(255,255,255,0.5); border-radius: 12px; }
         .footer-nav a { color: #666; text-decoration: underline; margin: 0 10px; cursor: pointer; }
 
-        /* Roulette */
-        #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; transition: transform 0.2s, opacity 0.3s; }
+        #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; }
         @keyframes float-anim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .roulette-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1001; opacity: 0; transition: opacity 0.3s; overflow-y: auto; padding: 20px; box-sizing: border-box; }
-        .roulette-overlay.visible { display: flex; opacity: 1; }
-        .roulette-container { position: relative; text-align: center; }
-        #roulette-canvas { transition: transform 9s cubic-bezier(.15,.75,.5,1); }
-        .roulette-pointer { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 30px solid #ff4136; z-index: 2; }
-        .roulette-controls { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; gap: 10px; z-index: 2;}
-        #roulette-result-popup { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; max-width: 400px; width: 90%; animation: popup-anim 0.3s ease-out; }
-        #roulette-result-image { width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 15px; display: block; object-fit: contain; mix-blend-mode: multiply; filter: contrast(1.1); background: var(--secondary-color); }
-        #roulette-setup-box { background: #fff; border-radius: 20px; padding: 30px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; }
-        #roulette-member-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin: 20px 0; }
-        .member-item { display: flex; align-items: center; padding: 10px; background: var(--secondary-color); border-radius: 12px; cursor: pointer; }
-        .member-item img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 15px; }
 
         @media (max-width: 480px) { .sp-only { display: block; } }
     </style>
@@ -138,12 +140,12 @@
                 <div class="alert-detail">
                     <p>
                         <strong>【重要なお知らせ】</strong><br>
-                        現在、当サイトのイラストや診断内容を無断転載した<strong>「恋愛診断系の類似サイト」</strong>が確認されていますが、当サイトとは一切無関係です。<br>
-                        ここが唯一の<strong>【公式】本家サイト</strong>ですので、安心してお楽しみください🍻
+                        類似サイトにご注意ください。ここが唯一の<strong>【公式】本家サイト</strong>です。
                     </p>
                 </div>
             </details>
-            <p class="top-description">飲み会での立ち振る舞いや、酔ったときのあなた。<br>全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！</p>
+
+            <p class="top-description">全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！</p>
             
             <div class="button-wrapper">
                 <a href="./diagnosis.html" class="action-button">さっそく診断を始める</a>
@@ -152,11 +154,16 @@
                 
                 <div class="btn-relative-wrap">
                     <span class="new-pop-badge">＼NEW!!／</span>
-                    <a href="https://store.line.me/stickershop/product/33138149/ja?utm_source=gnsh_stickerDetail" target="_blank" rel="noopener" class="action-button line-stamp-btn" style="margin-top:0;">
-                        🍻 公式LINEスタンプ発売中！
+                    <a href="https://store.line.me/stickershop/product/33138149/ja?utm_source=gnsh_stickerDetail" 
+                       target="_blank" rel="noopener" 
+                       class="action-button line-stamp-btn" 
+                       onclick="trackLineStampClick()"
+                       style="margin-top:0;">
+                        <span class="line-main-text">🍻 公式LINEスタンプ発売中！</span>
+                        <span class="line-sub-text">16タイプのイラストがかわいいスタンプになりました！</span>
                     </a>
                 </div>
-
+                
                 <div class="btn-relative-wrap">
                     <span class="new-pop-badge">＼NEW!!／</span>
                     <a href="./supplement/index.html" class="action-button secondary-button" style="background: linear-gradient(135deg, #fff9c4, #fff59d); color: #5d4037; border: 2px solid #fbc02d; text-decoration: none; font-weight: 800; display: block; margin-top:0; font-size: 1.1em; white-space: nowrap;">
@@ -175,35 +182,6 @@
     
     <button id="roulette-fab">ルーレットで遊ぶ🎲</button>
 
-    <script>
-        // --- 整合性維持のためルーレット等の全ロジックを保持 ---
-        const typeData = {
-            LOUT: { name: "アル中番長" }, LOUY: { name: "ハイテンション時限爆弾" }, LODT: { name: "飲み参謀" }, LODY: { name: "爆発インキャ" },
-            LRUT: { name: "自称プロ幹事" }, LRUY: { name: "ちゃんとした人" }, LRDT: { name: "朝までうんちく先輩" }, LRDY: { name: "水泥棒" },
-            FOUT: { name: "酒飲み聖母" }, FOUY: { name: "情熱のたぎりモンスター" }, FODT: { name: "飲み飲みカウンセラー" }, FODY: { name: "涙腺崩壊ベビー" },
-            FRUT: { name: "酔いどれ学級委員長" }, FRUY: { name: "飲んだふり常習犯" }, FRDT: { name: "お会計くん" }, FRDY: { name: "空気読みすぎ天使" }
-        };
-        const typeMessages = {
-            LOUT: "流石我らが番長！景気よくグイっと1杯いっちゃってください！",
-            LOUY: "爆発寸前！時限爆弾が止まる前に、最後の一杯を流し込め！",
-            LODT: "参謀の計算が狂った！？今日は理性を捨てて、ガツンと飲みましょう！",
-            LODY: "心のダムが決壊寸前！本音を肴に、熱い一杯をどうぞ！",
-            LRUT: "プロ幹事へのご褒美タイム！段取りを忘れて、主役として飲むべし！",
-            LRUY: "ちゃんとした人の限界突破！明日への不安は飲み干して忘れよう！",
-            LRDT: "うんちくのキレが増す一杯！喉を潤して、次なる講義の準備を！",
-            LRDY: "お冷の前にビールを泥棒！翌朝の謝罪メールのネタができましたね！",
-            FOUT: "聖母の愛でみんなを癒す一杯！笑顔で全肯定しながら乾杯！",
-            FOUY: "たぎる情熱、抱きつく愛！千鳥足でみんなに愛を振りまこう！",
-            FODT: "聞き疲れた喉に潤いを！深夜の懺復室、これにて一杯開店です！",
-            FODY: "涙腺崩壊の着火剤！感動の波に乗って、エモく飲み干しましょう！",
-            FRUT: "学級委員長の羽目を外す時！規律を忘れて、無礼講の始まりだ！",
-            FRUY: "偽装工作失敗！バレたからには、漢気を見せて飲むしかない！",
-            FRDT: "お会計の前にガソリン補給！数字を忘れて、どんぶり勘定で飲もう！",
-            FRDY: "天使に舞い降りた一杯！空気読みの疲れを、この一杯で浄化せよ！"
-        };
-        // (以下、DOM読み込み後のルーレット制御等は元のindex(18).htmlと同等の処理が継続されると仮定)
-        // ※実際にはここにルーレット制御コードが続きますが、HTML構造とスタイルの修正に注力しました。
-    </script>
     <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
 </body>
 </html>
