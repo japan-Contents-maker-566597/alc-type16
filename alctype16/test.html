@@ -15,7 +15,7 @@
 
       gtag('config', 'G-1YJFPXNF0M');
 
-      // 計測用関数：LINEスタンプボタンが押された時に実行
+      // 計測用関数
       function trackLineStampClick() {
           gtag('event', 'line_stamp_click', {
               'event_category': 'engagement',
@@ -71,45 +71,41 @@
         #view-top .top-description { font-size: 1.2em; text-align: center; padding: 20px; background: var(--secondary-color); border-radius: 16px; }
         #view-top .button-wrapper { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
         
-        .btn-relative-wrap { position: relative; width: 100%; margin-top: 25px; }
-        .new-pop-badge {
+        /* バナーのアテンションテキスト用共通設定 */
+        .btn-relative-wrap { position: relative; width: 100%; margin-top: 35px; }
+        .banner-attention {
             position: absolute;
             top: -28px;
-            left: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             color: #e53935;
             font-weight: 900;
-            font-size: 1.0em;
-            letter-spacing: 1px;
-            animation: bounce-text 1s ease-in-out infinite alternate;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
             z-index: 10;
             text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
             pointer-events: none;
-        }
-        @keyframes bounce-text {
-            from { transform: translateY(0) rotate(-2deg); }
-            to { transform: translateY(-5px) rotate(0deg); }
+            white-space: nowrap;
+            animation: bounce-text 1s ease-in-out infinite alternate;
         }
 
-        /* LINEバナー：1行表示・サブコピー対応 */
+        @keyframes bounce-text {
+            from { transform: translateX(-50%) translateY(0); }
+            to { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* LINEバナー：1行表示特化 */
         .line-stamp-btn {
             background: linear-gradient(135deg, #06c755, #05b34c) !important;
             color: #fff !important;
             border: none !important;
-            padding: 15px 10px !important;
-            line-height: 1.2 !important;
+            padding: 18px 10px !important;
         }
         .line-main-text {
             display: block;
-            font-size: clamp(1rem, 4vw, 1.4rem); /* 画面幅に合わせて可変 */
-            white-space: nowrap; /* 強制1行 */
+            font-size: clamp(1rem, 4.2vw, 1.4rem);
+            white-space: nowrap;
             letter-spacing: -0.5px;
-            margin-bottom: 4px;
-        }
-        .line-sub-text {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 400;
-            opacity: 0.9;
         }
 
         /* Alert Accordion */
@@ -153,23 +149,19 @@
                 <a href="./about.html" class="action-button secondary-button">酒タイプ診断とは？</a>
                 
                 <div class="btn-relative-wrap">
-                    <span class="new-pop-badge">＼NEW!!／</span>
+                    <span class="banner-attention">＼酒タイプのキャラがかわいいスタンプに！？／</span>
                     <a href="https://store.line.me/stickershop/product/33138149/ja?utm_source=gnsh_stickerDetail" 
                        target="_blank" rel="noopener" 
                        class="action-button line-stamp-btn" 
                        onclick="trackLineStampClick()"
                        style="margin-top:0;">
                         <span class="line-main-text">🍻 公式LINEスタンプ発売中！</span>
-                        <span class="line-sub-text">16タイプのイラストがかわいいスタンプになりました！</span>
                     </a>
                 </div>
                 
-                <div class="btn-relative-wrap">
-                    <span class="new-pop-badge">＼NEW!!／</span>
-                    <a href="./supplement/index.html" class="action-button secondary-button" style="background: linear-gradient(135deg, #fff9c4, #fff59d); color: #5d4037; border: 2px solid #fbc02d; text-decoration: none; font-weight: 800; display: block; margin-top:0; font-size: 1.1em; white-space: nowrap;">
-                        🍺 飲み会の翌朝対策特集
-                    </a>
-                </div>
+                <a href="./supplement/index.html" class="action-button secondary-button" style="background: linear-gradient(135deg, #fff9c4, #fff59d); color: #5d4037; border: 2px solid #fbc02d; text-decoration: none; font-weight: 800; display: block; font-size: 1.1em; white-space: nowrap;">
+                    🍺 飲み会の翌朝対策特集
+                </a>
             </div>
         </div>
     </div>
