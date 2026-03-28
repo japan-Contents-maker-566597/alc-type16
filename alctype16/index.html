@@ -3,184 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4a148c">
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3644642136582562"
-     crossorigin="anonymous"></script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3644642136582562" crossorigin="anonymous"></script>
 
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YJFPXNF0M"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-1YJFPXNF0M');
-
-      // 計測用関数
-      function trackLineStampClick() {
-          gtag('event', 'line_stamp_click', {
-              'event_category': 'engagement',
-              'event_label': 'TOP_banner'
-          });
-      }
+      function trackLineStampClick() { gtag('event', 'line_stamp_click', { 'event_category': 'engagement', 'event_label': 'TOP_banner' }); }
     </script>
 
     <title>【公式】酒タイプ診断</title>
     
+    <!-- SEO / OGP -->
     <meta property="og:url" content="https://sync-loft.com/alctype16/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="【公式】酒タイプ診断" />
-    <meta property="og:description" content="飲み会での立ち振る舞いや、酔ったときのあなた。全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！" />
+    <meta property="og:description" content="飲み会での立ち振る舞いや、酔ったときのあなた。全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから高精度に分析します。" />
     <meta property="og:site_name" content="酒タイプ診断" />
-    
     <meta property="og:image" content="https://sync-loft.com/ogp.jpg?v=2" />    
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="【公式】酒タイプ診断" />
     <meta name="twitter:description" content="あなたはお酒でどう変わる？全16タイプから診断！" />
     <meta name="twitter:image" content="https://sync-loft.com/ogp.jpg?v=2" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #ffffff;
-            --secondary-color: #f0f4ff;
-            --background-gradient: linear-gradient(135deg, #f3e5f5, #e1f5fe);
-            --text-color: #333;
-            --accent-color-a: #d32f2f;
-            --accent-color-b: #1976d2;
-            --border-radius: 24px;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        body { font-family: 'M PLUS Rounded 1c', sans-serif; background: var(--background-gradient); margin: 0; padding: 20px; color: var(--text-color); padding-bottom: 100px; }
-        .container { max-width: 800px; width: 100%; margin: 0 auto; background-color: var(--primary-color); border-radius: var(--border-radius); box-shadow: var(--shadow); padding: clamp(20px, 5vw, 40px); box-sizing: border-box; }
-        
-        h1, h2, h3 { text-align: center; font-weight: 800; }
-        
-        h1 { color: #6a1b9a; font-size: clamp(1.4rem, 6vw, 2.8rem); white-space: nowrap; margin-bottom: 20px; }
-        h2 { color: #1e88e5; font-size: clamp(1.8rem, 5vw, 2.5rem); }
-        p { line-height: 1.8; }
-
-        .action-button { display: block; width: 100%; padding: 20px; font-size: 1.5em; font-weight: 700; color: #fff; background: linear-gradient(135deg, #8e24aa, #5e35b1); border: none; border-radius: 16px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; text-align: center; text-decoration: none; box-sizing: border-box; }
-        .action-button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-        .secondary-button { background: #eee; color: #555; border: 2px solid #ddd; }
-        .secondary-button:hover { background-color: #ddd; }
-        
-        #view-top .top-description { font-size: 1.2em; text-align: center; padding: 20px; background: var(--secondary-color); border-radius: 16px; }
-        #view-top .button-wrapper { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
-        
-        /* バナーのアテンションテキスト用共通設定 */
-        .btn-relative-wrap { position: relative; width: 100%; margin-top: 35px; }
-        .banner-attention {
-            position: absolute;
-            top: -28px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #e53935;
-            font-weight: 900;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
-            z-index: 10;
-            text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
-            pointer-events: none;
-            white-space: nowrap;
-            animation: bounce-text 1s ease-in-out infinite alternate;
-        }
-
-        @keyframes bounce-text {
-            from { transform: translateX(-50%) translateY(0); }
-            to { transform: translateX(-50%) translateY(-5px); }
-        }
-
-        /* LINEバナー専用 */
-        .line-stamp-btn {
-            background: linear-gradient(135deg, #06c755, #05b34c) !important;
-            color: #fff !important;
-            border: none !important;
-            padding: 18px 10px !important;
-        }
-        .line-main-text {
-            display: block;
-            font-size: clamp(1rem, 4.2vw, 1.4rem);
-            white-space: nowrap;
-            letter-spacing: -0.5px;
-        }
-
-        /* Alert Accordion */
-        .alert-accordion { background-color: #fffde7; border: 1px solid #ffe082; border-radius: 12px; margin: 15px auto; max-width: 95%; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.3s ease; }
-        .alert-accordion summary { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; cursor: pointer; list-style: none; position: relative; font-size: 0.9em; color: #5d4037; font-weight: 700; line-height: 1.5; }
-        .alert-cta { font-size: 0.85em; color: #d32f2f; margin-top: 5px; border-bottom: 1px solid #d32f2f; }
-        .alert-detail { padding: 0 15px 15px 15px; font-size: 0.9em; color: #4e342e; line-height: 1.6; text-align: left; }
-
-        .footer-nav { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.8em; color: #666; background: rgba(255,255,255,0.5); border-radius: 12px; }
-        .footer-nav a { color: #666; text-decoration: underline; margin: 0 10px; cursor: pointer; }
-
-        #roulette-fab { position: fixed; bottom: 80px; right: 25px; width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 1000; animation: float-anim 3s ease-in-out infinite; }
-        @keyframes float-anim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-        @media (max-width: 480px) { .sp-only { display: block; } }
-    </style>
+    <!-- Premium CSS -->
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
-    <div class="container">
-        <div id="view-top">
-            <h1>【公式】酒タイプ診断</h1>
-            
-            <details class="alert-accordion">
-                <summary>
-                    <span class="alert-summary-text">⚠️ 画像・診断内容を無断使用している<br class="sp-only">類似サイトにご注意ください</span>
-                    <span class="alert-cta">詳細はこちら ▼</span>
-                </summary>
-                <div class="alert-detail">
-                    <p>
-                        <strong>【重要なお知らせ】</strong><br>
-                        現在、当サイトのイラストや診断内容を無断転載した<strong>「恋愛診断系の類似サイト」</strong>が確認されていますが、当サイトとは一切無関係です。<br>
-                        <br>
-                        「酒タイプ診断」は、お酒が強い人も弱い人も、<br>
-                        <strong>お酒や飲み会の場を愛するすべての人のためのサイト</strong>です！<br>
-                        ここが唯一の<strong>【公式】本家サイト</strong>ですので、安心してお楽しみください🍻
-                    </p>
-                </div>
-            </details>
+    <div class="lang-toggle"><a href="./en/index.html">🌐 English</a></div>
 
-            <p class="top-description">全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！</p>
+    <!-- 1. DYNAMIC HERO SECTION -->
+    <header class="hero-section">
+        <div class="container fade-in">
+            <h1 class="hero-logo">【公式】酒タイプ診断</h1>
+            <p class="hero-subtitle">あなたはお酒でどう変わる？<br>全16問で「本当の姿」を高精度分析！</p>
             
-            <div class="button-wrapper">
-                <a href="./diagnosis.html" class="action-button">さっそく診断を始める</a>
-                <a href="./list.html" class="action-button secondary-button">16の酒タイプを見る</a>
-                <a href="./about.html" class="action-button secondary-button">酒タイプ診断とは？</a>
+            <div class="hero-btn-wrap">
+                <a href="./diagnosis.html" class="btn btn-primary mb-4">
+                    さっそく診断を始める
+                </a>
                 
-                <div class="btn-relative-wrap">
-                    <span class="banner-attention">＼酒タイプのキャラがかわいいスタンプに！？／</span>
-                    <a href="https://store.line.me/stickershop/product/33138149/ja?utm_source=gnsh_stickerDetail" 
-                       target="_blank" rel="noopener" 
-                       class="action-button line-stamp-btn" 
-                       onclick="trackLineStampClick()"
-                       style="margin-top:0;">
-                        <span class="line-main-text">🍻 公式LINEスタンプ発売中！</span>
-                    </a>
+                <button onclick="if(window.openRouletteSetup) window.openRouletteSetup()" class="btn btn-secondary">
+                    🎲 飲み会ルーレットで遊ぶ
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container fade-in" style="animation-delay: 0.2s;">
+        
+        <!-- 2. ANNOUNCEMENT / ALERT -->
+        <details class="glass-card mb-8">
+            <summary style="font-weight:800; color:#c2410c; cursor:pointer; list-style:none; text-align:center;">
+                ⚠️ 類似サイトにご注意ください <span style="font-size:0.8rem; background:#c2410c; color:#fff; padding:2px 8px; border-radius:12px; margin-left:8px;">詳細表示</span>
+            </summary>
+            <div style="margin-top:16px; font-size:0.9rem; line-height:1.7; border-top:1px solid #e2e8f0; padding-top:16px;">
+                当サイトのイラストや診断ロジックを無断転載した「恋愛診断系の類似サイト」が確認されています。<br>「酒タイプ診断」はお酒や飲み会の場を愛するすべての人のためのサイトです！ここが唯一の<strong>【公式】本家サイト</strong>ですので、安心してお楽しみください🍻
+            </div>
+        </details>
+
+        <!-- 3. MAIN CONTENT / FEATURES (RICH MEDIA) -->
+        <section class="glass-card">
+            <h2 class="section-title">特集コンテンツ</h2>
+            <a href="./supplement/index.html" class="article-card">
+                <span class="badge">運営事務局 ガチ検証</span>
+                <h3 style="margin: 0 0 8px 0; color: #5d4037; font-size: 1.1rem;">飲み会の翌朝対策 徹底ガイド 🍻</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: #78909c;">
+                    「つい飲みすぎてしまった…」そんな後悔を防ぐための、科学的アプローチに基づくアイテムと対処法を特集！
+                </p>
+            </a>
+        </section>
+
+        <!-- AdSense / Shinobi Ad Spot 1 -->
+        <div class="text-center mb-8 fade-in" style="min-height: 250px;">
+            <!-- admax -->
+            <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
+            <!-- admax -->
+        </div>
+
+        <!-- 4. DIAGNOSIS AXES (From about.html) -->
+        <section class="glass-card">
+            <h2 class="section-title">4つの診断軸で作る高精度アルゴリズム</h2>
+            <p class="text-center mb-8">独自の心理学ロジックと行動分析に基づき、4つのベクトルであなたを解析します。</p>
+            
+            <div class="grid-2">
+                <div class="axis-card">
+                    <div class="axis-icon" style="background: linear-gradient(135deg, #ff5252, #ff1744);">L/F</div>
+                    <div class="axis-info">
+                        <h4>リーダー / フォロワー</h4>
+                        <p>場の主導権を握りたいか、周りの流れに身を任せたいかを分析。</p>
+                    </div>
                 </div>
-                
-                <div class="btn-relative-wrap">
-                    <span class="banner-attention">＼運営事務局でガチ検証しました！／</span>
-                    <a href="./supplement/index.html" class="action-button secondary-button" style="background: linear-gradient(135deg, #fff9c4, #fff59d); color: #5d4037; border: 2px solid #fbc02d; text-decoration: none; font-weight: 800; display: block; margin-top:0; font-size: 1.1em; white-space: nowrap;">
-                        🍺 飲み会の翌朝対策特集
-                    </a>
+                <div class="axis-card">
+                    <div class="axis-icon" style="background: linear-gradient(135deg, #448aff, #2979ff);">O/R</div>
+                    <div class="axis-info">
+                        <h4>大雑把 / 几帳面</h4>
+                        <p>場のノリや面白さを優先するか、終電や割り勘をきっちり管理するか。</p>
+                    </div>
                 </div>
+                <div class="axis-card">
+                    <div class="axis-icon" style="background: linear-gradient(135deg, #00e676, #00c853);">U/D</div>
+                    <div class="axis-info">
+                        <h4>アッパー / ダウナー</h4>
+                        <p>酔うとテンションが上がるか、落ち着いて物静かになるか。</p>
+                    </div>
+                </div>
+                <div class="axis-card">
+                    <div class="axis-icon" style="background: linear-gradient(135deg, #ffd740, #ffc400);">T/Y</div>
+                    <div class="axis-info">
+                        <h4>酒に強い / 弱い</h4>
+                        <p>肉体的なアルコール耐性の限界値と酔いやすさを判定。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 16 TYPES HIGHLIGHT -->
+        <section class="glass-card">
+            <h2 class="section-title">16の酒タイプ図鑑</h2>
+            <p class="text-center mb-8">あなたの周りにも一人はいるかも？個性豊かな全16タイプをご紹介します。</p>
+            
+            <div class="pickup-grid mb-4">
+                <a href="./types/lout.html" style="text-decoration:none; color:inherit;">
+                    <div class="pickup-card">
+                        <img src="./酒タイプ画像/LOUT.jpg" alt="アル中番長" class="pickup-img">
+                        <div class="pickup-name">アル中番長</div>
+                        <p class="pickup-catch">お酒が強くて、ノリも最高</p>
+                    </div>
+                </a>
+                <a href="./types/lrut.html" style="text-decoration:none; color:inherit;">
+                    <div class="pickup-card">
+                        <img src="./酒タイプ画像/LRUT.jpg" alt="プロ幹事" class="pickup-img">
+                        <div class="pickup-name">自称プロ幹事</div>
+                        <p class="pickup-catch">完璧な飲み会設計</p>
+                    </div>
+                </a>
+                <a href="./types/frdy.html" style="text-decoration:none; color:inherit;">
+                    <div class="pickup-card">
+                        <img src="./酒タイプ画像/FRDY.jpg" alt="天使" class="pickup-img">
+                        <div class="pickup-name">空気読みすぎ天使</div>
+                        <p class="pickup-catch">弱いが、迷惑はかけない</p>
+                    </div>
+                </a>
+                <a href="./types/lrdy.html" style="text-decoration:none; color:inherit;">
+                    <div class="pickup-card">
+                        <img src="./酒タイプ画像/LRDY.jpg" alt="水泥棒" class="pickup-img">
+                        <div class="pickup-name">水泥棒</div>
+                        <p class="pickup-catch">弱いが、しっかり反省</p>
+                    </div>
+                </a>
+            </div>
+            <a href="./list.html" class="btn btn-secondary">全16タイプの一覧を開く</a>
+        </section>
+
+        <!-- 6. FAQ Section -->
+        <section class="glass-card">
+            <h2 class="section-title">よくある質問 (FAQ)</h2>
+            <div class="faq-item">
+                <details>
+                    <summary>診断にはどれくらい時間がかかりますか？</summary>
+                    <p>全16問の選択式で、約1〜2分程度でパパッと結果が出ます！飲み会の待ち時間に最適です。</p>
+                </details>
+            </div>
+            <div class="faq-item">
+                <details>
+                    <summary>会員登録やアプリのダウンロードは必要ですか？</summary>
+                    <p>完全無料で、ブラウザからそのままご利用いただけます。面倒な登録等は一切不要です。</p>
+                </details>
+            </div>
+            <div class="faq-item">
+                <details>
+                    <summary>診断結果はSNSにシェアできますか？</summary>
+                    <p>はい！結果ページの下部にワンタップでX(旧Twitter)やLINEにシェアできるボタンを用意しておりますので、ぜひご友人とお楽しみください。</p>
+                </details>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer-nav">
+            <a href="./policy.html">プライバシーポリシー</a>
+            <a href="mailto:alctype16.official@gmail.com">お問い合わせ窓口</a>
+            <p>© 2024-2026 酒タイプ診断 運営事務局</p>
+        </footer>
+    </div>
+
+    <!-- LINE stamp floating banner -->
+    <a id="line-stamp-fab" href="https://store.line.me/stickershop/product/33138149/ja?utm_source=gnsh_stickerDetail" target="_blank" rel="noopener" onclick="trackLineStampClick()">
+        <span class="fab-badge">NEW</span>
+        <div class="fab-inner">
+            <span class="fab-icon">🍺</span>
+            <div class="fab-label-main">LINEスタンプ<br>大好評発売中！</div>
+        </div>
+    </a>
+
+    <!-- Roulette Overlays (HTML Structure only) -->
+    <div id="roulette-setup-overlay" class="roulette-overlay">
+        <div id="roulette-setup-box">
+            <h2 style="text-align:center;font-weight:800;color:#4a148c;margin-bottom:20px;">参加メンバーを選ぶ</h2>
+            <div class="roulette-setup-controls">
+                <button id="roulette-select-all">全選択</button>
+                <button id="roulette-deselect-all">全解除</button>
+            </div>
+            <div id="roulette-member-list"></div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+                <button id="create-roulette-btn" class="btn btn-primary" style="padding:12px;">作成</button>
+                <button id="close-roulette-setup-btn" class="btn btn-secondary" style="padding:12px;">戻る</button>
             </div>
         </div>
     </div>
-
-    <div class="footer-nav">
-        <a href="./policy.html">プライバシーポリシー</a>
-        <a href="mailto:alctype16.official@gmail.com">お問い合わせ窓口</a>
-        <p>© 2024-2026 酒タイプ診断 運営事務局</p>
+    
+    <div id="roulette-overlay" class="roulette-overlay">
+        <div class="roulette-container">
+            <div class="roulette-pointer"></div>
+            <canvas id="roulette-canvas"></canvas>
+            <div class="roulette-controls">
+                <button id="spin-btn" class="btn btn-primary" style="border-radius:50%; width:80px; height:80px; box-shadow:0 10px 25px rgba(0,0,0,0.5);">回す</button>
+            </div>
+        </div>
     </div>
     
-    <button id="roulette-fab">ルーレットで遊ぶ🎲</button>
+    <div id="roulette-result-overlay" class="roulette-overlay">
+        <div id="roulette-result-popup">
+            <img id="roulette-result-image" src="" alt="結果">
+            <h2 id="roulette-result-title" style="color:var(--brand-purple);"></h2>
+            <p id="roulette-result-message" style="margin-bottom:20px; font-weight:600;"></p>
+            <button id="spin-again-btn" class="btn btn-primary mb-2">もう一度</button>
+            <button id="close-result-btn" class="btn btn-secondary">閉じる</button>
+        </div>
+    </div>
 
-    <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
+    <!-- JavaScript Injection -->
+    <script src="./js/roulette.js"></script>
 </body>
 </html>

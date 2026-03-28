@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,30 +17,30 @@
       gtag('config', 'G-1YJFPXNF0M');
     </script>
 
-    <title>【公式】酒タイプ診断 - 診断ページ</title>
+    <title>16 Drunk Personalities - Personality Test</title>
     
     <!-- SEO / OGP -->
-    <meta property="og:url" content="https://sync-loft.com/alctype16/diagnosis.html" />
+    <meta property="og:url" content="https://sync-loft.com/alctype16/en/diagnosis.html" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="【公式】酒タイプ診断 - 診断ページ" />
-    <meta property="og:description" content="全16問の質問に答えて、あなたの酒タイプを診断します。" />
-    <meta property="og:site_name" content="酒タイプ診断" />
-    <meta property="og:image" content="https://sync-loft.com/ogp.jpg?v=2" />
+    <meta property="og:title" content="16 Drunk Personalities - Personality Test" />
+    <meta property="og:description" content="Take the 16 Drunk Personalities test and find out your true drunk self!" />
+    <meta property="og:site_name" content="16 Drunk Personalities" />
+    <meta property="og:image" content="https://sync-loft.com/ogp_en.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="【公式】酒タイプ診断 - 診断ページ" />
-    <meta name="twitter:description" content="全16問の質問に答えて、あなたの酒タイプを診断します。" />
-    <meta name="twitter:image" content="https://sync-loft.com/ogp.jpg?v=2" />
+    <meta name="twitter:title" content="16 Drunk Personalities - Personality Test" />
+    <meta name="twitter:description" content="Take the test and find out your true drunk self!" />
+    <meta name="twitter:image" content="https://sync-loft.com/ogp_en.png" />
 
     <!-- Premium CSS -->
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-    <div class="lang-toggle"><a href="./en/diagnosis.html">🌐 English</a></div>
+    <div class="lang-toggle"><a href="../diagnosis.html">🌐 日本語</a></div>
     
     <header class="hero-section" style="padding-bottom: 30px;">
         <div class="container fade-in">
-            <h1 class="hero-logo" style="font-size: clamp(1.5rem, 5vw, 2.2rem);">あなたのことを教えてください</h1>
-            <p class="hero-subtitle mb-2">直感で、自分の飲酒スタイルに最も近いものを選んでください。</p>
+            <h1 class="hero-logo" style="font-size: clamp(1.5rem, 5vw, 2.2rem);">Tell Us About Yourself</h1>
+            <p class="hero-subtitle mb-2">Answer intuitively and choose what fits your drinking style best.</p>
         </div>
     </header>
 
@@ -50,23 +50,24 @@
             <div class="progress-bar-bg">
                 <div class="progress-bar-fill" id="progressBar"></div>
             </div>
-            <div class="progress-text" id="progressText">0 / 16 回答完了</div>
+            <div class="progress-text" id="progressText">0 / 16 Completed</div>
         </div>
     </div>
 
     <div class="container fade-in" style="max-width: 600px; padding-top: 10px;">
         <form id="diagnosisForm">
             <div class="glass-card mb-8">
-                <p class="text-center mb-4" style="font-weight: 800; color: var(--brand-purple);">基本情報 (オプション)</p>
+                <p class="text-center mb-4" style="font-weight: 800; color: var(--brand-purple);">Basic Info (Optional)</p>
                 <div class="mb-4">
-                    <input type="text" id="userName" class="name-input" placeholder="ニックネームを入力 (後から変更可能)">
+                    <input type="text" id="userName" class="name-input" placeholder="Nickname">
                 </div>
                 <div>
-                    <span class="select-input-label text-center">性別</span>
+                    <span class="select-input-label text-center">Gender</span>
                     <select id="userGender" class="select-input">
-                        <option value="回答しない" selected>回答しない</option>
-                        <option value="男性">男性</option>
-                        <option value="女性">女性</option>
+                        <option value="Prefer not to say" selected>Prefer not to say</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
@@ -80,37 +81,37 @@
 
             <div id="questionsContainer"></div>
             
-            <button type="submit" class="btn btn-primary" id="submitBtn" style="padding: 20px; font-size: 1.2rem; margin-top: 20px;">診断結果を見る✨</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn" style="padding: 20px; font-size: 1.2rem; margin-top: 20px;">See My Result ✨</button>
             <p class="consent-note">
-                ※ご入力いただいた情報は診断および分析にのみ利用されます。<br>
-                <a href="policy.html" target="_blank" rel="noopener">プライバシーポリシー</a>に同意の上ご利用ください。
+                * Your information is used securely and anonymously for the scope of the test.<br>
+                By taking the test, you agree to our <a href="policy.html" target="_blank" rel="noopener">Privacy Policy</a>.
             </p>
         </form>
 
         <div style="margin-top: 40px; text-align: center;">
-            <a href="./index.html" class="btn btn-secondary">TOPページに戻る</a>
+            <a href="./index.html" class="btn btn-secondary">Back to Home</a>
         </div>
     </div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGq72C-ukIViED8rTiRYx7jMrp4PXapxOdBn5h6aU1OGbis4X5tBJvqM6rzDRerfE/exec";
         const questions = [
-            { id: 1, axis: "LF", text: "飲み会のお店の選定は？", a: "A: 自分の行きたい店を提案する。", b: "B: 皆の意見を聞いてから決める。" },
-            { id: 2, axis: "LF", text: "場の雰囲気が微妙になったら？", a: "A: 自分が話題を提供し、流れを変える。", b: "B: 誰かの行動を待ち、流れに任せる。" },
-            { id: 3, axis: "LF", text: "飲み会での役割は？", a: "A: 幹事や盛り上げ役など、中心にいたい。", b: "B: 聴き役やサポート役など、裏方でいたい。" },
-            { id: 4, axis: "LF", text: "乾杯の音頭は？", a: "A: 進んで自分が取り、場を仕切りたい。", b: "B: 他の誰かに譲る方が楽だ。" },
-            { id: 5, axis: "OR", text: "飲み会前に翌日の予定を？", a: "A: 気にせず、その場のノリを優先する。", b: "B: 終電時間や翌朝に響かないかチェックする。" },
-            { id: 6, axis: "OR", text: "飲酒時の財布のひもは？", a: "A: 大胆になり、奢ったり多めに払いがち。", b: "B: 冷静に予算を管理し、きっちり割る。" },
-            { id: 7, axis: "OR", text: "飲み会後の後片付けは？", a: "A: 誰かがやるだろうと気にしない。", b: "B: 散らかった場所を率先して片付ける。" },
-            { id: 8, axis: "OR", text: "飲み会の企画は？", a: "A: 面白さ最優先。面白ければなんでもいい。", b: "B: バランス重視。楽しみつつちゃんとしたい。" },
-            { id: 9, axis: "UD", text: "酔い始めの行動は？", a: "A: 陽気になり、声が大きくなる。", b: "B: 物静かになり、思考が深くなる。" },
-            { id: 10, axis: "UD", text: "酔ったときの感情は？", a: "A: 普段よりもハイになり、無敵感がある。", b: "B: 普段よりも感傷的になり、センチメンタル。" },
-            { id: 11, axis: "UD", text: "飲み会でのSNS使用は？", a: "A: 楽しんでいる様子はどんどんみんなにシェアしたい。", b: "B: 飲み会の様子はSNSには載せたくない。" },
-            { id: 12, axis: "UD", text: "酔ったときの身体の動きは？", a: "A: 声やリアクションが大きくなる、笑いのツボが浅くなる。", b: "B: 静かになる、眠くなる、テンションが下がる。" },
-            { id: 13, axis: "TY", text: "飲むペースは？", a: "A: 周りがどうであろうと、自分のハイペースを維持。", b: "B: 周りのペースに合わせるか、それより遅い。" },
-            { id: 14, axis: "TY", text: "飲めるお酒の量は？", a: "A: 何杯飲んでも、ほぼ酔ったように見えない。", b: "B: すぐに酔いが回り、セーブが必要になる。" },
-            { id: 15, axis: "TY", text: "コールや一気飲みの強要は？", a: "A: 余裕で受け入れ、むしろ楽しむ。", b: "B: 可能な限り拒否して、自分のペースを守る。" },
-            { id: 16, axis: "TY", text: "翌日の記憶は？", a: "A: 泥酔しても断片的に覚えていることが多い。", b: "B: 少し飲みすぎると、記憶がほぼ飛ぶ。" }
+            { id: 1, axis: "LF", text: "When choosing a place to drink:", a: "A. I suggest where I want to go.", b: "B. I wait to see what everyone else wants." },
+            { id: 2, axis: "LF", text: "If the vibe gets a bit dull:", a: "A. I bring up a new topic to hype things up.", b: "B. I wait for someone else to say something." },
+            { id: 3, axis: "LF", text: "My role at a drinking party is:", a: "A. The life of the party or the host.", b: "B. The listener or the background support." },
+            { id: 4, axis: "LF", text: "Making the first toast:", a: "A. I gladly take charge.", b: "B. I prefer passing it to someone else." },
+            { id: 5, axis: "OR", text: "Before drinking, about tomorrow's schedule:", a: "A. I just go with the flow of the night.", b: "B. I check when the last train is and stick to my plan." },
+            { id: 6, axis: "OR", text: "When it comes to money while drinking:", a: "A. I feel generous and might end up paying more or treating.", b: "B. I keep track of the budget and split it perfectly." },
+            { id: 7, axis: "OR", text: "Cleaning up towards the end:", a: "A. I assume someone else will do it.", b: "B. I actively start putting plates away and organizing." },
+            { id: 8, axis: "OR", text: "When planning a party:", a: "A. Fun is the priority. Anything exciting goes.", b: "B. Balance is key. Having fun but keeping order." },
+            { id: 9, axis: "UD", text: "As I start drinking:", a: "A. I get happier and my voice gets louder.", b: "B. I get quieter and more reflective." },
+            { id: 10, axis: "UD", text: "My emotions when drunk:", a: "A. I feel invincible and hyper.", b: "B. I feel sentimental and emotional." },
+            { id: 11, axis: "UD", text: "Posting on social media while drinking:", a: "A. I love sharing how much fun we're having.", b: "B. I never post while drinking." },
+            { id: 12, axis: "UD", text: "Physical changes when drunk:", a: "A. My reactions get bigger and I laugh easily.", b: "B. I get quiet, sleepy, and my energy drops." },
+            { id: 13, axis: "TY", text: "My drinking pace:", a: "A. I maintain my own fast pace regardless of others.", b: "B. I match everyone else or drink slower." },
+            { id: 14, axis: "TY", text: "How much can I handle?", a: "A. I basically never look drunk no matter what.", b: "B. I get drunk easily and need to pace myself." },
+            { id: 15, axis: "TY", text: "Being peer pressured to drink:", a: "A. I accept it easily and enjoy the challenge.", b: "B. I firmly reject it to protect my pace." },
+            { id: 16, axis: "TY", text: "My memory the next day:", a: "A. Even if completely wasted, I remember bits and pieces.", b: "B. If I drink a little too much, I completely blackout." }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -122,7 +123,7 @@
             const progressText = document.getElementById('progressText');
 
             function renderQuestions() {
-                const rubies = ['A寄り', 'ややA', '中間', 'ややB', 'B寄り'];
+                const rubies = ['Close to A', 'Slighly A', 'Middle', 'Slightly B', 'Close to B'];
                 questionsContainer.innerHTML = questions.map((q, index) => `
                     <div class="question-card" data-question-id="${q.id}">
                         <div class="q-num">Q${index + 1} / 16</div>
@@ -149,12 +150,12 @@
                 });
                 const percentage = (answered / total) * 100;
                 progressBar.style.width = percentage + '%';
-                progressText.textContent = `${answered} / ${total} 回答完了`;
+                progressText.textContent = `${answered} / ${total} Completed`;
                 
                 if (answered === total) {
                     progressBar.style.background = 'linear-gradient(90deg, #4ade80, #16a34a)';
                     progressText.style.color = '#16a34a';
-                    progressText.textContent = '全問回答完了！結果を見ましょう✨';
+                    progressText.textContent = 'All questions answered! Let\'s see the result✨';
                 }
             }
 
@@ -185,7 +186,7 @@
                 e.preventDefault();
                 const formData = new FormData(diagnosisForm);
                 if (Array.from(formData.keys()).length < questions.length) {
-                    alert('すべての質問に回答してください。');
+                    alert('Please answer all questions completely.');
                     return;
                 }
                 const axisScores = { LF: 0, OR: 0, UD: 0, TY: 0 };
@@ -200,8 +201,8 @@
                 const resultCode = resultType.toLowerCase();
 
                 const nicknameRaw = userNameInput.value.trim();
-                const nickname = nicknameRaw || 'ゲスト';
-                const gender = genderSelect ? genderSelect.value : '回答しない';
+                const nickname = nicknameRaw || 'Guest';
+                const gender = genderSelect ? genderSelect.value : 'Prefer not to say';
                 const payload = {
                     name: nickname,
                     gender,
@@ -211,7 +212,7 @@
 
                 // Visual loading state
                 const submitBtn = document.getElementById('submitBtn');
-                submitBtn.innerHTML = '🎯 診断中...';
+                submitBtn.innerHTML = '🎯 Analyzing...';
                 submitBtn.style.opacity = '0.7';
 
                 try {

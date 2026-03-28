@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="theme-color" content="#6a1b9a">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OGP Image Generator — 16 Drunk Personalities</title>
+  
+  
+
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+  <h1><a href="index.html">16 Drunk Personalities</a></h1>
+  <p>Create the English OGP image for "16 Drunk Personalities".<br>Upload the existing Japanese OGP or any base image, customize the overlay, then download.</p>
+
+  <div class="info">
+    💡 <strong>How to use:</strong> Upload the Japanese OGP image (ogp.jpg), adjust the overlay text and colors, click <strong>Render Preview</strong>, then click <strong>Download ogp_en.png</strong>. Save the file as <code>ogp_en.png</code> in the website root.
+  </div>
+
+  <div class="card">
+    <div class="controls">
+      <div class="full-span">
+        <label>📁 Base Image (upload ogp.jpg or any 1200×630 image)</label>
+        <input type="file" id="bgUpload" accept="image/*">
+      </div>
+
+      <div>
+        <label>Main Title</label>
+        <input type="text" id="mainTitle" value="16 Drunk Personalities">
+        <div class="preset-row">
+          <button class="preset" onclick="document.getElementById('mainTitle').value='16 Drunk Personalities'">Default</button>
+          <button class="preset" onclick="document.getElementById('mainTitle').value='What Type of Drunk Are You?'">Alt 1</button>
+        </div>
+      </div>
+
+      <div>
+        <label>Subtitle</label>
+        <input type="text" id="subTitle" value="Drunk Personality Test • 16 Types">
+        <div class="preset-row">
+          <button class="preset" onclick="document.getElementById('subTitle').value='Drunk Personality Test • 16 Types'">Default</button>
+          <button class="preset" onclick="document.getElementById('subTitle').value='Which of the 16 are you?'">Alt 1</button>
+        </div>
+      </div>
+
+      <div>
+        <label>Badge Text (top-left)</label>
+        <input type="text" id="badge" value="🍻 [Official]">
+      </div>
+
+      <div>
+        <label>Overlay Color</label>
+        <input type="color" id="overlayColor" value="#3a0a60">
+      </div>
+
+      <div>
+        <label>Overlay Opacity (0–100)</label>
+        <input type="range" id="overlayOpacity" min="0" max="100" value="60">
+        <small id="opacityVal">60%</small>
+      </div>
+
+      <div>
+        <label>Text Color</label>
+        <input type="color" id="textColor" value="#ffffff">
+      </div>
+
+      <div>
+        <label>Accent Color (gradient / underline)</label>
+        <input type="color" id="accentColor" value="#ff9800">
+      </div>
+
+      <div class="full-span">
+        <label>Emoji / Icon row (optional)</label>
+        <input type="text" id="iconRow" value="🍺  🎭  🍸  🎲  🍻">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-render" onclick="renderPreview()">🖼 Render Preview</button>
+      <button class="btn-download" onclick="downloadOGP()">⬇ Download ogp_en.png</button>
+    </div>
+  </div>
+
+  <canvas id="ogpCanvas" width="1200" height="630"></canvas>
+
+  <script>
+    const canvas = document.getElementById('ogpCanvas');
+    const ctx = canvas.getContext('2d');
+    let bgImage = null;
+
+    // Update opacity label
+    document.getElementById('overlayOpacity').addEventListener('input', function() {
+      document.getElementById('opacityVal').textContent = this.value + '%';
+    });
+
+    // Handle image upload
+    document.getElementById('bgUpload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const img = new Image();
+        img.onload = function() { bgImage = img; renderPreview(); };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function renderPreview() {
+      const W = 1200, H = 630;
+      canvas.width = W; canvas.height = H;
+      ctx.clearRect(0, 0, W, H);
+
+      // Background
+      if (bgImage) {
+        // Cover-fit the image
+        const imgAR = bgImage.width / bgImage.height;
+        const canvAR = W / H;
+        let sx = 0, sy = 0, sw = bgImage.width, sh = bgImage.height;
+        if (imgAR > canvAR) {
+          sw = bgImage.height * canvAR;
+          sx = (bgImage.width - sw) / 2;
+        } else {
+          sh = bgImage.width / canvAR;
+          sy = (bgImage.height - sh) / 2;
+        }
+        ctx.drawImage(bgImage, sx, sy, sw, sh, 0, 0, W, H);
+      } else {
+        // Default gradient background if no image
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, '#4a148c');
+        grad.addColorStop(0.5, '#1a237e');
+        grad.addColorStop(1, '#880e4f');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      // Overlay
+      const overlayColor = document.getElementById('overlayColor').value;
+      const opacity = parseInt(document.getElementById('overlayOpacity').value) / 100;
+      ctx.fillStyle = hexToRgba(overlayColor, opacity);
+      ctx.fillRect(0, 0, W, H);
+
+      // Bottom accent bar
+      const accentColor = document.getElementById('accentColor').value;
+      const accentGrad = ctx.createLinearGradient(0, 0, W, 0);
+      accentGrad.addColorStop(0, accentColor);
+      accentGrad.addColorStop(1, document.getElementById('textColor').value);
+      ctx.fillStyle = accentGrad;
+      ctx.fillRect(0, H - 8, W, 8);
+
+      const textColor = document.getElementById('textColor').value;
+
+      // Badge (top-left)
+      const badge = document.getElementById('badge').value;
+      if (badge) {
+        ctx.save();
+        ctx.fillStyle = hexToRgba(accentColor, 0.95);
+        const badgeW = 220, badgeH = 44;
+        roundRect(ctx, 40, 40, badgeW, badgeH, 22);
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 22px "M PLUS Rounded 1c", sans-serif';
+        ctx.fillText(badge, 60, 40 + 30);
+        ctx.restore();
+      }
+
+      // Emoji / icon row
+      const icons = document.getElementById('iconRow').value;
+      if (icons) {
+        ctx.font = '44px serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(icons, W / 2, 150);
+      }
+
+      // Main title
+      const mainTitle = document.getElementById('mainTitle').value;
+      ctx.fillStyle = textColor;
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 88px "M PLUS Rounded 1c", Arial Black, sans-serif';
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = 15;
+      ctx.fillText(mainTitle, W / 2, 330);
+
+      // Underline accent
+      const titleWidth = ctx.measureText(mainTitle).width;
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = accentColor;
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(W/2 - titleWidth/2, 348);
+      ctx.lineTo(W/2 + titleWidth/2, 348);
+      ctx.stroke();
+
+      // Subtitle
+      const subTitle = document.getElementById('subTitle').value;
+      ctx.fillStyle = hexToRgba(textColor, 0.85);
+      ctx.font = 'bold 38px "M PLUS Rounded 1c", sans-serif';
+      ctx.shadowColor = 'rgba(0,0,0,0.4)';
+      ctx.shadowBlur = 8;
+      ctx.fillText(subTitle, W / 2, 420);
+
+      // URL watermark
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = hexToRgba(textColor, 0.6);
+      ctx.font = '22px "M PLUS Rounded 1c", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('sync-loft.com/alctype16/en/', W - 40, H - 24);
+
+      ctx.textAlign = 'left';
+      ctx.shadowBlur = 0;
+    }
+
+    function hexToRgba(hex, alpha) {
+      const r = parseInt(hex.slice(1,3), 16);
+      const g = parseInt(hex.slice(3,5), 16);
+      const b = parseInt(hex.slice(5,7), 16);
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function downloadOGP() {
+      renderPreview();
+      const link = document.createElement('a');
+      link.download = 'ogp_en.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Render default preview on load
+    window.addEventListener('load', function() { renderPreview(); });
+  </script>
+  
+  <!-- LINE stamp floating banner -->
+  <a id="line-stamp-fab"
+     href="https://store.line.me/stickershop/product/33138149/ja?utm_source=gnsh_stickerDetail"
+     target="_blank" rel="noopener"
+     onclick="typeof gtag==='function'&&gtag('event','line_stamp_click',{event_category:'engagement',event_label:'floating_banner'})">
+      <span class="fab-badge">NEW</span>
+      <div class="fab-inner">
+          <span class="fab-icon">&#127867;</span>
+          <span class="fab-label-main">LINE&#12473;&#12479;&#12531;&#12503;<br>&#30330;&#22770;&#20013;&#65281;</span>
+      </div>
+  </a>
+</body>
+</html>
+
