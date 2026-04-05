@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta name="theme-color" content="#6a1b9a">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【公式】酒タイプ診断 - 飲み会お助けツール</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .games-hero { text-align: center; margin: 40px 0; }
+        .games-hero h1 { font-size: clamp(2rem, 6vw, 2.5rem); color: var(--brand-purple); font-weight: 900; margin-bottom: 10px; }
+        .games-hero p { font-size: 1.1rem; color: var(--text-main); font-weight: 600; }
+        
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 60px; }
+        .game-card {
+            background: rgba(255, 255, 255, 0.9); border: 2px solid #e2e8f0; border-radius: 20px;
+            padding: 30px 20px; text-align: center; text-decoration: none; color: inherit;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); position: relative; overflow: hidden;
+        }
+        .game-card:hover { transform: translateY(-8px); border-color: var(--brand-purple); box-shadow: 0 15px 35px rgba(74, 20, 140, 0.15); }
+        .game-icon { font-size: 3.5rem; margin-bottom: 15px; display: inline-block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .game-title { font-size: 1.35rem; font-weight: 800; color: var(--brand-purple); margin-bottom: 10px; }
+        .game-desc { font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); font-weight: 600; }
+        
+        .badge-new { position: absolute; top: 15px; right: -30px; background: #e65100; color: white; font-size: 0.8rem; font-weight: bold; padding: 4px 40px; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+    <nav class="global-header">
+        <a href="../index.html" class="header-logo"><span style="font-size:1.4rem;">🍺</span><span class="text-logo">酒タイプ診断</span></a>
+        <div class="header-nav">
+            <a href="../diagnosis.html">診断を受ける</a>
+            <a href="../list.html">16タイプ一覧</a>
+            <a href="./index.html" style="color:var(--brand-purple); font-weight:bold;">飲み会ツール</a>
+            <a href="../supplement/index.html">特集記事</a>
+        </div>
+        <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('mobileMenu').classList.toggle('active')">☰</button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="../diagnosis.html">診断を受ける</a>
+        <a href="../list.html">16タイプ一覧</a>
+        <a href="./index.html">飲み会ツール</a>
+        <a href="../supplement/index.html">特集記事</a>
+    </div>
+
+    <div class="container fade-in">
+        <div class="games-hero">
+            <h1>🥂 飲み会お助けツール</h1>
+            <p>診断結果をアテにして、今夜の飲み会をもっと盛り上げよう！<br>無料で遊べる専用オリジナルツール。</p>
+        </div>
+
+        <div class="game-grid">
+            <!-- Game 1 -->
+            <a href="yamanote.html" class="game-card">
+                <div class="badge-new">NEW</div>
+                <div class="game-icon">🎰</div>
+                <div class="game-title">山手線ゲーム お題ガチャ</div>
+                <div class="game-desc">飲み会の定番！「お題が思いつかない」をワンタップで解消。カオスなお題で爆笑間違いなし。</div>
+            </a>
+
+            <!-- Game 2 -->
+            <a href="highlow.html" class="game-card">
+                <div class="badge-new">NEW</div>
+                <div class="game-icon">🃏</div>
+                <div class="game-title">酒飲み ハイ＆ロー</div>
+                <div class="game-desc">次のカードの数字は上？下？外したらお酒を飲む緊迫のトランプゲーム。キャラカード登場！</div>
+            </a>
+
+            <!-- Game 3 -->
+            <a href="roulette.html" class="game-card">
+                <div class="badge-new">NEW</div>
+                <div class="game-icon">🎯</div>
+                <div class="game-title">飲む人決定ルーレット</div>
+                <div class="game-desc">シンプルイズベスト！誰が飲むかを運命に委ねる、絶対に盛り上がるロシアンルーレット。</div>
+            </a>
+
+            <!-- Game 4 -->
+            <a href="split.html" class="game-card">
+                <div class="badge-new">NEW</div>
+                <div class="game-icon">💸</div>
+                <div class="game-title">傾斜付き ワリカン電卓</div>
+                <div class="game-desc">先輩や上司が多めに払う「傾斜ワリカン」が一瞬で計算できる、後輩幹事の最強の味方。</div>
+            </a>
+        </div>
+        
+        <div class="bottom-nav-wrapper">
+            <a href="../index.html" class="bottom-nav-button primary">TOPページに戻る</a>
+        </div>
+    </div>
+</body>
+</html>

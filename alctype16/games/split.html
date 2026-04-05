@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta name="theme-color" content="#6a1b9a">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>傾斜ワリカン電卓 - 飲み会ツール</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .calc-wrapper {
+            background: #fff; border-radius: 24px; padding: 30px 20px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 2px solid #10b981; margin-bottom: 40px;
+        }
+        .form-row { margin-bottom: 20px; text-align: left; }
+        .form-row label { display: block; font-weight: 800; color: var(--text-main); margin-bottom: 8px; font-size: 1.1rem;}
+        .form-row input, .form-row select { 
+            width: 100%; padding: 14px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 1.2rem; box-sizing: border-box;
+            background: #f8fafc;
+        }
+        .form-row input:focus { outline: none; border-color: #10b981; }
+        
+        .flex-row { display: flex; gap: 15px; }
+        .flex-row > div { flex: 1; }
+
+        .btn-calc {
+            background: #10b981; color: white; font-size: 1.3rem; font-weight: 900;
+            padding: 16px; border-radius: 12px; border: none; cursor: pointer;
+            box-shadow: 0 6px 0 #059669; width: 100%; transition: transform 0.1s; margin-top: 10px;
+        }
+        .btn-calc:active { transform: translateY(4px); box-shadow: 0 2px 0 #059669; }
+
+        .result-box {
+            background: #ecfdf5; border: 2px dashed #34d399; border-radius: 16px;
+            padding: 20px; margin-top: 30px; display: none; text-align: center;
+        }
+        .res-line { font-size: 1.5rem; font-weight: 900; color: #065f46; margin: 10px 0; border-bottom: 1px solid #a7f3d0; padding-bottom:10px;}
+        .res-line span { font-size: 2rem; color: #ef4444; }
+    </style>
+</head>
+<body>
+    <nav class="global-header">
+        <a href="../index.html" class="header-logo"><span style="font-size:1.4rem;">🍺</span><span class="text-logo">酒タイプ診断</span></a>
+        <div class="header-nav"><a href="./index.html">← ツール一覧へ戻る</a></div>
+        <button class="menu-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('active')">☰</button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu"><a href="./index.html">← ツール一覧へ戻る</a></div>
+
+    <div class="container fade-in" style="margin-top:40px; max-width: 500px;">
+        <div class="calc-wrapper">
+            <h1 style="color:#10b981; font-weight:900; font-size:2rem; text-align:center; margin-bottom:5px;">💸 後輩と飲んだ時用<br>傾斜ワリカン</h1>
+            <p style="font-weight:bold; color:var(--text-muted); text-align:center; margin-bottom:30px;">「先輩が多めに払う」を1秒で計算する幹事の武器。</p>
+            
+            <div class="form-row">
+                <label>お会計の合計金額 (円)</label>
+                <input type="number" id="totalAmount" placeholder="例: 15000">
+            </div>
+
+            <div class="flex-row">
+                <div class="form-row">
+                    <label>上の立場 (先輩・上司) の人数</label>
+                    <input type="number" id="seniors" value="1" min="1">
+                </div>
+                <div class="form-row">
+                    <label>下の立場 (後輩) の人数</label>
+                    <input type="number" id="juniors" value="2" min="0">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label>先輩の支払い比率（傾斜）</label>
+                <select id="slope">
+                    <option value="1.5">1.5倍払う (ちょっと多め)</option>
+                    <option value="2.0" selected>2倍払う (カッコいい)</option>
+                    <option value="3.0">3倍払う (神)</option>
+                    <option value="100">全額おごり (GOD)</option>
+                    <option value="1.0">傾斜なし (完全割り勘)</option>
+                </select>
+            </div>
+
+            <button class="btn-calc" onclick="calculate()">計算する！</button>
+
+            <div class="result-box" id="result">
+                <div class="res-line">先輩 (1人あたり): <br/><span id="resSenior">0</span> 円</div>
+                <div class="res-line" style="border-bottom:none;">後輩 (1人あたり): <br/><span id="resJunior">0</span> 円</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const total = parseInt(document.getElementById('totalAmount').value) || 0;
+            const sCount = parseInt(document.getElementById('seniors').value) || 1;
+            const jCount = parseInt(document.getElementById('juniors').value) || 0;
+            const slope = parseFloat(document.getElementById('slope').value) || 1;
+
+            if (total <= 0) return alert("正しい金額を入力してください");
+            
+            let sPay = 0;
+            let jPay = 0;
+
+            if (jCount === 0 || slope >= 100) {
+                sPay = Math.ceil(total / sCount / 100) * 100; // round up to 100s
+                jPay = 0;
+            } else {
+                // Math: total = (sPay * sCount) + (jPay * jCount)
+                // sPay = jPay * slope
+                // total = (jPay * slope * sCount) + (jPay * jCount)
+                // jPay = total / (slope * sCount + jCount)
+                
+                let exactJPay = total / ((slope * sCount) + jCount);
+                // Round junior pay down to nearest 500 or 100 to make it look nice and nice for exactly splitting
+                jPay = Math.ceil(exactJPay / 100) * 100;
+                
+                // Senior covers the rest
+                let remaining = total - (jPay * jCount);
+                // If jPay was rounded heavily, remaining could be negative or strange, but we rounded UP jPay?
+                // Wait, if we round UP jPay, senior might pay less than expected. Let's round junior DOWN so senior looks cooler
+                jPay = Math.floor(exactJPay / 100) * 100;
+                remaining = total - (jPay * jCount);
+                
+                sPay = Math.ceil(remaining / sCount / 100) * 100;
+            }
+
+            document.getElementById('resSenior').innerText = sPay.toLocaleString();
+            document.getElementById('resJunior').innerText = jPay.toLocaleString();
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta name="theme-color" content="#6a1b9a">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飲む人決定ルーレット - 飲み会ツール</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .game-wrapper {
+            background: #fff; border-radius: 24px; padding: 40px 20px; text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1); border: 2px solid #ef4444; margin-bottom: 40px;
+        }
+        .name-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .name-tag { background: #f1f5f9; padding: 8px 16px; border-radius: 30px; font-weight: bold; border: 1px solid #cbd5e1; display:flex; align-items:center; gap:8px;}
+        .name-tag span { cursor:pointer; color:#ef4444; font-weight:black; padding:0 4px; }
+        
+        .input-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+        .input-group input { padding: 12px 20px; border-radius: 50px; border: 2px solid #cbd5e1; max-width: 200px; font-size: 1rem; }
+        .input-group button { padding: 12px 24px; background: var(--text-main); color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; }
+        
+        .roulette-display {
+            font-size: 3rem; font-weight: 900; color: #ef4444; height: 100px; display: flex;
+            align-items: center; justify-content: center; background: #fee2e2; border-radius: 16px;
+            margin: 20px 0; border: 4px dashed #fca5a5; overflow: hidden;
+        }
+        
+        .btn-spin {
+            background: #ef4444; color: white; font-size: 1.5rem; font-weight: 900;
+            padding: 16px 50px; border-radius: 50px; border: none; cursor: pointer;
+            box-shadow: 0 6px 0 #b91c1c; transition: transform 0.1s, box-shadow 0.1s;
+            width: 100%; max-width: 300px;
+        }
+        .btn-spin:active:not(:disabled) { transform: translateY(6px); box-shadow: 0 0 0 #b91c1c; }
+        .btn-spin:disabled { background: #ccc; box-shadow: 0 6px 0 #999; cursor:not-allowed; }
+        
+        .winner-anim { animation: pulseWinner 0.5s infinite alternate; }
+        @keyframes pulseWinner { 0% { transform: scale(1); } 100% { transform: scale(1.1); color: #dc2626; text-shadow: 0 0 20px rgba(220,38,38,0.5); } }
+    </style>
+</head>
+<body>
+    <nav class="global-header">
+        <a href="../index.html" class="header-logo"><span style="font-size:1.4rem;">🍺</span><span class="text-logo">酒タイプ診断</span></a>
+        <div class="header-nav"><a href="./index.html">← ツール一覧へ戻る</a></div>
+        <button class="menu-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('active')">☰</button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu"><a href="./index.html">← ツール一覧へ戻る</a></div>
+
+    <div class="container fade-in" style="margin-top:40px;">
+        <div class="game-wrapper">
+            <h1 style="color:#ef4444; font-weight:900; font-size:2.2rem; margin-bottom:5px;">🎯 飲む人ルーレット</h1>
+            <p style="font-weight:bold; color:var(--text-muted); margin-bottom:20px;">名前を登録して、運命のロシアンルーレットを回そう！</p>
+            
+            <div class="input-group">
+                <input type="text" id="newName" placeholder="参加者の名前を追加" onkeypress="if(event.key==='Enter') addPlayer()">
+                <button onclick="addPlayer()">＋ 追加</button>
+            </div>
+            
+            <div class="name-list" id="playerList"></div>
+
+            <div class="roulette-display" id="display">誰だ？</div>
+            
+            <button class="btn-spin" id="btnSpin" onclick="spin()">ルーレットスタート！</button>
+        </div>
+    </div>
+
+    <script>
+        let players = ["Aさん", "Bさん", "Cさん"]; // Defaults
+        
+        function renderPlayers() {
+            const list = document.getElementById('playerList');
+            list.innerHTML = "";
+            players.forEach((p, index) => {
+                const tag = document.createElement('div');
+                tag.className = 'name-tag';
+                tag.innerHTML = `${p} <span onclick="removePlayer(${index})">✕</span>`;
+                list.appendChild(tag);
+            });
+        }
+
+        function addPlayer() {
+            const input = document.getElementById('newName');
+            const name = input.value.trim();
+            if(name) {
+                players.push(name);
+                input.value = "";
+                renderPlayers();
+            }
+        }
+
+        function removePlayer(index) {
+            players.splice(index, 1);
+            renderPlayers();
+        }
+
+        function spin() {
+            if(players.length < 2) {
+                alert("2人以上追加してください！");
+                return;
+            }
+            
+            const btn = document.getElementById('btnSpin');
+            const display = document.getElementById('display');
+            btn.disabled = true;
+            display.classList.remove('winner-anim');
+            
+            let count = 0;
+            const maxSpins = 30; // approx 3 seconds
+            
+            // Audio context imitation (just visual speed change)
+            let speed = 50;
+            
+            function tick() {
+                display.innerText = players[Math.floor(Math.random() * players.length)];
+                count++;
+                
+                if(count < maxSpins) {
+                    speed += 5; // slow down gradually
+                    setTimeout(tick, speed);
+                } else {
+                    // Result
+                    const loser = players[Math.floor(Math.random() * players.length)];
+                    display.innerText = loser + " !!!";
+                    display.classList.add('winner-anim');
+                    btn.disabled = false;
+                    btn.innerText = "もう一度回す";
+                }
+            }
+            tick();
+        }
+
+        renderPlayers();
+    </script>
+</body>
+</html>
