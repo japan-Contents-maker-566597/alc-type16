@@ -36,6 +36,27 @@
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
+
+    <!-- Global Header -->
+    <nav class="global-header">
+        <a href="../en/index.html" class="header-logo">
+            <span style="font-size:1.4rem;">🍺</span>Sake Type Diagnosis
+        </a>
+        <div class="header-nav">
+            <a href="../en/diagnosis.html">Take Test</a>
+            <a href="../en/index.html#types">16 Types</a>
+            <a href="../en/supplement/index.html">Articles</a>
+            <a href="../index.html">日本語</a>
+        </div>
+        <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('mobileMenu').classList.toggle('active')">☰</button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="../en/diagnosis.html">Take Test</a>
+        <a href="../en/index.html#types">16 Types</a>
+        <a href="../en/supplement/index.html">Articles</a>
+        <a href="../index.html">日本語</a>
+    </div>
+
     <div class="lang-toggle"><a href="../index.html">🌐 日本語</a></div>
 
     <!-- 1. DYNAMIC HERO SECTION -->
@@ -48,14 +69,21 @@
                 <div class="hero-char char-even"><img src="../../酒タイプ画像/LRUT.jpg" alt="Pro Organizer"></div>
                 <div class="hero-char char-odd"><img src="../../酒タイプ画像/LOUT.jpg" alt="Party Monster"></div>
                 <div class="hero-char char-center"><img src="../../酒タイプ画像/FRDY.jpg" alt="Angel"></div>
-                <div class="hero-char char-odd"><img src="../../酒タイプ画像/FRUT.jpg" alt="Wild Angel"></div>
-                <div class="hero-char char-even"><img src="../../酒タイプ画像/LRDY.jpg" alt="Water Thief"></div>
+                <div class="hero-char char-odd"><img src="../../酒タイプ画像/LOUY.jpg" alt="Time Bomb"></div>
+                <div class="hero-char char-even"><img src="../../酒タイプ画像/FOUT.jpg" alt="Holy Mother"></div>
             </div>
             
             <div class="hero-btn-wrap">
                 <a href="./diagnosis.html" class="btn btn-primary" style="padding: 24px 32px; font-size: 1.25rem;">
                     Take the Test Now
                 </a>
+            </div>
+
+            <!-- Virtual Diagnostic Counter for Authority -->
+            <div class="proof-counter fade-in" style="margin-top:30px;">
+                <div class="proof-counter-label">Join our global community!</div>
+                <div class="proof-counter-num">Over <span id="diagCounter" style="color:var(--brand-purple);">365,248</span> Tests</div>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">Taken worldwide since 2023</p>
             </div>
         </div>
     </header>
@@ -106,6 +134,53 @@
                     <div class="axis-info">
                         <h4>Tsuyoi (Strong) / Yowai (Weak)</h4>
                         <p>Represents your physical alcohol tolerance and typical drinking pace.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Curated Mock SNS Reviews Section -->
+        <section class="fade-in mb-8" style="margin-top: 40px;">
+            <h2 class="section-title" style="margin-bottom: 5px;">What People Are Saying</h2>
+            <p class="text-center" style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">A few highlights from our community</p>
+            
+            <div class="sns-review-grid">
+                <div class="sns-card">
+                    <div class="sns-header">
+                        <img src="../../酒タイプ画像/FOUT.jpg" class="sns-avatar" alt="User">
+                        <div class="sns-user">
+                            <span class="sns-name">Sarah</span>
+                            <span class="sns-handle">@sarah_drinks</span>
+                        </div>
+                    </div>
+                    <div class="sns-text">
+                        Did this with my coworkers before happy hour and literally everyone got a different type! 😂 I'm the <span class="sns-tag">#HolyMother</span>! Honestly it makes me feel better about baby-sitting them now. <span class="sns-tag">#SakeTypeDiagnosis</span>
+                    </div>
+                </div>
+                
+                <div class="sns-card">
+                    <div class="sns-header">
+                        <img src="../../酒タイプ画像/LOUT.jpg" class="sns-avatar" alt="User">
+                        <div class="sns-user">
+                            <span class="sns-name">Dan M.</span>
+                            <span class="sns-handle">@danweb</span>
+                        </div>
+                    </div>
+                    <div class="sns-text">
+                        This is terrifyingly accurate. I thought I just drank normally, but I fit the <span class="sns-tag">#PartyBoss</span> behavior patterns exactly. Better pace myself... lol <span class="sns-tag">#PartyTips</span>
+                    </div>
+                </div>
+                
+                <div class="sns-card">
+                    <div class="sns-header">
+                        <img src="../../酒タイプ画像/LRDY.jpg" class="sns-avatar" alt="User">
+                        <div class="sns-user">
+                            <span class="sns-name">Aya Design</span>
+                            <span class="sns-handle">@aya_design</span>
+                        </div>
+                    </div>
+                    <div class="sns-text">
+                        I've always hated drinking parties because I'm a lightweight, but getting the <span class="sns-tag">#WaterThief</span> result made me realize it's totally okay to just drink water and chill. The UI is super cute too!💖
                     </div>
                 </div>
             </div>

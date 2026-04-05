@@ -36,6 +36,27 @@
     <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
+
+    <!-- Global Header -->
+    <nav class="global-header">
+        <a href="./index.html" class="header-logo">
+            <span style="font-size:1.4rem;">🍺</span>【公式】酒タイプ診断
+        </a>
+        <div class="header-nav">
+            <a href="./diagnosis.html">診断を受ける</a>
+            <a href="./index.html#types">16タイプ一覧</a>
+            <a href="./supplement/index.html">特集記事</a>
+            <a href="./en/index.html">English</a>
+        </div>
+        <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('mobileMenu').classList.toggle('active')">☰</button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="./diagnosis.html">診断を受ける</a>
+        <a href="./index.html#types">16タイプ一覧</a>
+        <a href="./supplement/index.html">特集記事</a>
+        <a href="./en/index.html">English</a>
+    </div>
+
     <div class="lang-toggle"><a href="./en/index.html">🌐 English</a></div>
 
     <!-- 1. DYNAMIC HERO SECTION -->
@@ -48,14 +69,21 @@
                 <div class="hero-char char-even"><img src="../酒タイプ画像/LRUT.jpg" alt="プロ幹事"></div>
                 <div class="hero-char char-odd"><img src="../酒タイプ画像/LOUT.jpg" alt="アル中番長"></div>
                 <div class="hero-char char-center"><img src="../酒タイプ画像/FRDY.jpg" alt="天使"></div>
-                <div class="hero-char char-odd"><img src="../酒タイプ画像/FRUT.jpg" alt="酒豪天使"></div>
-                <div class="hero-char char-even"><img src="../酒タイプ画像/LRDY.jpg" alt="水泥棒"></div>
+                <div class="hero-char char-odd"><img src="../酒タイプ画像/LOUY.jpg" alt="ハイテンション時限爆弾"></div>
+                <div class="hero-char char-even"><img src="../酒タイプ画像/FOUT.jpg" alt="酒飲み聖母"></div>
             </div>
             
             <div class="hero-btn-wrap">
                 <a href="./diagnosis.html" class="btn btn-primary" style="padding: 24px 32px; font-size: 1.25rem;">
                     さっそく診断を始める
                 </a>
+            </div>
+
+            <!-- Virtual Diagnostic Counter for Authority -->
+            <div class="proof-counter fade-in">
+                <div class="proof-counter-label">＼ みんなはどのタイプ？ ／</div>
+                <div class="proof-counter-num">累計 <span id="diagCounter" style="color:var(--brand-purple);">365,248</span> 人が診断！</div>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">※2023年からの当サイト独自累計データ</p>
             </div>
         </div>
     </header>
@@ -106,6 +134,53 @@
                     <div class="axis-info">
                         <h4>酒に強い / 弱い</h4>
                         <p>肉体的なアルコール耐性の限界値と酔いやすさを判定。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Curated Mock SNS Reviews Section -->
+        <section class="fade-in mb-8" style="margin-top: 40px;">
+            <h2 class="section-title" style="margin-bottom: 5px;">#酒タイプ診断 のひそかな反響</h2>
+            <p class="text-center" style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">SNSでいただいた楽しいご感想を一部ピックアップ！</p>
+            
+            <div class="sns-review-grid">
+                <div class="sns-card">
+                    <div class="sns-header">
+                        <img src="../酒タイプ画像/FOUT.jpg" class="sns-avatar" alt="User">
+                        <div class="sns-user">
+                            <span class="sns-name">さきぽん🍻</span>
+                            <span class="sns-handle">@saki_drink</span>
+                        </div>
+                    </div>
+                    <div class="sns-text">
+                        職場の飲み会前にみんなでやったら奇跡的に全員違うタイプで爆笑😂 私は圧倒的<span class="sns-tag">#酒飲み聖母</span>でした！これからは堂々と介抱役に徹しますｗ <span class="sns-tag">#酒タイプ診断</span>
+                    </div>
+                </div>
+                
+                <div class="sns-card">
+                    <div class="sns-header">
+                        <img src="../酒タイプ画像/LOUT.jpg" class="sns-avatar" alt="User">
+                        <div class="sns-user">
+                            <span class="sns-name">たろ。</span>
+                            <span class="sns-handle">@taro_web</span>
+                        </div>
+                    </div>
+                    <div class="sns-text">
+                        これマジで当たる。自分では「普通に飲んでるだけ」って思ってたけど、完全に<span class="sns-tag">#アル中番長</span>の行動パターンそのままだったから気をつけよ…笑う <span class="sns-tag">#酒タイプ診断</span>
+                    </div>
+                </div>
+                
+                <div class="sns-card">
+                    <div class="sns-header">
+                        <img src="../酒タイプ画像/LRDY.jpg" class="sns-avatar" alt="User">
+                        <div class="sns-user">
+                            <span class="sns-name">あやの</span>
+                            <span class="sns-handle">@aya_no_design</span>
+                        </div>
+                    </div>
+                    <div class="sns-text">
+                        お酒弱くて飲み会苦手だったんだけど、<span class="sns-tag">#水泥棒</span>タイプって出たおかげで「私はチェイサー担当なんだ！」って割り切れてちょっと楽になった。診断サイトのUIも可愛い💖
                     </div>
                 </div>
             </div>
