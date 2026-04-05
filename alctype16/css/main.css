@@ -55,8 +55,21 @@ a:hover { opacity: 0.8; }
   border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
   margin-bottom: -30px; z-index: 1;
 }
-.hero-logo { font-size: clamp(2rem, 7vw, 3.2rem); color: var(--brand-purple); margin-bottom: 10px; line-height: 1.2; letter-spacing: -0.03em; }
-.hero-logo-img { width: 90%; max-width: 320px; height: auto; margin: 0 auto 15px auto; display: block; filter: drop-shadow(0 4px 10px rgba(74, 20, 140, 0.15)); }
+.hero-logo { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom: 20px; }
+.hero-logo-icon { font-size: clamp(2rem, 8vw, 3.5rem); -webkit-text-fill-color: initial; }
+.hero-logo .text-logo { font-size: clamp(2rem, 8vw, 3.5rem); letter-spacing: -0.05em; line-height: 1.2; }
+
+/* Pure CSS 1-line typography logo */
+.text-logo {
+  font-family: var(--font-title);
+  font-weight: 900;
+  display: inline-block;
+  background: linear-gradient(135deg, var(--brand-purple), var(--brand-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 5px 0;
+}
+.header-logo .text-logo { font-size: 1.25rem; }
 .hero-subtitle { font-size: clamp(1rem, 4vw, 1.2rem); font-weight: 600; color: var(--text-main); margin-bottom: 30px; }
 .hero-btn-wrap { max-width: 400px; margin: 0 auto; position: relative; z-index: 20; }
 
@@ -271,7 +284,7 @@ a:hover { opacity: 0.8; }
    Global Header & Navigation (16Personalities style)
 ========================================================= */
 .global-header { position: sticky; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.3s ease; }
-.header-logo { font-size: 1.25rem; font-weight: 800; color: var(--brand-purple); text-decoration: none; font-family: var(--font-title); display: flex; align-items: center; gap: 8px; }
+.header-logo { text-decoration: none; display: flex; align-items: center; gap: 8px; }
 .header-nav { display: none; }
 @media (min-width: 768px) {
   .header-nav { display: flex; align-items: center; gap: 24px; }
