@@ -229,9 +229,14 @@ a:hover { opacity: 0.8; }
 .regulation-label { display: block; font-weight: bold; color: var(--brand-purple); margin-bottom: 8px; }
 .drink-menu { list-style: none; padding: 0; margin: 0; color: var(--text-main); font-weight: 500; }
 .drink-menu li { margin-bottom: 4px; }
-.chara-box { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.9); padding: 12px 20px; border-radius: 50px; box-shadow: var(--shadow-sm); margin: 30px auto; max-width: 400px; }
-.chara-icon { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--brand-purple); flex-shrink: 0; object-fit: cover; }
-.chara-bubble { font-weight: 800; color: var(--text-main); line-height: 1.4; font-size: 0.95rem; }
+.chara-box { margin: 40px 0; display: flex; align-items: center; justify-content: center; gap: 15px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.chara-icon { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ffca28; box-shadow: 0 4px 6px rgba(0,0,0,0.1); object-fit: cover; background: #fff; flex-shrink: 0; }
+.chara-bubble { position: relative; background: #fff8e1; border: 2px solid #ffca28; border-radius: 12px; padding: 15px; font-weight: 800; color: #f57f17; font-size: 1.0rem; line-height: 1.5; white-space: nowrap; }
+.chara-bubble::after { content: ''; position: absolute; left: -10px; top: 50%; transform: translateY(-50%); border-width: 10px 10px 10px 0; border-style: solid; border-color: transparent #ffca28 transparent transparent; }
+
+.chara-box.snnm-style .chara-icon { border-color: #f06292; }
+.chara-box.snnm-style .chara-bubble { background: #fce4ec; border-color: #f06292; color: #c2185b; font-size: 0.85rem; line-height: 1.5; padding: 15px; text-align: left; white-space: normal; }
+.chara-box.snnm-style .chara-bubble::after { border-color: transparent #f06292 transparent transparent; }
 .item-card { background: rgba(255,255,255,0.9); padding: 24px; border-radius: 16px; margin-bottom: 30px; box-shadow: var(--shadow-md); position: relative; border-top: 6px solid #e2e8f0; }
 .item-card.bad { border-top-color: #ef4444; }
 .item-card.normal { border-top-color: #f59e0b; }
