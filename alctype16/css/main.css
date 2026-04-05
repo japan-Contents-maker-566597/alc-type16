@@ -199,17 +199,11 @@ a:hover { opacity: 0.8; }
 .result-card p { line-height: 1.9; font-size: 1rem; color: var(--text-main); margin-bottom: 1.2rem; }
 .key-sentence { 
   display: inline-block;
-  padding: 6px 16px;
-  background: var(--brand-purple);
-  color: #ffffff;
+  color: var(--brand-purple);
   font-weight: 800;
-  border-radius: 50px;
+  border-bottom: 2px solid var(--brand-purple);
+  padding: 0 4px 2px 4px;
   margin-bottom: 12px;
-  box-shadow: 0 4px 10px rgba(74, 20, 140, 0.2);
-}
-.key-sentence .marker-highlight {
-  color: #ffffff; /* Override marker dark text */
-  background: none; /* Remove yellow marker as it conflicts with purple */
 }
 .result-good { background-color: #f0fdf4; padding: 24px; border-radius: 20px; border: 1px solid #bbf7d0; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.05); }
 .result-bad { background-color: #fef2f2; padding: 24px; border-radius: 20px; border: 1px solid #fecaca; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.05); }
