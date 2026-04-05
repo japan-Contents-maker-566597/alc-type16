@@ -197,7 +197,16 @@ a:hover { opacity: 0.8; }
 .result-card { background: rgba(255, 255, 255, 0.9); box-shadow: var(--shadow-sm); padding: 30px; border-radius: 20px; margin-bottom: 24px; border: 1px solid #e2e8f0; }
 .result-card h3 { display: inline-block; font-size: 1.05rem; padding: 8px 20px; background: linear-gradient(135deg, var(--brand-gold-light), var(--brand-gold)); color: #854d0e; border-radius: 30px; margin-top: 0; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(251, 191, 36, 0.2); font-family: var(--font-base); }
 .result-card p { line-height: 1.9; font-size: 1rem; color: var(--text-main); margin-bottom: 1.2rem; }
-.key-sentence { font-weight: 800; background: linear-gradient(transparent 60%, rgba(251, 191, 36, 0.4) 60%); padding: 0 4px; display: inline; }
+.key-sentence { 
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--brand-purple-light);
+  color: var(--brand-purple);
+  font-weight: 800;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  border-left: 4px solid var(--brand-purple);
+}
 .result-good { background-color: #f0fdf4; padding: 24px; border-radius: 20px; border: 1px solid #bbf7d0; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.05); }
 .result-bad { background-color: #fef2f2; padding: 24px; border-radius: 20px; border: 1px solid #fecaca; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.05); }
 
@@ -312,3 +321,47 @@ a:hover { opacity: 0.8; }
 .sns-handle { font-size: 0.75rem; color: var(--text-muted); }
 .sns-text { font-size: 0.95rem; line-height: 1.6; color: var(--text-main); }
 .sns-tag { color: #3b82f6; font-weight: 600; }
+
+/* Format Adjustments for Result Pages */
+.marker-highlight {
+  background: linear-gradient(transparent 60%, rgba(255, 213, 79, 0.6) 40%);
+  font-weight: 800;
+  color: var(--text-main);
+  padding: 0 4px;
+}
+
+.match-profile {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-top: 10px;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+.match-profile.good-match { border-left: 4px solid #10b981; }
+.match-profile.bad-match { border-left: 4px solid #ef4444; }
+.match-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fff;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+.match-text { flex: 1; }
+.match-title {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+.match-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  margin: 0;
+}
