@@ -56,6 +56,7 @@ a:hover { opacity: 0.8; }
   margin-bottom: -30px; z-index: 1;
 }
 .hero-logo { font-size: clamp(2rem, 7vw, 3.2rem); color: var(--brand-purple); margin-bottom: 10px; line-height: 1.2; letter-spacing: -0.03em; }
+.hero-logo-img { width: 90%; max-width: 320px; height: auto; margin: 0 auto 15px auto; display: block; filter: drop-shadow(0 4px 10px rgba(74, 20, 140, 0.15)); }
 .hero-subtitle { font-size: clamp(1rem, 4vw, 1.2rem); font-weight: 600; color: var(--text-main); margin-bottom: 30px; }
 .hero-btn-wrap { max-width: 400px; margin: 0 auto; position: relative; z-index: 20; }
 
