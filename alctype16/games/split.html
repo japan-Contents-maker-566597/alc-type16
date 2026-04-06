@@ -338,8 +338,9 @@ function calculate() {
     const diff = parseInt(document.getElementById('diffAmount').value);
 
     /* Equal shares */
-    const baseEqual = Math.floor(total / n / 10) * 10;
-    const equalShares = members.map((_, i) => i === 0 ? total - baseEqual * (n - 1) : baseEqual);
+    const baseEqual = Math.floor(total / n);
+    const remEqual  = total % n;
+    const equalShares = members.map((_, i) => i < remEqual ? baseEqual + 1 : baseEqual);
 
     /* Tilted shares — sort by age desc */
     const sorted = members.map((m, i) => ({ ...m, origIdx: i })).sort((a, b) => (b.age || 0) - (a.age || 0));
@@ -347,17 +348,18 @@ function calculate() {
     let tiltError = null;
 
     if (diff > 0) {
-        const baseRaw = (total - diff * n * (n - 1) / 2) / n;
-        if (baseRaw < 0) {
+        const sumDiffs = diff * n * (n - 1) / 2;
+        const totalBase = total - sumDiffs;
+        if (totalBase < 0) {
             tiltError = '差額設定が大きすぎます。差額を小さくするかメンバーを増やしてください。';
         } else {
-            const baseT = Math.floor(baseRaw / 10) * 10;
+            const baseT = Math.floor(totalBase / n);
+            const remT  = totalBase % n;
             tiltedShares = new Array(n);
-            let used = 0;
             sorted.forEach((m, rank) => {
-                const share = rank === n - 1 ? total - used : baseT + (n - 1 - rank) * diff;
-                tiltedShares[m.origIdx] = share;
-                used += share;
+                const rankBonus = (n - 1 - rank) * diff;
+                const shareRem  = rank < remT ? 1 : 0;
+                tiltedShares[m.origIdx] = baseT + rankBonus + shareRem;
             });
         }
     } else {
@@ -426,7 +428,7 @@ function buildTable(members, shares, total, isTilted, sorted) {
             </tfoot>
         </table>
         ${diffNote}
-        <p style="font-size:.72rem;color:#9ca3af;margin-top:6px;">※端数は最上位の方に加算しています</p>`;
+        <p style="font-size:.72rem;color:#9ca3af;margin-top:6px;">※端数は可能な限り均等に分配しています</p>`;
 }
 
 /* ════════════════════════════════
