@@ -1,38 +1,59 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta name="theme-color" content="#6a1b9a">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YJFPXNF0M"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-1YJFPXNF0M');
-    </script>
-    <title>ワリカン・傾斜電卓 - 飲み会コンテンツ</title>
-    <link rel="stylesheet" href="../css/main.css">
+    <title>ワリカン・傾斜電卓 | 酒タイプ診断</title>
+    <meta name="description" content="飲み会や旅行の精算に。参加者ごとの支払項目選択や、年齢別の傾斜計算ができる高度なワリカン電卓です。">
+    <link rel="stylesheet" href="../css/style.css">
     <style>
+        :root { --bg-sub:#f8fafc; --text-muted:#64748b; }
+        body { background:#f1f5f9; color:#1e293b; }
         .calc-wrapper {
-            background:#fff; border-radius:24px; padding:24px 18px;
-            box-shadow:0 10px 40px rgba(0,0,0,0.08); border:2px solid #10b981; margin-bottom:32px;
+            background:#fff; border-radius:24px; padding:20px;
+            box-shadow:0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+            max-width:680px; margin:0 auto;
         }
         .sec-title {
-            font-size:1rem; font-weight:900; color:#10b981;
-            margin:22px 0 8px; border-bottom:2px dashed #a7f3d0; padding-bottom:6px;
+            font-size:1.1rem; font-weight:900; color:#10b981;
+            margin:24px 0 12px; padding-left:10px; border-left:4px solid #10b981;
         }
-        /* grid rows */
-        .member-row {
-            display:grid; grid-template-columns:2fr 1fr 36px;
-            gap:6px; align-items:center; margin-bottom:8px;
+        
+        .member-row, .expense-row {
+            display:grid; gap:6px; align-items:center; margin-bottom:8px;
             animation:slideIn .25s ease-out;
         }
+        .member-row { grid-template-columns:2fr 1fr 36px; }
+
+        /* ── expense-row updated ── */
         .expense-row {
-            display:grid; grid-template-columns:2fr 1.8fr 1.4fr 36px;
-            gap:6px; align-items:center; margin-bottom:8px;
+            display:grid; grid-template-columns:1.8fr 1.6fr 1.1fr 36px;
+            gap:6px; align-items:center; margin-bottom:4px;
             animation:slideIn .25s ease-out;
         }
+        .expense-ctrl {
+            display:flex; justify-content:space-between; align-items:center;
+            margin-bottom:12px; padding:0 4px;
+        }
+        .btn-p-toggle {
+            font-size:0.72rem; font-weight:800; color:#10b981; background:#f0fdf4;
+            border:1px solid #bbf7d0; border-radius:6px; padding:4px 8px; cursor:pointer;
+            display:inline-flex; align-items:center; gap:4px; transition:all .2s;
+        }
+        .btn-p-toggle:hover { background:#dcfce7; border-color:#10b981; }
+        .p-drawer {
+            background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px;
+            padding:12px; margin:2px 0 16px; display:none; grid-template-columns:repeat(auto-fill, minmax(100px, 1fr));
+            gap:8px; animation:slideIn .2s ease-out;
+        }
+        .p-drawer.active { display:grid; }
+        .p-item {
+            display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700;
+            color:#475569; cursor:pointer; user-select:none;
+        }
+        .p-item input { width:auto; margin:0; cursor:pointer; }
+        .expense-group { margin-bottom:18px; border-bottom:1px solid #f1f5f9; padding-bottom:4px; }
+
         .member-row input,
         .expense-row input,
         .expense-row select {
@@ -43,6 +64,7 @@
         .member-row input:focus,
         .expense-row input:focus,
         .expense-row select:focus { border-color:#10b981; outline:none; background:#fff; }
+        
         .btn-del {
             background:#fee2e2; color:#ef4444; border:none;
             width:36px; height:36px; min-width:36px; flex-shrink:0;
@@ -50,14 +72,17 @@
             display:flex; align-items:center; justify-content:center;
         }
         .btn-del:hover { background:#fecaca; }
+        
         .col-hdr { display:grid; gap:6px; margin-bottom:4px; padding:0 2px; }
         .col-hdr span { font-size:0.7rem; font-weight:700; color:#6b7280; }
+        
         .btn-add {
             width:100%; padding:11px; background:#f0fdf4; color:#10b981;
             border:2px dashed #bbf7d0; border-radius:12px; font-weight:800;
             cursor:pointer; transition:all .2s; margin-bottom:4px; font-size:0.92rem;
         }
         .btn-add:hover { background:#dcfce7; border-color:#10b981; }
+        
         .form-row { margin-bottom:14px; }
         .form-row label { display:block; font-weight:700; margin-bottom:6px; color:#374151; font-size:0.88rem; }
         .form-row select {
@@ -65,6 +90,7 @@
             font-size:0.92rem; font-weight:600; background:#f9fafb; box-sizing:border-box;
             font-family:inherit;
         }
+        
         .calc-btn {
             width:100%; padding:17px; background:#10b981; color:white;
             border:none; border-radius:50px; font-size:1.15rem; font-weight:900;
@@ -126,9 +152,7 @@
         .settle-amount { color:#ef4444; font-weight:900; white-space:nowrap; }
 
         /* ── action buttons ── */
-        .action-row {
-            display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;
-        }
+        .action-row { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
         .action-btn {
             flex:1; min-width:140px; padding:13px 10px; border:none; border-radius:50px;
             font-size:0.9rem; font-weight:800; cursor:pointer; transition:all .2s;
@@ -138,9 +162,7 @@
         .action-btn.copy { background:#3949ab; color:white; box-shadow:0 4px 14px rgba(57,73,171,.3); }
         .action-btn:hover { transform:translateY(-2px); opacity:.9; }
 
-        .notice {
-            font-size:0.75rem; text-align:center; color:#6b7280; margin-top:8px;
-        }
+        .notice { font-size:0.75rem; text-align:center; color:#6b7280; margin-top:8px; }
         .toast {
             position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
             background:#1e293b; color:white; padding:12px 24px; border-radius:50px;
@@ -155,16 +177,13 @@
 <body>
 <nav class="global-header">
     <a href="../index.html" class="header-logo"><span style="font-size:1.4rem;">🍺</span><span class="text-logo">酒タイプ診断</span></a>
-    <div class="header-nav"></div>
 </nav>
-<div class="mobile-menu" id="mobileMenu"></div>
 
 <div class="container fade-in" style="margin-top:40px;">
 <div class="calc-wrapper">
     <h1 style="color:#10b981;font-weight:900;font-size:clamp(1.3rem,5vw,1.85rem);margin-bottom:4px;word-break:keep-all;white-space:nowrap;">💸 ワリカン・傾斜電卓</h1>
-    <p style="font-weight:bold;color:var(--text-muted);margin-bottom:4px;font-size:0.88rem;">立替を記録して均等／傾斜で精算。リンクで友達と共有可！</p>
+    <p style="font-weight:bold;color:var(--text-muted);margin-bottom:4px;font-size:0.88rem;">立替を記録して均等／傾斜で精算。参加者の個別選択も可能！</p>
 
-    <!-- ① メンバー -->
     <div class="sec-title">① 参加メンバー</div>
     <div class="col-hdr" style="grid-template-columns:2fr 1fr 36px;">
         <span>名前</span><span>年齢</span><span></span>
@@ -172,7 +191,6 @@
     <div id="memberList"></div>
     <button class="btn-add" onclick="addMember()">＋ メンバーを追加</button>
 
-    <!-- ② 立替の記録 -->
     <div class="sec-title">② 立替の記録</div>
     <div class="col-hdr" style="grid-template-columns:2fr 1.8fr 1.4fr 36px;">
         <span>費目</span><span>立替者</span><span>金額</span><span></span>
@@ -180,10 +198,9 @@
     <div id="expenseList"></div>
     <button class="btn-add" onclick="addExpense()">＋ 立替を追加</button>
 
-    <!-- ③ 傾斜設定 -->
     <div class="sec-title">③ 傾斜設定</div>
-    <div class="form-row" style="margin-bottom:0;">
-        <label>年齢の高い順に上乗せする差額（均等の場合は「差額なし」を選択）</label>
+    <div class="form-row">
+        <label>年齢の高い順に上乗せする差額</label>
         <select id="diffAmount">
             <option value="0">差額なし（均等のみ）</option>
             <option value="500">500円ずつ差を付ける</option>
@@ -195,7 +212,6 @@
 
     <button class="calc-btn" onclick="calculate()">計算する！</button>
 
-    <!-- Result Panel -->
     <div id="resultPanel" class="result-panel">
         <div class="tab-header">
             <button class="tab-btn active" onclick="showTab(0)">均等ワリカン</button>
@@ -207,7 +223,6 @@
         <div id="tab2" class="tab-content"></div>
     </div>
 
-    <!-- Action buttons (shown after calculate) -->
     <div id="actionRow" class="action-row" style="display:none;">
         <button class="action-btn csv"  onclick="exportCSV()">📥 Excelダウンロード (CSV)</button>
         <button class="action-btn copy" onclick="copyShareLink()">🔗 リンクをコピー</button>
@@ -217,43 +232,49 @@
 
 <div class="bottom-nav-wrapper">
     <a href="./index.html" class="bottom-nav-button primary">ツール一覧に戻る</a>
-    <a href="../index.html" class="bottom-nav-button" style="border:2px solid #10b981;color:#10b981;background:transparent;">酒タイプ診断TOPに戻る</a>
+    <a href="../index.html" class="bottom-nav-button" style="border:2px solid #10b981;color:#10b981;background:transparent;">TOPに戻る</a>
 </div>
 </div>
 
-<!-- Toast notification -->
-<div id="toast" class="toast">✅ リンクをコピーしました！</div>
+<div id="toast" class="toast"></div>
 
 <script>
-/* ════════════════════════════════
-   State
-════════════════════════════════ */
 let memberIdCnt = 0;
 let expenseIdCnt = 0;
-let lastResult = null;  // saved for CSV export
+let lastResult = null;
 
-/* ════════════════════════════════
-   Member management
-════════════════════════════════ */
 function addMember(name='', age='', silent=false) {
     memberIdCnt++;
     const id = `m${memberIdCnt}`;
     const div = document.createElement('div');
     div.className = 'member-row';
     div.id = id;
+    div.dataset.mid = id;
     div.innerHTML = `
-        <input type="text"   class="mname" placeholder="名前 (任意)" value="${esc(name)}">
+        <input type="text"   class="mname" placeholder="名前" value="${esc(name)}">
         <input type="number" class="mage"  placeholder="年齢" min="1" max="99" style="text-align:center;" value="${esc(age)}">
-        <button class="btn-del" onclick="delRow('${id}'); refreshPayerDropdowns()">✕</button>
+        <button class="btn-del" onclick="delMember('${id}')">✕</button>
     `;
     document.getElementById('memberList').appendChild(div);
-    div.querySelector('.mname').addEventListener('input', refreshPayerDropdowns);
-    if (!silent) refreshPayerDropdowns();
+    div.querySelector('.mname').addEventListener('input', () => { refreshPayerDropdowns(); updateAllExpenseParticipantLists(); });
+    if (!silent) { refreshPayerDropdowns(); updateAllExpenseParticipantLists(); }
 }
 
-function getMemberNames() {
-    return [...document.querySelectorAll('.member-row .mname')].map(el => el.value.trim()).filter(n => n);
+function delMember(id) {
+    delRow(id);
+    refreshPayerDropdowns();
+    updateAllExpenseParticipantLists();
 }
+
+function getMembers() {
+    return [...document.querySelectorAll('.member-row')].map(r => ({
+        id: r.dataset.mid,
+        name: r.querySelector('.mname').value.trim() || '名無し',
+        age: parseInt(r.querySelector('.mage').value) || 0
+    }));
+}
+
+function getMemberNames() { return getMembers().map(m => m.name); }
 
 function refreshPayerDropdowns() {
     const names = getMemberNames();
@@ -264,117 +285,135 @@ function refreshPayerDropdowns() {
     });
 }
 
-/* ════════════════════════════════
-   Expense management
-════════════════════════════════ */
-function addExpense(cat='', payerName='', amount='') {
+function addExpense(cat='', payerName='', amount='', participants=null) {
     expenseIdCnt++;
     const id = `e${expenseIdCnt}`;
     const names = getMemberNames();
     const options = `<option value="">（立替なし）</option>` +
         names.map(n => `<option value="${esc(n)}" ${n === payerName ? 'selected' : ''}>${esc(n)}</option>`).join('');
 
-    const div = document.createElement('div');
-    div.className = 'expense-row';
-    div.id = id;
-    div.innerHTML = `
-        <input type="text"   class="ecat"   placeholder="例: 一次会" value="${esc(cat)}">
-        <select class="payer-sel">${options}</select>
-        <input type="number" class="eamt"   placeholder="¥" min="0" step="100" style="text-align:right;" value="${esc(amount)}">
-        <button class="btn-del" onclick="delRow('${id}')">✕</button>
+    const container = document.createElement('div');
+    container.className = 'expense-group';
+    container.id = id;
+    container.innerHTML = `
+        <div class="expense-row">
+            <input type="text"   class="ecat"   placeholder="例: 一次会" value="${esc(cat)}">
+            <select class="payer-sel">${options}</select>
+            <input type="number" class="eamt"   placeholder="¥" min="0" step="100" style="text-align:right;" value="${esc(amount)}">
+            <button class="btn-del" onclick="delRow('${id}')">✕</button>
+        </div>
+        <div class="expense-ctrl">
+            <button class="btn-p-toggle" onclick="toggleParticipants('${id}')">👥 参加者を選択 <span class="p-count"></span></button>
+        </div>
+        <div class="p-drawer" id="drawer-${id}"></div>
     `;
-    document.getElementById('expenseList').appendChild(div);
+    document.getElementById('expenseList').appendChild(container);
+    updateExpenseParticipantList(id, participants);
 }
 
-function delRow(id) {
-    const el = document.getElementById(id);
-    if (el) el.remove();
+function toggleParticipants(id) { document.getElementById(`drawer-${id}`).classList.toggle('active'); }
+
+function updateAllExpenseParticipantLists() {
+    document.querySelectorAll('.expense-group').forEach(group => updateExpenseParticipantList(group.id));
 }
 
+function updateExpenseParticipantList(expenseId, savedSelection=null) {
+    const drawer = document.getElementById(`drawer-${expenseId}`);
+    if (!drawer) return;
+    const currentChecked = savedSelection || [...drawer.querySelectorAll('input:checked')].map(i => i.value);
+    const members = getMembers();
+    drawer.innerHTML = members.map(m => `
+        <label class="p-item">
+            <input type="checkbox" value="${esc(m.id)}" ${ (savedSelection === null && currentChecked.length === 0) || currentChecked.includes(m.id) ? 'checked' : '' } onchange="updatePCount('${expenseId}')">
+            ${esc(m.name)}
+        </label>
+    `).join('');
+    updatePCount(expenseId);
+}
+
+function updatePCount(expenseId) {
+    const group = document.getElementById(expenseId);
+    const count = group.querySelectorAll('.p-drawer input:checked').length;
+    const total = group.querySelectorAll('.p-drawer input').length;
+    group.querySelector('.p-count').textContent = `(${count}/${total}人)`;
+}
+
+function delRow(id) { const el = document.getElementById(id); if (el) el.remove(); }
 function esc(s) { return String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
-
-/* ════════════════════════════════
-   Tab switcher
-════════════════════════════════ */
 function showTab(idx) {
     document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
     document.querySelectorAll('.tab-content').forEach((c, i) => c.classList.toggle('active', i === idx));
 }
 
-/* ════════════════════════════════
-   Main calculation
-════════════════════════════════ */
 function calculate() {
-    if (typeof gtag !== 'undefined') gtag('event', 'game_action', { event_category:'engagement', event_label:'split_calculate' });
+    const members = getMembers().map(m => ({ ...m, paid: 0, equalShare: 0, tiltedShare: 0 }));
+    if (members.length < 2) { alert('メンバーを2人以上追加してください！'); return; }
 
-    // Collect members
-    const memEls = [...document.querySelectorAll('.member-row')];
-    if (memEls.length < 2) { alert('メンバーを2人以上追加してください！'); return; }
-    const members = memEls.map(r => ({
-        name: r.querySelector('.mname').value.trim() || '名無し',
-        age:  parseInt(r.querySelector('.mage').value) || 0,
-        paid: 0
-    }));
-
-    // Collect expenses
-    const expEls = [...document.querySelectorAll('.expense-row')];
-    if (expEls.length === 0) { alert('立替を1件以上追加してください！'); return; }
-    const expenses = expEls.map(r => ({
-        cat:    r.querySelector('.ecat').value.trim() || '未記入',
-        payer:  r.querySelector('.payer-sel').value,
-        amount: parseInt(r.querySelector('.eamt').value) || 0
-    })).filter(e => e.amount > 0);
+    const expEls = [...document.querySelectorAll('.expense-group')];
+    const expenses = expEls.map(group => {
+        const pids = [...group.querySelectorAll('.p-drawer input:checked')].map(i => i.value);
+        return {
+            cat: group.querySelector('.ecat').value.trim() || '未記入',
+            payer: group.querySelector('.payer-sel').value,
+            amount: parseInt(group.querySelector('.eamt').value) || 0,
+            participantIds: pids
+        };
+    }).filter(e => e.amount > 0);
 
     if (expenses.length === 0) { alert('金額を入力してください！'); return; }
     const total = expenses.reduce((s, e) => s + e.amount, 0);
 
-    // Accumulate paid amounts per member
     expenses.forEach(exp => {
-        const m = members.find(m => m.name === exp.payer);
-        if (m) m.paid += exp.amount;
+        const payer = members.find(m => m.name === exp.payer);
+        if (payer) payer.paid += exp.amount;
+
+        if (exp.participantIds.length > 0) {
+            const partCount = exp.participantIds.length;
+            const base = Math.floor(exp.amount / partCount);
+            const rem = exp.amount % partCount;
+            exp.participantIds.forEach((pid, i) => {
+                const m = members.find(m => m.id === pid);
+                if (m) m.equalShare += (i < rem ? base + 1 : base);
+            });
+        }
     });
 
-    const n = members.length;
     const diff = parseInt(document.getElementById('diffAmount').value);
-
-    /* Equal shares */
-    const baseEqual = Math.floor(total / n);
-    const remEqual  = total % n;
-    const equalShares = members.map((_, i) => i < remEqual ? baseEqual + 1 : baseEqual);
-
-    /* Tilted shares — sort by age desc */
-    const sorted = members.map((m, i) => ({ ...m, origIdx: i })).sort((a, b) => (b.age || 0) - (a.age || 0));
     let tiltedShares = null;
     let tiltError = null;
 
     if (diff > 0) {
-        const sumDiffs = diff * n * (n - 1) / 2;
-        const totalBase = total - sumDiffs;
-        if (totalBase < 0) {
-            tiltError = '差額設定が大きすぎます。差額を小さくするかメンバーを増やしてください。';
-        } else {
-            const baseT = Math.floor(totalBase / n);
-            const remT  = totalBase % n;
-            tiltedShares = new Array(n);
-            sorted.forEach((m, rank) => {
-                const rankBonus = (n - 1 - rank) * diff;
-                const shareRem  = rank < remT ? 1 : 0;
-                tiltedShares[m.origIdx] = baseT + rankBonus + shareRem;
-            });
-        }
-    } else {
-        tiltedShares = [...equalShares];
-    }
+        const tiltedResult = members.map(m => ({ ...m, tiltedShare: 0 }));
+        expenses.forEach(exp => {
+            if (exp.participantIds.length > 0) {
+                const pMembers = tiltedResult.filter(m => exp.participantIds.includes(m.id)).sort((a,b) => b.age - a.age);
+                const count = pMembers.length;
+                const sumDiffs = diff * count * (count - 1) / 2;
+                const totalBase = exp.amount - sumDiffs;
+                if (totalBase < 0) {
+                    const base = Math.floor(exp.amount / count);
+                    const rem = exp.amount % count;
+                    pMembers.forEach((m, i) => m.tiltedShare += (i < rem ? base + 1 : base));
+                } else {
+                    const baseT = Math.floor(totalBase / count);
+                    const remT  = totalBase % count;
+                    pMembers.forEach((m, rank) => {
+                        const bonus = (count - 1 - rank) * diff;
+                        m.tiltedShare += (baseT + bonus + (rank < remT ? 1 : 0));
+                    });
+                }
+            }
+        });
+        tiltedShares = tiltedResult.map(m => m.tiltedShare);
+    } else { tiltedShares = members.map(m => m.equalShare); }
 
-    // Save for export
+    const equalShares = members.map(m => m.equalShare);
+    const sorted = [...members].sort((a,b) => b.age - a.age).map(m => ({ ...m, origIdx: members.indexOf(m) }));
     lastResult = { members, expenses, total, equalShares, tiltedShares, sorted, diff, tiltError };
 
-    // Render tabs
     document.getElementById('tab0').innerHTML = buildTable(members, equalShares, total, false, null);
-    document.getElementById('tab1').innerHTML = tiltError
-        ? `<p style="color:#ef4444;font-weight:bold;padding:16px;text-align:center;">${tiltError}</p>`
-        : buildTable(members, tiltedShares, total, true, sorted);
-    document.getElementById('tab2').innerHTML = buildSettlement(members, tiltedShares ?? equalShares, total, tiltError);
+    document.getElementById('tab1').innerHTML = buildTable(members, tiltedShares, total, true, sorted);
+    document.getElementById('tab2').innerHTML = buildSettlement(members, tiltedShares, total);
 
     document.getElementById('resultPanel').style.display = 'block';
     document.getElementById('actionRow').style.display = 'flex';
@@ -383,12 +422,8 @@ function calculate() {
     scrollTo({ top: document.getElementById('resultPanel').offsetTop - 80, behavior: 'smooth' });
 }
 
-/* ════════════════════════════════
-   Build table HTML
-════════════════════════════════ */
 function buildTable(members, shares, total, isTilted, sorted) {
     const order = isTilted && sorted ? sorted.map(s => s.origIdx) : members.map((_, i) => i);
-
     let rows = '';
     order.forEach((idx, rank) => {
         const m = members[idx];
@@ -396,209 +431,78 @@ function buildTable(members, shares, total, isTilted, sorted) {
         const net = share - m.paid;
         const netClass = net > 0 ? 'td-owe' : net < 0 ? 'td-recv' : 'td-zero';
         const netTxt = net > 0 ? `支払 ${net.toLocaleString()}` : net < 0 ? `受取 ${Math.abs(net).toLocaleString()}` : '精算なし';
-        const rankBadge = isTilted ? (rank === 0 ? '👑' : rank === members.length - 1 ? '🌱' : `${rank + 1}`) : '';
-
+        const badge = isTilted ? (rank === 0 ? '👑' : rank === members.length-1 ? '🌱' : rank+1) : '';
         rows += `<tr>
-            <td class="td-name">${rankBadge} ${m.name}${m.age ? `<br><span style="font-size:.7rem;color:#9ca3af;">${m.age}歳</span>` : ''}</td>
-            <td>${share.toLocaleString()}<span style="font-size:.75rem;">円</span></td>
-            <td>${m.paid.toLocaleString()}<span style="font-size:.75rem;">円</span></td>
-            <td class="${netClass}">${netTxt}<span style="font-size:.75rem;">円</span></td>
+            <td class="td-name">${badge} ${m.name}</td>
+            <td>${share.toLocaleString()}円</td>
+            <td>${m.paid.toLocaleString()}円</td>
+            <td class="${netClass}">${netTxt}円</td>
         </tr>`;
     });
-
-    const diffNote = isTilted && lastResult && lastResult.diff > 0
-        ? `<p style="font-size:.76rem;color:#6b7280;margin-top:10px;">※年齢順に並び替え。隣の順位との差額: ${lastResult.diff.toLocaleString()}円</p>` : '';
-
     return `
         <table class="tilt-table">
-            <thead>
-                <tr>
-                    <th>名前</th>
-                    <th>担当額</th>
-                    <th>立替額</th>
-                    <th>精算</th>
-                </tr>
-            </thead>
+            <thead><tr><th>名前</th><th>担当額</th><th>立替額</th><th>精算</th></tr></thead>
             <tbody>${rows}</tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="1" class="td-name" style="color:white;">合計</td>
-                    <td colspan="3" style="color:white;">${total.toLocaleString()} 円</td>
-                </tr>
-            </tfoot>
+            <tfoot><tr><td colspan="1" class="td-name" style="color:white;">合計</td><td colspan="3" style="color:white;">${total.toLocaleString()} 円</td></tr></tfoot>
         </table>
-        ${diffNote}
         <p style="font-size:.72rem;color:#9ca3af;margin-top:6px;">※端数は可能な限り均等に分配しています</p>`;
 }
 
-/* ════════════════════════════════
-   Build settlement HTML
-════════════════════════════════ */
-function buildSettlement(members, shares, total, tiltError) {
+function buildSettlement(members, shares, total) {
     const nets = members.map((m, i) => shares[i] - m.paid);
-    const payers   = members.map((m, i) => ({ name: m.name, net: nets[i] })).filter(x => x.net > 0);
-    const receivers = members.map((m, i) => ({ name: m.name, net: -nets[i] })).filter(x => x.net > 0);
-
-    if (payers.length === 0) {
-        return `<p style="font-weight:bold;color:#10b981;text-align:center;padding:16px;">全員精算済みです！お疲れ様でした🎉</p>`;
-    }
-
-    const p = payers.map(x => ({ ...x }));
-    const r = receivers.map(x => ({ ...x }));
+    const p = members.map((m, i) => ({ name: m.name, net: nets[i] })).filter(x => x.net > 0);
+    const r = members.map((m, i) => ({ name: m.name, net: -nets[i] })).filter(x => x.net > 0);
+    if (p.length === 0) return `<p style="text-align:center;padding:16px;">全員精算済みです🎉</p>`;
     let html = '<div>';
-    let pi = 0, ri = 0;
-    while (pi < p.length && ri < r.length) {
-        const transfer = Math.min(p[pi].net, r[ri].net);
-        if (transfer > 0) {
-            html += `<div class="settle-row">
-                <span style="font-weight:800;">${p[pi].name}</span>
-                <span class="settle-arrow">→</span>
-                <span style="font-weight:800;">${r[ri].name}</span>
-                <span class="settle-amount">${transfer.toLocaleString()} 円</span>
-            </div>`;
-        }
-        p[pi].net -= transfer;
-        r[ri].net -= transfer;
-        if (p[pi].net <= 0) pi++;
-        if (r[ri].net <= 0) ri++;
+    let pi=0, ri=0;
+    while(pi < p.length && ri < r.length) {
+        const tr = Math.min(p[pi].net, r[ri].net);
+        if (tr > 0) html += `<div class="settle-row"><b>${p[pi].name}</b> <span class="settle-arrow">→</span> <b>${r[ri].name}</b> <span class="settle-amount">${tr.toLocaleString()} 円</span></div>`;
+        p[pi].net -= tr; r[ri].net -= tr;
+        if (p[pi].net <= 0) pi++; if (r[ri].net <= 0) ri++;
     }
-    html += `</div>`;
-    if (tiltError) {
-        html += `<p style="color:#6b7280;font-size:.8rem;text-align:center;margin-top:8px;">※傾斜エラーのため均等ワリカンで精算しています</p>`;
-    }
-    return html;
+    return html + '</div>';
 }
 
-/* ════════════════════════════════
-   CSV Export
-════════════════════════════════ */
 function exportCSV() {
     if (!lastResult) return;
     const { members, expenses, total, equalShares, tiltedShares, sorted, diff } = lastResult;
-
-    const bom = '\ufeff';  // UTF-8 BOM for Excel
-    const lines = [];
-
-    lines.push(['ワリカン・傾斜電卓', '', '', '', '', '']);
-    lines.push(['合計金額', total + '円', '', '', '', '']);
-    lines.push(['傾斜差額', diff > 0 ? `${diff}円/順位` : '差額なし', '', '', '', '']);
-    lines.push([]);
-
-    // Member table
-    lines.push(['名前', '年齢', '担当額(均等)', '担当額(傾斜)', '立替額', '精算(傾斜)']);
-
-    const order = sorted ? sorted.map(s => s.origIdx) : members.map((_, i) => i);
-    order.forEach((idx, rank) => {
-        const m = members[idx];
-        const tShare = tiltedShares ? tiltedShares[idx] : equalShares[idx];
-        const net = tShare - m.paid;
-        const netTxt = net > 0 ? `支払 ${net}円` : net < 0 ? `受取 ${Math.abs(net)}円` : '精算なし';
-        lines.push([m.name, m.age || '', equalShares[idx], tShare, m.paid, netTxt]);
-    });
-
-    lines.push([]);
-    lines.push(['【立替一覧】']);
-    lines.push(['費目', '立替者', '金額']);
-    expenses.forEach(e => lines.push([e.cat, e.payer || '（なし）', e.amount]));
-
-    const csv = bom + lines.map(row => row.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\r\n');
+    const lines = [['ワリカン・傾斜記録'], ['合計', total], ['差額', diff], []];
+    lines.push(['名前', '均等', '傾斜', '立替', '精算']);
+    members.forEach((m, i) => lines.push([m.name, equalShares[i], tiltedShares[i], m.paid, tiltedShares[i]-m.paid]));
+    const csv = '\ufeff' + lines.map(r => r.map(c => `"${c}"`).join(',')).join('\r\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'ワリカン傾斜表.csv'; a.click();
-    URL.revokeObjectURL(url);
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'split.csv'; a.click();
 }
 
-/* ════════════════════════════════
-   URL Share (encode form state in URL)
-════════════════════════════════ */
 function getFormState() {
-    const members = [...document.querySelectorAll('.member-row')].map(r => ({
-        name: r.querySelector('.mname').value.trim(),
-        age:  r.querySelector('.mage').value
-    }));
-    const expenses = [...document.querySelectorAll('.expense-row')].map(r => ({
-        cat:   r.querySelector('.ecat').value.trim(),
-        payer: r.querySelector('.payer-sel').value,
-        amt:   r.querySelector('.eamt').value
-    }));
-    const diff = document.getElementById('diffAmount').value;
-    return { members, expenses, diff };
+    return {
+        members: [...document.querySelectorAll('.member-row')].map(r => ({ id: r.dataset.mid, name: r.querySelector('.mname').value, age: r.querySelector('.mage').value })),
+        expenses: [...document.querySelectorAll('.expense-group')].map(g => ({ cat: g.querySelector('.ecat').value, payer: g.querySelector('.payer-sel').value, amt: g.querySelector('.eamt').value, pids: [...g.querySelectorAll('.p-drawer input:checked')].map(i => i.value) })),
+        diff: document.getElementById('diffAmount').value
+    };
 }
-
-function encodeState(state) {
-    try { return btoa(unescape(encodeURIComponent(JSON.stringify(state)))); }
-    catch(e) { return null; }
-}
-
-function decodeState(str) {
-    try { return JSON.parse(decodeURIComponent(escape(atob(str)))); }
-    catch(e) { return null; }
-}
-
+function encodeState(s) { try{return btoa(unescape(encodeURIComponent(JSON.stringify(s))));}catch(e){return null;} }
+function decodeState(s) { try{return JSON.parse(decodeURIComponent(escape(atob(s))));}catch(e){return null;} }
 function copyShareLink() {
-    const state = getFormState();
-    const encoded = encodeState(state);
-    if (!encoded) { alert('データのエンコードに失敗しました。'); return; }
-    const url = location.origin + location.pathname + '?d=' + encoded;
-    navigator.clipboard.writeText(url).then(() => showToast('✅ リンクをコピーしました！')).catch(() => {
-        // Fallback
-        const ta = document.createElement('textarea');
-        ta.value = url; document.body.appendChild(ta); ta.select();
-        document.execCommand('copy'); document.body.removeChild(ta);
-        showToast('✅ リンクをコピーしました！');
-    });
+    const s = encodeState(getFormState());
+    const url = location.origin + location.pathname + '?d=' + s;
+    navigator.clipboard.writeText(url).then(() => showToast('✅ リンクをコピーしました！'));
 }
+function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
 
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-/* ════════════════════════════════
-   Load state from URL on page load
-════════════════════════════════ */
 function loadFromURL() {
-    const params = new URLSearchParams(location.search);
-    if (!params.has('d')) {
-        // Default rows if no data
-        addMember(); addMember();
-        addExpense();
-        return;
-    }
-    const state = decodeState(params.get('d'));
-    if (!state) return;
-
-    // Clear initial or default state if any
+    const p = new URLSearchParams(location.search);
+    if (!p.has('d')) { addMember(); addMember(); addExpense(); return; }
+    const s = decodeState(p.get('d')); if (!s) return;
     document.getElementById('memberList').innerHTML = '';
     document.getElementById('expenseList').innerHTML = '';
-
-    // Populate members first (silent to avoid multiple refreshes)
-    (state.members || []).forEach(m => addMember(m.name, m.age, true));
+    (s.members || []).forEach(m => { addMember(m.name, m.age, true); const last=document.querySelector('.member-row:last-child'); if(last && m.id) last.dataset.mid=m.id; const num=parseInt(m.id.substring(1)); if(num>memberIdCnt) memberIdCnt=num; });
     refreshPayerDropdowns();
-
-    // Then expenses
-    (state.expenses || []).forEach(e => addExpense(e.cat, e.payer, e.amt));
-    
-    // Set diff
-    if (state.diff !== undefined) {
-        document.getElementById('diffAmount').value = state.diff;
-    }
-
-    // Auto calculate if we have data
-    if ((state.members || []).length >= 2 && (state.expenses || []).length > 0) {
-        setTimeout(() => {
-            calculate();
-            showToast('📋 共有されたデータを復元しました！');
-        }, 100);
-    }
+    (s.expenses || []).forEach(e => addExpense(e.cat, e.payer, e.amt, e.pids));
+    if (s.diff) document.getElementById('diffAmount').value = s.diff;
+    if (s.members.length >= 2) { setTimeout(() => calculate(), 100); }
 }
-
-/* ════════════════════════════════
-   Init
-════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', loadFromURL);
 </script>
 <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
