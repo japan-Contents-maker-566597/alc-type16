@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ワリカン・傾斜電卓 | 酒タイプ診断</title>
     <meta name="description" content="飲み会や旅行の精算に。参加者ごとの支払項目選択や、年齢別の傾斜計算ができる高度なワリカン電卓です。">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/main.css">
     <style>
         :root { --bg-sub:#f8fafc; --text-muted:#64748b; }
         body { background:#f1f5f9; color:#1e293b; }
@@ -171,43 +171,91 @@
         }
         .toast.show { opacity:1; }
 
+        /* Mode Selector Styles */
+        .mode-selector {
+            display: flex; gap: 10px; margin-bottom: 24px;
+            background: #f1f5f9; padding: 6px; border-radius: 50px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .mode-btn {
+            flex: 1; padding: 12px; border-radius: 50px; border: none;
+            font-size: 0.95rem; font-weight: 800; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: transparent; color: #64748b; font-family: inherit;
+        }
+        .mode-btn.active {
+            background: #fff; color: #10b981;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Conditional Visibility */
+        .mode-equal .mage, .mode-equal .mage-col-hdr, .mode-equal #tiltSettingsRow { display: none; }
+        .mode-equal .member-row { grid-template-columns: 2fr 36px !important; }
+        .mode-equal .col-hdr.m-hdr { grid-template-columns: 2fr 36px !important; }
+
         @keyframes slideIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
     </style>
 </head>
 <body>
 <nav class="global-header">
     <a href="../index.html" class="header-logo"><span style="font-size:1.4rem;">🍺</span><span class="text-logo">酒タイプ診断</span></a>
+    <div class="header-nav">
+        <a href="../diagnosis.html">診断を受ける</a>
+        <a href="../list.html">16タイプ一覧</a>
+        <a href="./index.html" style="color:var(--brand-purple); font-weight:bold;">飲み会コンテンツ</a>
+        <a href="../supplement/index.html">特集記事</a>
+        <a href="../en/index.html">English</a>
+    </div>
+    <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('mobileMenu').classList.toggle('active')">☰</button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="../diagnosis.html">診断を受ける</a>
+    <a href="../list.html">16タイプ一覧</a>
+    <a href="./index.html" style="color:var(--brand-purple); font-weight:bold;">飲み会コンテンツ</a>
+    <a href="../supplement/index.html">特集記事</a>
+    <a href="../en/index.html">English</a>
+</div>
 
 <div class="container fade-in" style="margin-top:40px;">
 <div class="calc-wrapper">
     <h1 style="color:#10b981;font-weight:900;font-size:clamp(1.3rem,5vw,1.85rem);margin-bottom:4px;word-break:keep-all;white-space:nowrap;">💸 ワリカン・傾斜電卓</h1>
-    <p style="font-weight:bold;color:var(--text-muted);margin-bottom:4px;font-size:0.88rem;">立替を記録して均等／傾斜で精算。参加者の個別選択も可能！</p>
+    <p style="font-weight:bold;color:var(--text-muted);margin-bottom:12px;font-size:0.88rem;">立替を記録して均等／傾斜で精算。参加者の個別選択も可能！</p>
 
-    <div class="sec-title">① 参加メンバー</div>
-    <div class="col-hdr" style="grid-template-columns:2fr 1fr 36px;">
-        <span>名前</span><span>年齢</span><span></span>
+    <!-- Mode Selector -->
+    <div class="mode-selector">
+        <button id="modeBtnEqual" class="mode-btn active" onclick="setMode('equal')">均等に割る</button>
+        <button id="modeBtnTilted" class="mode-btn" onclick="setMode('tilted')">年齢で傾斜</button>
     </div>
-    <div id="memberList"></div>
-    <button class="btn-add" onclick="addMember()">＋ メンバーを追加</button>
 
-    <div class="sec-title">② 立替の記録</div>
-    <div class="col-hdr" style="grid-template-columns:2fr 1.8fr 1.4fr 36px;">
-        <span>費目</span><span>立替者</span><span>金額</span><span></span>
-    </div>
-    <div id="expenseList"></div>
-    <button class="btn-add" onclick="addExpense()">＋ 立替を追加</button>
+    <!-- Container that toggles classes -->
+    <div id="calcBody" class="mode-equal">
+        <div class="sec-title">① 参加メンバー</div>
+        <div class="col-hdr m-hdr" style="grid-template-columns:2fr 1fr 36px;">
+            <span>名前</span><span class="mage-col-hdr">年齢</span><span></span>
+        </div>
+        <div id="memberList"></div>
+        <button class="btn-add" onclick="addMember()">＋ メンバーを追加</button>
 
-    <div class="sec-title">③ 傾斜設定</div>
-    <div class="form-row">
-        <label>年齢の高い順に上乗せする差額</label>
-        <select id="diffAmount">
-            <option value="0">差額なし（均等のみ）</option>
-            <option value="500">500円ずつ差を付ける</option>
-            <option value="1000" selected>1000円ずつ差を付ける</option>
-            <option value="2000">2000円ずつ差を付ける</option>
-            <option value="3000">3000円ずつ差を付ける</option>
-        </select>
+        <div class="sec-title">② 立替の記録</div>
+        <div class="col-hdr" style="grid-template-columns:2fr 1.8fr 1.4fr 36px;">
+            <span>費目</span><span>立替者</span><span>金額</span><span></span>
+        </div>
+        <div id="expenseList"></div>
+        <button class="btn-add" onclick="addExpense()">＋ 立替を追加</button>
+
+        <div id="tiltSettingsRow">
+            <div class="sec-title">③ 傾斜設定</div>
+            <div class="form-row">
+                <label>年齢の高い順に上乗せする差額</label>
+                <select id="diffAmount">
+                    <option value="0">差額なし（均一）</option>
+                    <option value="500">500円ずつ差を付ける</option>
+                    <option value="1000" selected>1000円ずつ差を付ける</option>
+                    <option value="2000">2000円ずつ差を付ける</option>
+                    <option value="3000">3000円ずつ差を付ける</option>
+                </select>
+            </div>
+        </div>
     </div>
 
     <button class="calc-btn" onclick="calculate()">計算する！</button>
@@ -242,6 +290,26 @@
 let memberIdCnt = 0;
 let expenseIdCnt = 0;
 let lastResult = null;
+let splitMode = 'equal'; // default
+
+function setMode(mode) {
+    splitMode = mode;
+    const body = document.getElementById('calcBody');
+    const btnEq = document.getElementById('modeBtnEqual');
+    const btnTi = document.getElementById('modeBtnTilted');
+    
+    if (mode === 'equal') {
+        body.classList.add('mode-equal');
+        body.classList.remove('mode-tilted');
+        btnEq.classList.add('active');
+        btnTi.classList.remove('active');
+    } else {
+        body.classList.remove('mode-equal');
+        body.classList.add('mode-tilted');
+        btnEq.classList.remove('active');
+        btnTi.classList.add('active');
+    }
+}
 
 function addMember(name='', age='', silent=false) {
     memberIdCnt++;
@@ -378,11 +446,11 @@ function calculate() {
         }
     });
 
-    const diff = parseInt(document.getElementById('diffAmount').value);
+    const diff = splitMode === 'tilted' ? parseInt(document.getElementById('diffAmount').value) : 0;
     let tiltedShares = null;
     let tiltError = null;
 
-    if (diff > 0) {
+    if (splitMode === 'tilted' && diff > 0) {
         const tiltedResult = members.map(m => ({ ...m, tiltedShare: 0 }));
         expenses.forEach(exp => {
             if (exp.participantIds.length > 0) {
@@ -405,14 +473,23 @@ function calculate() {
             }
         });
         tiltedShares = tiltedResult.map(m => m.tiltedShare);
-    } else { tiltedShares = members.map(m => m.equalShare); }
+    } else {
+        tiltedShares = members.map(m => m.equalShare);
+    }
 
     const equalShares = members.map(m => m.equalShare);
     const sorted = [...members].sort((a,b) => b.age - a.age).map(m => ({ ...m, origIdx: members.indexOf(m) }));
     lastResult = { members, expenses, total, equalShares, tiltedShares, sorted, diff, tiltError };
 
     document.getElementById('tab0').innerHTML = buildTable(members, equalShares, total, false, null);
-    document.getElementById('tab1').innerHTML = buildTable(members, tiltedShares, total, true, sorted);
+    
+    if (splitMode === 'tilted') {
+        document.getElementById('tab1').innerHTML = buildTable(members, tiltedShares, total, true, sorted);
+        document.querySelector('.tab-btn[onclick="showTab(1)"]').style.display = 'inline-block';
+    } else {
+        document.querySelector('.tab-btn[onclick="showTab(1)"]').style.display = 'none';
+    }
+    
     document.getElementById('tab2').innerHTML = buildSettlement(members, tiltedShares, total);
 
     document.getElementById('resultPanel').style.display = 'block';
@@ -430,13 +507,13 @@ function buildTable(members, shares, total, isTilted, sorted) {
         const share = shares[idx];
         const net = share - m.paid;
         const netClass = net > 0 ? 'td-owe' : net < 0 ? 'td-recv' : 'td-zero';
-        const netTxt = net > 0 ? `支払 ${net.toLocaleString()}` : net < 0 ? `受取 ${Math.abs(net).toLocaleString()}` : '精算なし';
+        const netTxt = net > 0 ? `支払 ${net.toLocaleString()}円` : net < 0 ? `受取 ${Math.abs(net).toLocaleString()}円` : '0円';
         const badge = isTilted ? (rank === 0 ? '👑' : rank === members.length-1 ? '🌱' : rank+1) : '';
         rows += `<tr>
             <td class="td-name">${badge} ${m.name}</td>
             <td>${share.toLocaleString()}円</td>
             <td>${m.paid.toLocaleString()}円</td>
-            <td class="${netClass}">${netTxt}円</td>
+            <td class="${netClass}">${netTxt}</td>
         </tr>`;
     });
     return `
@@ -477,6 +554,7 @@ function exportCSV() {
 
 function getFormState() {
     return {
+        mode: splitMode,
         members: [...document.querySelectorAll('.member-row')].map(r => ({ id: r.dataset.mid, name: r.querySelector('.mname').value, age: r.querySelector('.mage').value })),
         expenses: [...document.querySelectorAll('.expense-group')].map(g => ({ cat: g.querySelector('.ecat').value, payer: g.querySelector('.payer-sel').value, amt: g.querySelector('.eamt').value, pids: [...g.querySelectorAll('.p-drawer input:checked')].map(i => i.value) })),
         diff: document.getElementById('diffAmount').value
@@ -500,6 +578,7 @@ function loadFromURL() {
     (s.members || []).forEach(m => { addMember(m.name, m.age, true); const last=document.querySelector('.member-row:last-child'); if(last && m.id) last.dataset.mid=m.id; const num=parseInt(m.id.substring(1)); if(num>memberIdCnt) memberIdCnt=num; });
     refreshPayerDropdowns();
     (s.expenses || []).forEach(e => addExpense(e.cat, e.payer, e.amt, e.pids));
+    if (s.mode) setMode(s.mode);
     if (s.diff) document.getElementById('diffAmount').value = s.diff;
     if (s.members.length >= 2) { setTimeout(() => calculate(), 100); }
 }
