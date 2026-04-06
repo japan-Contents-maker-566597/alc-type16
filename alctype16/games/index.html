@@ -33,6 +33,27 @@
         .game-desc { font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); font-weight: 600; }
         
         .badge-new { position: absolute; top: 15px; right: -30px; background: #e65100; color: white; font-size: 0.8rem; font-weight: bold; padding: 4px 40px; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        
+        .game-card.coming-soon {
+            pointer-events: none;
+            cursor: default;
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0) !important;
+            border-color: #cbd5e1 !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+        .game-card.coming-soon .game-title, 
+        .game-card.coming-soon .game-icon, 
+        .game-card.coming-soon .game-desc {
+            filter: grayscale(100%);
+            color: #94a3b8 !important;
+        }
+        .badge-soon { 
+            position: absolute; top: 15px; right: -30px; background: #64748b; 
+            color: white; font-size: 0.75rem; font-weight: bold; padding: 4px 40px; 
+            transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
@@ -87,13 +108,13 @@
                 <div class="game-desc">シンプルイズベスト！誰が飲むかを運命に委ねる、絶対に盛り上がるロシアンルーレット。</div>
             </a>
 
-            <!-- Game 4 -->
-            <a href="split.html" class="game-card" onclick="gtag('event', 'game_click', { 'event_category': 'engagement', 'event_label': 'split'});">
-                <div class="badge-new">NEW</div>
+            <!-- Game 4 (Temporarily Disabled) -->
+            <div class="game-card coming-soon">
+                <div class="badge-soon">近日リリース</div>
                 <div class="game-icon">💸</div>
                 <div class="game-title">ワリカン電卓</div>
-                <div class="game-desc">年次に応じた「傾斜ワリカン」が一瞬で計算できる、後輩幹事の最強の味方。</div>
-            </a>
+                <div class="game-desc">年次に応じた「傾斜ワリカン」が一人ずつ入力可能に。近日大規模アップデート！</div>
+            </div>
         </div>
         
         <div class="bottom-nav-wrapper">
