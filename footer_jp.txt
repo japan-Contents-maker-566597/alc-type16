@@ -1,0 +1,26 @@
+        <div class="share-section">
+            <p class="share-title">&#35386;&#26029;&#32080;&#26524;&#12434;&#12471;&#12455;&#12450;&#12375;&#12424;&#12358;&#65281;</p>
+            <a href="https://twitter.com/intent/tweet?text=【公式】酒タイプ診断の結果は…「[TYPE_NAME]」でした！&url=https://sync-loft.com/alctype16/types/[TYPE_CODE].html" target="_blank" class="x-share-button">
+                <svg class="x-logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+            </a>
+        </div>
+        <a href="../index.html" class="rediagnosis-button">&#12418;&#12358;&#12356;&#12385;&#12393;&#35386;&#26029;&#12377;&#12427;</a>
+        <div class="bottom-nav-wrapper">
+            <a href="../index.html" class="bottom-nav-button primary">TOP&#12506;&#12540;&#12472;&#12395;&#25147;&#12427;</a>
+        </div>
+    </div>
+    
+  <!-- LINE stamp floating banner -->
+  <a id="line-stamp-fab"
+     href="https://store.line.me/stickershop/product/33138149/ja?utm_source=gnsh_stickerDetail"
+     target="_blank" rel="noopener"
+     onclick="typeof gtag==='function'&&gtag('event','line_stamp_click',{event_category:'engagement',event_label:'floating_banner'})">
+      <span class="fab-badge">NEW</span>
+      <div class="fab-inner">
+          <span class="fab-icon">&#127867;</span>
+          <span class="fab-label-main">LINEスタンプ<br>発売中！</span>
+      </div>
+  </a>
+
+</body>
+</html>

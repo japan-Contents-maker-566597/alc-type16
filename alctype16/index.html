@@ -18,18 +18,18 @@
       function trackLineStampClick() { gtag('event', 'line_stamp_click', { 'event_category': 'engagement', 'event_label': 'TOP_banner' }); }
     </script>
 
-    <title>【公式】酒タイプ診断</title>
+    <title>【公式】酒タイプ診断 - 飲み方で分かるあなたの性格・16タイプ</title>
     
     <!-- SEO / OGP -->
     <meta property="og:url" content="https://sync-loft.com/alctype16/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="【公式】酒タイプ診断" />
-    <meta property="og:description" content="飲み会での立ち振る舞いや、酔ったときのあなた。全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから高精度に分析します。" />
+    <meta property="og:title" content="【公式】酒タイプ診断 - 飲み方で分かるあなたの性格" />
+    <meta property="og:description" content="飲み会でのあなたの「本性」を16タイプから精密に分析。お酒を飲んだあなたの本当の姿を16のタイプから明らかにします。" />
     <meta property="og:site_name" content="酒タイプ診断" />
     <meta property="og:image" content="https://sync-loft.com/ogp.jpg?v=2" />    
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="【公式】酒タイプ診断" />
-    <meta name="twitter:description" content="あなたはお酒でどう変わる？全16タイプから診断！" />
+    <meta name="twitter:title" content="【公式】酒タイプ診断 - 飲み方で分かるあなたの性格" />
+    <meta name="twitter:description" content="あなたの「お酒でどう変わる？」を16タイプから分析！" />
     <meta name="twitter:image" content="https://sync-loft.com/ogp.jpg?v=2" />
 
     <!-- Premium CSS -->
@@ -45,6 +45,7 @@
         <div class="header-nav">
             <a href="./diagnosis.html">診断を受ける</a>
             <a href="./list.html">16タイプ一覧</a>
+            <a href="./games/index.html" style="color:var(--brand-purple); font-weight:bold;">🎉 飲み会コンテンツ</a>
             <a href="./supplement/index.html">特集記事</a>
             <a href="./en/index.html">English</a>
         </div>
@@ -53,87 +54,89 @@
     <div class="mobile-menu" id="mobileMenu">
         <a href="./diagnosis.html">診断を受ける</a>
         <a href="./list.html">16タイプ一覧</a>
+        <a href="./games/index.html" style="color:var(--brand-purple); font-weight:bold;">🎉 飲み会コンテンツ</a>
         <a href="./supplement/index.html">特集記事</a>
         <a href="./en/index.html">English</a>
     </div>
 
     <div class="lang-toggle"><a href="./en/index.html">🌐 English</a></div>
 
-    <!-- 1. DYNAMIC HERO SECTION -->
+    <!-- 1. HERO SECTION -->
     <header class="hero-section">
         <div class="container fade-in">
             <h1 class="hero-logo"><span class="hero-logo-icon">🍺</span><span class="text-logo">酒タイプ診断</span></h1>
-            <p class="hero-subtitle">全16問の質問に答えるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから診断します！</p>
+            <p class="hero-subtitle">全16種類の本質に当てはまるだけで、お酒を飲んだあなたの「本当の姿」を16のタイプから解析します。</p>
             
             <div class="hero-character-collage mb-4">
                 <div class="hero-char char-even"><img src="../酒タイプ画像/LRUT.jpg" alt="プロ幹事"></div>
-                <div class="hero-char char-odd"><img src="../酒タイプ画像/FRDY.jpg" alt="天使"></div>
+                <div class="hero-char char-odd"><img src="../酒タイプ画像/FRDY.jpg" alt="魔使"></div>
                 <div class="hero-char char-center"><img src="../酒タイプ画像/LOUT.jpg" alt="アル中番長"></div>
                 <div class="hero-char char-odd"><img src="../酒タイプ画像/LOUY.jpg" alt="ハイテンション時限爆弾"></div>
                 <div class="hero-char char-even"><img src="../酒タイプ画像/FOUT.jpg" alt="酒飲み聖母"></div>
             </div>
             
             <div class="hero-btn-wrap">
-                <a href="./diagnosis.html" class="btn btn-primary" style="padding: 24px 32px; font-size: 1.25rem;">
-                    さっそく診断を始める
+                <a href="./diagnosis.html" class="btn btn-primary" onclick="gtag('event', 'diagnosis_start', { 'event_category': 'engagement', 'event_label': 'hero' });">
+                    さっそく診断をはじめる
                 </a>
             </div>
 
             <!-- Virtual Diagnostic Counter for Authority -->
             <div class="proof-counter fade-in">
-                <div class="proof-counter-label">＼ 大好評御礼！ ／</div>
+                <div class="proof-counter-label">🎉 大好評続々！</div>
                 <div class="proof-counter-num">累計 <span style="color:var(--brand-purple);">150万</span> PV突破！</div>
-                <p style="font-size:0.85rem; color:var(--text-main); font-weight: bold; margin-top:5px;">※多くの方に遊んでいただいています🍻</p>
+                <p style="font-size:0.85rem; color:var(--text-main); font-weight: bold; margin-top:5px;">多くの方に遊んでいただいています！</p>
             </div>
         </div>
     </header>
 
     <div class="container fade-in" style="animation-delay: 0.2s;">
         
-        <!-- 2. WHAT IS SAKE TYPE? (New Section for AdSense) -->
+
+        <!-- 2. WHAT IS SAKE TYPE? -->
         <section class="glass-card">
             <h2 class="section-title">酒タイプ診断とは？</h2>
             <div style="line-height: 1.9; color: var(--text-main); font-size: 0.95rem;">
-                <p style="font-size: 1.1rem; text-align: center; margin-bottom: 20px;"><strong>「飲み会」は、あなたを映し出す鏡。</strong></p>
-                <p>酒タイプ診断は、単なる「お酒の強さ」を測るツールではありません。<br>独自の心理学的なアプローチと行動パターンの分析を組み合わせることで、<br><strong style="color: var(--brand-purple);">あなたがチーム内で果たす役割</strong>や、<br><strong style="color: var(--brand-purple);">アルコールを通じたコミュニケーションの傾向</strong>を<span class="highlight-text">16の性格タイプ</span>から浮き彫りにします。</p>
+                <p style="font-size: 1.1rem; text-align: center; margin-bottom: 20px;"><strong>「飲み会」は、あなたを映す鏡</strong></p>
+                <p>酒タイプ診断は、単なる「お酒の強さ」を測るツールではありません。<br>独自の心理学的アプローチと行動パターンの分析を組み合わせることで、<br><strong style="color: var(--brand-purple);">あなたが飲み会の中で動くお酒</strong>や<br><strong style="color: var(--brand-purple);">アルコールを通じたコミュニケーションの相性</strong>を<span class="highlight-text">16の性格タイプ</span>から探り当てにします。</p>
                 <p style="background: #f8fafc; padding: 16px; border-radius: 12px; font-weight: 600; text-align: center; margin-top: 20px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;">
-                    合コン、歓迎会、宅飲み——。<br>自分や友達の「酒タイプ」を知ることで、飲み会の話題が広がったり、もっと楽しいお酒の場がつくれるはずです🍻
+                    合コン、職場、お得意先、三次会…<br>自分や周りの「酒タイプ」を知ることで、飲み会の満足が変わったり、もっと楽しい場が作れるはずです✻
                 </p>
             </div>
         </section>
 
-        <!-- 4. DIAGNOSIS AXES -->
+        <!-- 3. DIAGNOSIS AXES -->
         <section class="glass-card">
             <h2 class="section-title">4つの診断軸で作る高精度アルゴリズム</h2>
-            <p class="text-center mb-8">独自の心理学ロジックと行動分析に基づき、4つのベクトルであなたを解析します。</p>
+            <p class="text-center mb-8">独自の心理学ロジックと行動分析に基づく4つのベクトルであなたを解析します。</p>
             
             <div class="grid-2">
                 <div class="axis-card">
                     <div class="axis-icon" style="background: linear-gradient(135deg, #ff5252, #ff1744);">L/F</div>
                     <div class="axis-info">
                         <h4>リーダー / フォロワー</h4>
-                        <p>場の主導権を握りたいか、周りの流れに身を任せたいかを分析。</p>
+                        <p>場の主導権を握りたいか、流れに任せたいかを診断。</p>
                     </div>
                 </div>
                 <div class="axis-card">
                     <div class="axis-icon" style="background: linear-gradient(135deg, #448aff, #2979ff);">O/R</div>
                     <div class="axis-info">
-                        <h4>大雑把 / 几帳面</h4>
-                        <p>場のノリや面白さを優先するか、終電や割り勘をきっちり管理するか。</p>
+                        <h4>大騒ぎ / 律儀面</h4>
+                        <p>場のノリや盛り上さを優先するか、場外や支払いをきっちり管理するか。</p>
                     </div>
                 </div>
                 <div class="axis-card">
                     <div class="axis-icon" style="background: linear-gradient(135deg, #00e676, #00c853);">U/D</div>
                     <div class="axis-info">
                         <h4>アッパー / ダウナー</h4>
-                        <p>酔うとテンションが上がるか、落ち着いて物静かになるか。</p>
+                        <p>飲むとテンションが上がるか、落ち着いて穏やかになるか。</p>
                     </div>
                 </div>
                 <div class="axis-card">
                     <div class="axis-icon" style="background: linear-gradient(135deg, #ffd740, #ffc400);">T/Y</div>
                     <div class="axis-info">
                         <h4>酒に強い / 弱い</h4>
-                        <p>肉体的なアルコール耐性の限界値と酔いやすさを判定。</p>
+                        <p>遺伝的なアルコール耐性の傾向と飲みやすさを判定。</p>
                     </div>
                 </div>
             </div>
@@ -141,10 +144,10 @@
 
         <!-- Curated Mock SNS Reviews Section -->
         <section class="fade-in mb-8" style="margin-top: 40px;">
-            <h2 class="section-title" style="margin-bottom: 5px;">ユーザーのみなさまからのお声✨</h2>
+            <h2 class="section-title" style="margin-bottom: 5px;">ユーザーのみなさまからのご声援</h2>
             <p class="text-center" style="font-size:0.85rem; padding:0 20px; color:var(--text-muted); margin-bottom:20px; line-height:1.6;">
-                SNS等でいただいたご感想をピックアップ！<br>
-                （※お客様の声を一部編集して掲載しています）
+                SNSでいただいた声を引用。<br>
+                ※実際の投稿内容を一部編集して掲載しています。
             </p>
             
             <div class="sns-review-grid">
@@ -152,12 +155,12 @@
                     <div class="sns-header">
                         <img src="../酒タイプ画像/FOUT.jpg" class="sns-avatar" alt="User">
                         <div class="sns-user">
-                            <span class="sns-name">さきぽん🍻</span>
+                            <span class="sns-name">さきぽ🍻</span>
                             <span class="sns-handle">@saki_drink</span>
                         </div>
                     </div>
                     <div class="sns-text">
-                        職場の飲み会前にみんなでやったら奇跡的に全員違うタイプで爆笑😂 私は圧倒的<span class="sns-tag">#酒飲み聖母</span>でした！これからは堂々と介抱役に徹しますｗ <span class="sns-tag">#酒タイプ診断</span>
+                        閉場の飲み会前にみんなでやったら奇跡的に全員が違うタイプで爆笑でした。これからの季節と友人関係に備えよ<span class="sns-tag">#酒飲み聖母</span>でした。<span class="sns-tag">#酒タイプ診断</span>
                     </div>
                 </div>
                 
@@ -170,7 +173,7 @@
                         </div>
                     </div>
                     <div class="sns-text">
-                        これマジで当たる。自分では「普通に飲んでるだけ」って思ってたけど、完全に<span class="sns-tag">#アル中番長</span>の行動パターンそのままだったから気をつけよ…笑う <span class="sns-tag">#酒タイプ診断</span>
+                        これまじで当たる。自分では「普通に飲めるだけ」って思ってたけど、紛れもなく<span class="sns-tag">#アル中番長</span>の行動パターンそのままだったから驚いた。当てよ 笑 <span class="sns-tag">#酒タイプ診断</span>
                     </div>
                 </div>
                 
@@ -183,7 +186,7 @@
                         </div>
                     </div>
                     <div class="sns-text">
-                        お酒弱くて飲み会苦手だったんだけど、<span class="sns-tag">#水泥棒</span>タイプって出たおかげで「私はチェイサー担当なんだ！」って割り切れてちょっと楽になった。キャラのデザインも可愛い💖
+                        お酒弱くて飲み会苦手だったんだけど、<span class="sns-tag">#水泥棒</span>タイプって出てきたお陰で、「理由、チェイサーなんだね」って言われてちょっと楽になった。キャラのデザインも可愛いな猪
                     </div>
                 </div>
             </div>
@@ -191,15 +194,15 @@
 
         <!-- 4. 16 TYPES HIGHLIGHT -->
         <section class="glass-card" id="types">
-            <h2 class="section-title">16の酒タイプ図鑑</h2>
-            <p class="text-center mb-8">あなたの周りにも一人はいるかも？個性豊かな全16タイプをご紹介します。</p>
+            <h2 class="section-title">16の酒タイプ紹介</h2>
+            <p class="text-center mb-8">あなたの周りに一人はいるかも？気になる全16タイプを一覧します。</p>
             
             <div class="pickup-grid mb-4">
                 <a href="./types/lout.html" style="text-decoration:none; color:inherit;">
                     <div class="pickup-card">
                         <img src="../酒タイプ画像/LOUT.jpg" alt="アル中番長" class="pickup-img">
                         <div class="pickup-name">アル中番長 (LOUT)</div>
-                        <p class="pickup-catch">お酒が強くて、ノリも最高</p>
+                        <p class="pickup-catch">お酒が強くて、ノリが最高</p>
                     </div>
                 </a>
                 <a href="./types/lrut.html" style="text-decoration:none; color:inherit;">
@@ -213,14 +216,14 @@
                     <div class="pickup-card">
                         <img src="../酒タイプ画像/FRDY.jpg" alt="空気読みすぎ天使" class="pickup-img">
                         <div class="pickup-name">空気読みすぎ天使 (FRDY)</div>
-                        <p class="pickup-catch">弱いが、迷惑はかけない</p>
+                        <p class="pickup-catch">弱い、が、気使いのかけない</p>
                     </div>
                 </a>
                 <a href="./types/lrdy.html" style="text-decoration:none; color:inherit;">
                     <div class="pickup-card">
                         <img src="../酒タイプ画像/LRDY.jpg" alt="水泥棒" class="pickup-img">
                         <div class="pickup-name">水泥棒 (LRDY)</div>
-                        <p class="pickup-catch">弱いが、しっかり反省</p>
+                        <p class="pickup-catch">弱い、がしっかり節制</p>
                     </div>
                 </a>
             </div>
@@ -232,49 +235,36 @@
             <h2 class="section-title">よくある質問 (FAQ)</h2>
             <div class="faq-item">
                 <details>
-                    <summary>診断にはどれくらい時間がかかりますか？</summary>
-                    <p>全16問の選択式で、約1〜2分程度でパパッと結果が出ます！飲み会の待ち時間に最適です。</p>
+                    <summary>診断にはどれくらいの時間がかかりますか？</summary>
+                    <p>全16問の選択式で、およそ3分程度でパパッと結果が出ます。飲み会の待ち時間に最適です。</p>
                 </details>
             </div>
             <div class="faq-item">
                 <details>
                     <summary>会員登録やアプリのダウンロードは必要ですか？</summary>
-                    <p>完全無料で、ブラウザからそのままご利用いただけます。面倒な登録等は一切不要です。</p>
+                    <p>完全無料で、ブラウザからそのままご利用いただけます。個人情報の登録も一切不要です。</p>
                 </details>
             </div>
             <div class="faq-item">
                 <details>
                     <summary>診断結果はSNSにシェアできますか？</summary>
-                    <p>はい！結果ページの下部にワンタップでX(旧Twitter)やLINEにシェアできるボタンを用意しておりますので、ぜひご友人とお楽しみください。</p>
+                    <p>はい！結果ページの上部にワンタッチでX(旧Twitter)やLINEにシェアできるボタンを用意しており、ぜひ友人と楽しみください。</p>
                 </details>
             </div>
         </section>
 
-        <!-- 7. HOW TO USE THE RESULT (AdSense text filler) -->
-        <section class="glass-card">
-            <h2 class="section-title">診断結果の活用方法</h2>
-            <div style="line-height: 1.8; color: var(--text-main); font-size: 0.95rem;">
-                <p>診断結果は、飲み会における強力なコミュニケーションツールです！</p>
-                <ul style="padding-left: 20px;">
-                    <li style="margin-bottom: 12px;"><strong>気になる人との相性チェックに：</strong>各結果ページには「相性の良いタイプ」「悪いタイプ」が記載されています。気になる相手のタイプを診断してもらって、ふたりの仲を深めるきっかけに！</li>
-                    <li style="margin-bottom: 12px;"><strong>友人や同僚との話題づくりに：</strong>お互いの結果を見せ合うことで、「確かにその通り！」「意外と几帳面なんだね」など、普段見えない性格を知る会話のタネになります。</li>
-                    <li><strong>初対面のアイスブレイクに：</strong>「私、こういう者です！」と診断結果を見せるだけで、自己紹介のハードルが一気に下がります。合コンや親睦会での場の盛り上げに最適です。</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- 8. MAIN CONTENT / FEATURES (RICH MEDIA) (Moved to bottom) -->
+        <!-- 8. MAIN CONTENT / FEATURES (RICH MEDIA) -->
         <section class="glass-card">
             <h2 class="section-title">特集コンテンツ</h2>
             <a href="./supplement/index.html" class="article-card mb-4" style="display: flex; gap: 16px; align-items: center; text-decoration: none;">
                 <div class="article-thumb-wrapper" style="flex-shrink: 0; width: 100px; height: 100px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <img src="./supplement/image_5c1ee2.jpg" alt="対策ガイド" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="./supplement/image_5c1ee2.jpg" alt="対処ガイド" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div class="article-content" style="flex: 1;">
-                    <span class="badge">運営事務局 ガチ検証</span>
-                    <h3 style="margin: 0 0 8px 0; color: #5d4037; font-size: 1.05rem; line-height: 1.4;">飲み会の翌朝対策 徹底ガイド 🍻</h3>
+                    <span class="badge">運営事務局 ガチ調査</span>
+                    <h3 style="margin: 0 0 8px 0; color: #5d4037; font-size: 1.05rem; line-height: 1.4;">飲み会の翌日対処・後悔ガイド📝</h3>
                     <p style="margin: 0; font-size: 0.85rem; color: #78909c; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                        「つい飲みすぎてしまった…」そんな後悔を防ぐための、科学的アプローチに基づくアイテムと対処法を特集！
+                        「ついつい飲みすぎてしまった！」そんな後悔を助けるための、医学的アプローチに基づくアイテムと対処法を特集。
                     </p>
                 </div>
             </a>
@@ -290,8 +280,8 @@
         <!-- Footer -->
         <footer class="footer-nav">
             <div style="background: rgba(74, 20, 140, 0.05); padding: 20px; border-radius: 16px; margin-bottom: 30px; text-align: left; font-size: 0.85rem; color: var(--text-muted);">
-                <strong style="color: var(--text-main); display: block; margin-bottom: 8px;">【適正飲酒についてのお願い】</strong>
-                お酒は楽しく適量を。無理な一気飲みや、アルコールの強要は重大な事故につながる恐れがあります。本サイトは、飲み会を通じた楽しくハッピーなコミュニケーションを推進する目的で作られており、過度な飲酒を推奨するものではありません。ご自身の体質とペースをしっかりと守り、安全にお酒をお楽しみください。
+                <strong style="color: var(--text-main); display: block; margin-bottom: 8px;">※正責飲酒についてのお願い</strong>
+                お酒は楽しく適度を、無理な一気飲みやアルコールの影響による重大な事故につながる恐れがあります。本サイトは、飲み会を通じた楽しくハッピーなコミュニケーションを推進する目的で作られており、過度な飲酒を推奨するものではありません。ご自身の体調とペースをしっかりと守り、安全にお酒をお楽しみください。
             </div>
             <a href="./policy.html">プライバシーポリシー</a>
             <a href="mailto:alctype16.official@gmail.com">お問い合わせ窓口</a>
@@ -308,5 +298,47 @@
         </div>
     </a>
 
+    <!-- NEW GAMES POPUP -->
+    <div id="gamesPopupOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center; backdrop-filter: blur(5px);">
+        <div style="background:#fff; width:92%; max-width:440px; border-radius:32px; padding:36px 24px 32px; text-align:center; position:relative; box-shadow:0 30px 60px rgba(0,0,0,0.6); border: 4px solid var(--brand-purple); overflow:hidden;">
+            
+            <!-- × close button -->
+            <button onclick="closePopup()" style="position:absolute; top:16px; right:16px; width:36px; height:36px; font-size:1.4rem; background:#f1f5f9; border:none; border-radius:50%; cursor:pointer; font-weight:bold; color:#64748b; line-height:1; display:flex; align-items:center; justify-content:center;">&times;</button>
+            
+            <div style="font-size:3rem; margin-bottom:10px;">🎉</div>
+            
+            <h2 style="color:var(--brand-purple); font-weight:900; font-size:1.7rem; margin-bottom:16px; line-height:1.3; word-break:keep-all;">飲み会がもっと充実！<br>「飲み会コンテンツ」登場</h2>
+            
+            <!-- Character illustrations — bigger & prominent -->
+            <div style="display:flex; justify-content:center; align-items:flex-end; gap:8px; margin-bottom:18px;">
+                <img src="../酒タイプ画像/FOUY.jpg" style="width:72px; height:72px; border-radius:50%; border:3px solid #e9d5ff; box-shadow:0 4px 14px rgba(74,20,140,0.15); transform:translateY(6px);">
+                <img src="../酒タイプ画像/LOUT.jpg" style="width:90px; height:90px; border-radius:50%; border:4px solid var(--brand-purple); box-shadow:0 6px 20px rgba(74,20,140,0.25);">
+                <img src="../酒タイプ画像/LRUT.jpg" style="width:72px; height:72px; border-radius:50%; border:3px solid #e9d5ff; box-shadow:0 4px 14px rgba(74,20,140,0.15); transform:translateY(6px);">
+            </div>
+            
+            <p style="font-weight:600; color:var(--text-main); font-size:0.92rem; margin-bottom:24px; line-height:1.9; text-align:left; background:#f8fafc; border-radius:16px; padding:14px 16px; overflow-wrap:break-word; word-break:normal;">
+                <span style="background:linear-gradient(transparent 55%, #fde68a 55%); font-weight:800;">飲み会で使えるゲーム</span>や、<span style="background:linear-gradient(transparent 55%, #fde68a 55%); font-weight:800;">精算・傾斜の計算</span>まで一気にできるツールなど、皆さんの<span style="background:linear-gradient(transparent 55%, #c4b5fd 55%); font-weight:800;">お酒ライフをもっと充実させる</span>コンテンツを多数ご用意しました。ぜひ使ってみてください！
+            </p>
+
+            <a href="./games/index.html" onclick="closePopup(); gtag('event', 'popup_cta_click', { 'event_category': 'engagement'});" style="display:block; width:100%; box-sizing:border-box; padding:18px 30px; background:linear-gradient(135deg, var(--brand-purple), #3949ab); color:white; font-size:1.2rem; font-weight:900; border-radius:50px; text-decoration:none; transition:all 0.2s; cursor:pointer;">
+                コンテンツを見る！ 🍺
+            </a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Clear any old version keys to avoid confusion
+            ['v1','v2','v3','v4','v5','v6'].forEach(v => localStorage.removeItem('seenGamesPopup_' + v));
+            if(!localStorage.getItem('seenGamesPopup_v7')) {
+                document.getElementById('gamesPopupOverlay').style.display = 'flex';
+                document.body.style.overflow = 'hidden'; 
+            }
+        });
+        function closePopup() {
+            localStorage.setItem('seenGamesPopup_v7', 'true');
+            document.getElementById('gamesPopupOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    </script>
 </body>
 </html>

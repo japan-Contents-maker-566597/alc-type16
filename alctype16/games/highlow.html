@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta name="theme-color" content="#1e293b">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YJFPXNF0M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1YJFPXNF0M');
+    </script>
+
+    <title>酒タイプハイロー - 16タイプ飲み会コンテンツ</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        body { background: #0f172a; }
+        .game-wrapper {
+            background: #1e293b; color: white;
+            border-radius: 24px; padding: 40px 20px; text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); margin-bottom: 40px;
+            min-height: 500px;
+        }
+        .card-stage {
+            position: relative; width: 220px; height: 310px; margin: 30px auto;
+        }
+        .playing-card {
+            width: 220px; height: 310px; background: white; border-radius: 16px;
+            color: black; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: -5px 10px 20px rgba(0,0,0,0.5);
+            position: absolute; top: 0; left: 0; transition: all 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            border: 8px solid white; box-sizing: border-box; overflow: hidden;
+        }
+        
+        .card-inner {
+            width: 100%; height: 100%; position: relative; display: flex; flex-direction: column;
+            border: 2px solid #ccc; border-radius: 8px; box-sizing: border-box;
+            background: #f8fafc;
+        }
+        
+        /* Face card design */
+        .card-char-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.8; z-index: 1; filter: sepia(0.3) saturate(0.8) contrast(1.1);
+        }
+        .suit-top { position: absolute; top: 8px; left: 8px; font-size: 1.8rem; font-weight: 900; line-height: 1; z-index: 2; text-align: center; background: rgba(255,255,255,0.7); padding: 5px; border-radius: 5px;}
+        .suit-bottom { position: absolute; bottom: 8px; right: 8px; font-size: 1.8rem; font-weight: 900; line-height: 1; transform: rotate(180deg); z-index: 2; text-align: center; background: rgba(255,255,255,0.7); padding: 5px; border-radius: 5px;}
+        
+        /* Stack mechanism */
+        .stacked-older { transform: translateY(15px) rotate(-3deg) scale(0.95); z-index: 1; filter: brightness(0.6); }
+        .stacked-old { transform: translateY(8px) rotate(2deg) scale(0.98); z-index: 2; filter: brightness(0.8); }
+        .stacked-active { transform: translateY(0) rotate(0deg) scale(1); z-index: 3; }
+        .stacked-new { transform: translateY(-300px) rotate(15deg) scale(1.1); opacity: 0; z-index: 4; }
+        
+        .controls { display: flex; justify-content: center; gap: 15px; margin-top: 50px; z-index: 10; position:relative;}
+        .btn-hl {
+            padding: 15px 30px; font-size: 1.5rem; font-weight: 900; border: none; border-radius: 12px;
+            cursor: pointer; transition: transform 0.2s; flex: 1; max-width: 150px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .btn-hl:active { transform: scale(0.95); }
+        .btn-high { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-bottom: 4px solid #991b1b; }
+        .btn-low { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-bottom: 4px solid #1e40af; }
+        .btn-hl:disabled { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; }
+
+        #result-msg { font-size: 1.3rem; font-weight: 900; min-height: 60px; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); display:block; text-align:center; padding: 10px; line-height: 1.4; word-break: keep-all; }
+        .penalty { color: #f87171; animation: shake 0.5s infinite; }
+        .success { color: #4ade80; }
+        
+        #finish-overlay {
+            position: fixed; inset:0; background: rgba(15, 23, 42, 0.9); z-index:100;
+            display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+            animation: fadeIn 1s forwards;
+        }
+        .finish-txt { font-size: 5rem; font-weight: 900; color: #fcd34d; filter: drop-shadow(0 0 20px #fcd34d); margin-bottom: 20px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
+    </style>
+</head>
+<body>
+    <nav class="global-header">
+        <a href="../index.html" class="header-logo"><span style="font-size:1.4rem;">🍺</span><span class="text-logo">酒タイプ診断</span></a>
+        <div class="header-nav"></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu"></div>
+
+    <div class="container fade-in" style="margin-top:20px;">
+        <div class="game-wrapper" style="padding-bottom:10px;">
+            <h1 style="color:#fcd34d; font-weight:900; font-size:2.2rem; margin-bottom:5px; word-break:keep-all;">🃏 酒タイプハイロー</h1>
+            <div id="deck-info" style="color:#94a3b8; font-weight:bold; margin-bottom:5px; font-size:0.9rem;">残りのカード: 54/54</div>
+            <div id="result-msg" style="color:#cbd5e1; font-size:1.1rem; margin-bottom: 10px;">現在のカードより「高い」か「低い」か？🤔</div>
+
+            <div class="card-stage" id="stage" style="margin-bottom: 15px;">
+                <!-- Cards injected here -->
+            </div>
+
+            <!-- Standard Mode / Red-Black Toggle -->
+            <div class="controls" id="btnContainer">
+                <button class="btn-hl btn-high" id="btn-high" onclick="guess('high')">HIGH ↑</button>
+                <button class="btn-hl btn-low" id="btn-low" onclick="guess('low')">LOW ↓</button>
+                <button class="btn-hl" id="btn-red" onclick="guess('red')" style="background:#ef4444; display:none;">🚩 RED (赤)</button>
+                <button class="btn-hl" id="btn-black" onclick="guess('black')" style="background:#1e293b; display:none; border:2px solid #475569;">🏴 BLACK (黒)</button>
+            </div>
+
+            <!-- Challenge Mode -->
+            <div id="challengeContainer" style="margin-top: 15px; border-top: 1px dashed #475569; padding-top: 15px;">
+                <p style="color:#f87171; font-weight:bold; font-size: 0.85rem; margin-bottom: 10px; word-break:keep-all;">🔥 攻めのルール (成功で回避！ / 失敗で2倍飲み)</p>
+                <div style="display:flex; justify-content:center; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+                    <select id="challengeSelector" onchange="toggleSpecificMode(this.value)" style="padding:10px; border-radius:8px; font-weight:bold; font-size:0.95rem; border:2px solid #f87171; background:#1e293b; color:white; flex:1; min-width:160px;">
+                        <option value="none">攻めなし (通常のHIGH/LOW)</option>
+                        <option value="even">かつ偶数が出る (2,4,6,8,10,Q)</option>
+                        <option value="odd">かつ奇数が出る (3,5,7,9,J,K)</option>
+                        <option value="prime">かつ素数が出る (2,3,5,7,11,13)</option>
+                        <option value="face">かつ絵札が出る (J,Q,K)</option>
+                        <option value="three">かつ3の倍数 (3,6,9,Q)</option>
+                        <option value="specific">特定の数字を指定！</option>
+                    </select>
+                    
+                    <!-- Only shown for "specific" mode -->
+                    <select id="specificNumSelector" style="display:none; padding:10px; border-radius:8px; font-weight:bold; font-size:0.95rem; border:2px solid #fcd34d; background:#1e293b; color:white;">
+                        <option value="1">A (1)</option><option value="2">2</option><option value="3">3</option>
+                        <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                        <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                        <option value="10">10</option><option value="11">J (11)</option><option value="12">Q (12)</option>
+                        <option value="13">K (13)</option>
+                    </select>
+                    
+                    <!-- Only shown for "specific" mode -->
+                    <button class="btn-hl" id="btnChallenge" onclick="guessChallenge()" style="display:none; background:#dc2626; padding: 10px 20px; font-size:1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">勝負！</button>
+                </div>
+                <p id="challengeInfo" style="font-size:0.75rem; color:#94a3b8; margin-top:4px; text-align:center;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="finish-overlay">
+        <div class="finish-txt">🎊 FINISH! 🎊</div>
+        <p style="color:white; font-size:1.5rem; font-weight:bold; margin-bottom:30px;">すべてのカードを完走しました！<br>お疲れ様でした🥂</p>
+        <button onclick="location.reload()" style="padding:15px 40px; background:#fcd34d; color:#0f172a; border:none; border-radius:50px; font-size:1.2rem; font-weight:900; cursor:pointer;">もう一度遊ぶ</button>
+    </div>
+
+    <div class="bottom-nav-wrapper">
+        <a href="./index.html" class="bottom-nav-button primary">ツール一覧に戻る</a>
+        <a href="../index.html" class="bottom-nav-button" style="border:2px solid #fcd34d; color:#fcd34d; background:transparent;">酒タイプ診断TOPに戻る</a>
+    </div>
+
+    <script>
+        const types = ["FODT", "FODY", "FOUT", "FOUY", "FRDT", "FRDY", "FRUT", "FRUY", "LODT", "LODY", "LOUT", "LOUY", "LRDT", "LRDY", "LRUT", "LRUY"];
+        const suits = ["♠", "♥", "♦", "♣"];
+        
+        let cardStack = []; // Stores {val, suit, typeIdx}
+        let currentCardDom = null;
+
+        // Web Audio Context for synths
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTone(freq, type, duration) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type; osc.frequency.value = freq;
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.start(); osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function playFlip() {
+            // White noise burst for paper flip
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const bufferSize = audioCtx.sampleRate * 0.1;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            // Filter noise
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass'; filter.frequency.value = 1000;
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        function createCardDOM(val, suitInd, typeInd, isJoker) {
+            if (isJoker) {
+                const card = document.createElement('div');
+                card.className = 'playing-card stacked-new';
+                card.innerHTML = `
+                    <div class="card-inner" style="background:#0f172a; border-color:#fcd34d;">
+                        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fcd34d;">
+                            <span style="font-size:4rem;">🤡</span>
+                            <span style="font-size:2rem; font-weight:900;">JOKER</span>
+                        </div>
+                    </div>
+                `;
+                return card;
+            }
+
+            const displayVal = val === 1 ? 'A' : val === 11 ? 'J' : val === 12 ? 'Q' : val === 13 ? 'K' : val;
+            const color = (suitInd === 1 || suitInd === 2) ? '#ef4444' : '#0f172a';
+            
+            const card = document.createElement('div');
+            card.className = 'playing-card stacked-new';
+            card.innerHTML = `
+                <div class="card-inner">
+                    <img src="../../酒タイプ画像/${types[typeInd]}.jpg" class="card-char-bg" alt="${types[typeInd]}">
+                    <div class="suit-top" style="color:${color}">${displayVal}<br/><span style="font-size:1.2rem">${suits[suitInd]}</span></div>
+                    <div class="suit-bottom" style="color:${color}">${displayVal}<br/><span style="font-size:1.2rem">${suits[suitInd]}</span></div>
+                </div>
+            `;
+            return card;
+        }
+
+        let deck = [];
+        function initDeck() {
+            deck = [];
+            // Standard 52
+            for(let v=1; v<=13; v++) {
+                for(let s=0; s<4; s++) deck.push({val:v, suit:s, isJoker:false});
+            }
+            // 2 Jokers
+            deck.push({val:0, suit:0, isJoker:true});
+            deck.push({val:0, suit:0, isJoker:true});
+            
+            // Shuffle
+            for(let i=deck.length-1; i>0; i--){
+                const j = Math.floor(Math.random()*(i+1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+
+        function addCardToStage() {
+            if(deck.length === 0) return null;
+            const data = deck.pop();
+            data.typeInd = Math.floor(Math.random()*16);
+            
+            cardStack.push(data);
+            document.getElementById('deck-info').innerText = `残りのカード: ${deck.length}/54`;
+            
+            const card = createCardDOM(data.val, data.suit, data.typeInd, data.isJoker);
+            document.getElementById('stage').appendChild(card);
+            
+            setTimeout(() => {
+                playFlip();
+                const cards = document.querySelectorAll('.playing-card');
+                cards.forEach((c, idx) => {
+                    const revIdx = (cards.length - 1) - idx;
+                    if(revIdx === 0) c.className = 'playing-card stacked-active';
+                    else if(revIdx === 1) c.className = 'playing-card stacked-old';
+                    else c.className = 'playing-card stacked-older';
+                });
+                updateUIForCard(data);
+            }, 50);
+
+            return data;
+        }
+
+        function updateUIForCard(data) {
+            const highBtn = document.getElementById('btn-high');
+            const lowBtn = document.getElementById('btn-low');
+            const redBtn = document.getElementById('btn-red');
+            const blackBtn = document.getElementById('btn-black');
+            const msg = document.getElementById('result-msg');
+
+            if(data.isJoker) {
+                highBtn.style.display = 'none'; lowBtn.style.display = 'none';
+                redBtn.style.display = 'none'; blackBtn.style.display = 'none';
+                return; // Joker handled by triggerResult logic
+            }
+
+            if(data.val === 1 || data.val === 13) {
+                highBtn.style.display = 'none'; lowBtn.style.display = 'none';
+                redBtn.style.display = 'block'; blackBtn.style.display = 'block';
+                msg.innerHTML = "A / K 特設ステージ！<br>次に出るカードの色（赤または黒）は？🚩";
+            } else {
+                highBtn.style.display = 'block'; lowBtn.style.display = 'block';
+                redBtn.style.display = 'none'; blackBtn.style.display = 'none';
+                msg.innerHTML = "現在のカードより「高い」か「低い」か？🤔";
+            }
+        }
+
+        function toggleSpecificMode(val) {
+            const specific = document.getElementById('specificNumSelector');
+            const btnChallenge = document.getElementById('btnChallenge');
+            const mainBtns = document.getElementById('btnContainer');
+            const info = document.getElementById('challengeInfo');
+            
+            if (val === 'specific') {
+                // Specific number: show only 勝負 button, hide HIGH/LOW
+                specific.style.display = 'inline-block';
+                btnChallenge.style.display = 'inline-block';
+                mainBtns.style.display = 'none';
+                info.innerText = "数字を指定して「勝負！」を押してください。方向の指定は不要！";
+            } else if (val === 'none') {
+                // No challenge: show only HIGH/LOW buttons
+                specific.style.display = 'none';
+                btnChallenge.style.display = 'none';
+                mainBtns.style.display = 'flex';
+                info.innerText = "";
+            } else {
+                // Challenge (even/odd/etc): HIGH/LOW buttons handle both direction + challenge
+                specific.style.display = 'none';
+                btnChallenge.style.display = 'none';
+                mainBtns.style.display = 'flex';
+                info.innerText = "💡 HIGH か LOW を押すと、方向と攻め条件を同時に判定！両方成功ならセーフ！";
+            }
+        }
+
+        initDeck();
+        addCardToStage();
+
+        // Penalties directly instructing the user to drink
+        const penalties = [
+            "ダウト！さぁ、飲んでください！",
+            "ブー！罰ゲームとして一口どうぞ！",
+            "アウト！残念ながら飲んでください！",
+            "ハズレ！言い訳無用で飲んで！"
+        ];
+
+        let isAnimating = false;
+
+        function guess(choice) {
+            if(isAnimating) return;
+            isAnimating = true;
+            gtag('event', 'game_action', { 'event_category': 'engagement', 'event_label': 'highlow_guess' });
+
+            document.getElementById('btnContainer').style.opacity = '0.5';
+            document.getElementById('challengeContainer').style.opacity = '0.5';
+            
+            const challenge = document.getElementById('challengeSelector').value;
+            const previousData = cardStack[cardStack.length - 1];
+            const newData = addCardToStage();
+
+            if (!newData) return; 
+
+            if (newData.isJoker) {
+                return triggerResult(false, false, true);
+            }
+
+            let directionCorrect = false;
+            if (previousData.val === 1 || previousData.val === 13) {
+                // Color mode
+                const isRed = (newData.suit === 1 || newData.suit === 2);
+                directionCorrect = (choice === 'red' && isRed) || (choice === 'black' && !isRed);
+            } else {
+                // High Low mode
+                const isHigh = newData.val > previousData.val;
+                const isLow = newData.val < previousData.val;
+                directionCorrect = (choice === 'high' && isHigh) || (choice === 'low' && isLow) || (newData.val === previousData.val);
+            }
+            
+            // If challenge is selected, also validate the extra condition
+            if (challenge !== 'none' && challenge !== 'specific') {
+                const v = newData.val;
+                let challengePass = false;
+                if(challenge === 'even')  challengePass = (v % 2 === 0 && v !== 0);
+                if(challenge === 'odd')   challengePass = (v % 2 !== 0 && v !== 1 && v !== 0);
+                if(challenge === 'prime') challengePass = ([2,3,5,7,11,13].includes(v));
+                if(challenge === 'face')  challengePass = (v >= 11);
+                if(challenge === 'three') challengePass = (v % 3 === 0 && v !== 0);
+                
+                if (directionCorrect && challengePass) {
+                    triggerResult(true, false);  // Both right → perfect! セーフ
+                } else if (directionCorrect && !challengePass) {
+                    triggerResult(false, true);  // Direction right, challenge failed → 2倍飲み
+                } else {
+                    triggerResult(false, false); // Direction wrong → normal drink
+                }
+            } else {
+                triggerResult(directionCorrect, false);
+            }
+        }
+
+        function guessChallenge() {
+            if(isAnimating) return;
+            isAnimating = true;
+            gtag('event', 'game_action', { 'event_category': 'engagement', 'event_label': 'highlow_challenge' });
+
+            document.getElementById('btnContainer').style.opacity = '0.5';
+            document.getElementById('challengeContainer').style.opacity = '0.5';
+
+            const challenge = document.getElementById('challengeSelector').value;
+            if(challenge === 'none') {
+                isAnimating = false;
+                document.getElementById('btnContainer').style.opacity = '1';
+                document.getElementById('challengeContainer').style.opacity = '1';
+                return alert("条件を選んでください。");
+            }
+
+            const previousData = cardStack[cardStack.length - 1];
+            const newData = addCardToStage();
+
+            if (!newData) return;
+            if (newData.isJoker) return triggerResult(false, false, true);
+
+            const v = newData.val;
+            let challengePass = false;
+
+            if (challenge === 'specific') {
+                const target = parseInt(document.getElementById('specificNumSelector').value);
+                challengePass = (v === target);
+                return triggerResult(challengePass, true);
+            }
+
+            if(challenge === 'even') challengePass = (v % 2 === 0 && v !== 0);
+            if(challenge === 'odd') challengePass = (v % 2 !== 0 && v !== 1 && v !== 0);
+            if(challenge === 'prime') challengePass = ([2,3,5,7,11,13].includes(v));
+            if(challenge === 'face') challengePass = (v >= 11);
+            if(challenge === 'three') challengePass = (v % 3 === 0 && v !== 0);
+
+            triggerResult(challengePass, true); 
+        }
+
+        function playCelebration() {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    const filter = audioCtx.createBiquadFilter();
+                    osc.type = 'square';
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(2000, audioCtx.currentTime);
+                    filter.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                    osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+                }, i * 150);
+            }
+
+            setTimeout(() => {
+                playTone(440, 'triangle', 1.5);
+                playTone(554.37, 'triangle', 1.5);
+                playTone(659.25, 'triangle', 1.5);
+            }, 600);
+        }
+
+        function finishGame() {
+            gtag('event', 'game_finish', { 'event_category': 'engagement', 'event_label': 'highlow' });
+            document.getElementById('finish-overlay').style.display = 'flex';
+            playCelebration();
+        }
+
+        function triggerResult(isCorrect, isDoubleRisk, isJoker) {
+            const msg = document.getElementById('result-msg');
+            setTimeout(() => {
+                if (isJoker) {
+                    msg.innerHTML = "💀 JOKER！問答無用で飲んでください！ 💀";
+                    msg.className = 'penalty';
+                    msg.style.color = "#fcd34d";
+                    playTone(100, 'sawtooth', 1.5);
+                } else if (isCorrect) {
+                    msg.innerHTML = "✨ 大正解！セーフ！ ✨";
+                    msg.className = 'success';
+                    msg.style.color = "#4ade80";
+                    playTone(880, 'sine', 0.1); setTimeout(() => playTone(1108, 'sine', 0.2), 100);
+                } else {
+                    if (isDoubleRisk) {
+                        msg.innerHTML = "💀 ダウト！攻め失敗！<b>「2倍」</b>飲んでください！ 💀";
+                        msg.style.color = "#ef4444";
+                    } else {
+                        msg.innerHTML = "🍻 " + penalties[Math.floor(Math.random() * penalties.length)] + " 🍻";
+                        msg.style.color = "#f87171";
+                    }
+                    msg.className = 'penalty';
+                    playTone(150, 'sawtooth', 0.5);
+                }
+                
+                setTimeout(() => {
+                    msg.className = "";
+                    msg.style.color = "#cbd5e1";
+                    document.getElementById('btnContainer').style.opacity = '1';
+                    document.getElementById('challengeContainer').style.opacity = '1';
+                    isAnimating = false;
+                    
+                    if(deck.length === 0) finishGame();
+                }, 2200);
+
+            }, 600);
+        }
+    </script>
+    <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
+</body>
+</html>

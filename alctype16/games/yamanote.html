@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta name="theme-color" content="#6a1b9a">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YJFPXNF0M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1YJFPXNF0M');
+    </script>
+
+    <title>お題ガチャ - 16タイプ飲み会コンテンツ</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .game-wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            border: 2px solid var(--brand-purple-light);
+        }
+        .slot-container {
+            height: 120px;
+            background: #f8fafc;
+            border: 4px solid var(--brand-purple);
+            border-radius: 16px;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            font-weight: 900;
+            color: var(--text-main);
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.1);
+            word-break: keep-all; padding: 0 10px;
+        }
+        .slot-text { transition: transform 0.1s; display: inline-block; }
+        .spin-btn {
+            background: linear-gradient(135deg, var(--brand-purple), #9c27b0);
+            color: white; font-size: 1.5rem; font-weight: 800;
+            padding: 16px 40px; border-radius: 50px; border: none;
+            box-shadow: 0 6px 20px rgba(106, 27, 154, 0.4); cursor: pointer;
+            transition: all 0.2s;
+        }
+        .spin-btn:active { transform: scale(0.95); box-shadow: 0 2px 10px rgba(106, 27, 154, 0.4); }
+        .spin-btn:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; }
+        
+        #char-area {
+            display:none; 
+            margin: 20px auto 10px; 
+            text-align:center; 
+            animation: popIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            background: #fffafa; border: 2px solid #ff9e9e; border-radius: 20px; padding: 15px;
+            position: relative;
+        }
+        #char-area::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+            border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #ff9e9e;
+        }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body>
+    <nav class="global-header">
+        <a href="../index.html" class="header-logo"><span style="font-size:1.4rem;">🍺</span><span class="text-logo">酒タイプ診断</span></a>
+        <div class="header-nav"></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu"></div>
+
+    <div class="container fade-in" style="margin-top:40px;">
+        <div class="game-wrapper">
+            <h1 style="color:var(--brand-purple); font-weight:900; font-size:2.2rem; margin-bottom:10px; word-break:keep-all;">🎰 お題ガチャ</h1>
+            <p style="font-weight:bold; color:var(--text-muted); word-break:keep-all;">山手線ゲーム等のお題をランダム決定！</p>
+            
+            <div id="char-area">
+                <img id="char-img" src="" alt="キャラクター" style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--brand-purple); object-fit: cover; margin-bottom:8px; box-shadow: 0 4px 15px rgba(255,0,0,0.2);">
+                <div id="char-speech" style="font-weight:900; color:#b91c1c; font-size: 1.2rem; line-height:1.4;"></div>
+            </div>
+
+            <div class="slot-container">
+                <div class="slot-text" id="slotText">ここにお題が出ます</div>
+            </div>
+            
+            <button class="spin-btn" id="spinBtn" onclick="spin()">お題を引く！</button>
+        </div>
+
+        <div class="bottom-nav-wrapper">
+            <a href="./index.html" class="bottom-nav-button primary">ツール一覧に戻る</a>
+            <a href="../index.html" class="bottom-nav-button" style="border:2px solid var(--brand-purple); color:var(--brand-purple); background:transparent;">酒タイプ診断TOPに戻る</a>
+        </div>
+    </div>
+
+    <script>
+        // 厳選されたテーマ
+        const topics = [
+            "山手線の駅名", "47都道府県", "居酒屋の定番メニュー", "赤い食べ物", "海にいる生き物", "歴代の総理大臣", 
+            "国民的アニメ映画のタイトル", "四字熟語", "国の名前", "スポーツの種類", "楽器の名前", "コンビニの名前", 
+            "野菜の名前", "犬の品種", "歴史上の人物", "お寿司のネタ", "お酒の名前", "お菓子の名前", "果物の名前", 
+            "鳥の名前", "虫の名前", "魚の名前", "動物園にいる動物", "花の名前", "色の名前",
+            "文房具", "家具", "家電製品", "乗り物", "都道府県庁所在地", "日本の山", "日本の川", "おでんの具",
+            "ファミレスのメニュー", "焼き鳥の部位", "焼肉の部位", "中華料理", "イタリア料理", "和食", "洋食",
+            "スポーツ選手の名前", "オリンピックの競技", "球技", "ウィンタースポーツ", "マリンスポーツ", "格闘技",
+            "漫画のタイトル", "映画のジャンル", "音楽のジャンル", "ボードゲーム", "トランプゲーム",
+            "ファッションアイテム", "化粧品の種類", "アクセサリー", "靴の種類", "バッグの種類", "帽子の種類",
+            "職業", "アルバイト", "学校の科目", "学校の行事", "部活動", "委員会", "大学の学部",
+            "日本の歴史上の時代", "戦国武将", "歴史の出来事", "祝日", "干支", "星座", "季節の行事",
+            "お茶の種類", "コーヒーの種類", "ジュースの種類", "パンの種類", "麺類", "どんぶり", "鍋の具材",
+            "ラーメンの味", "カレーの具", "おにぎりの具", "サンドイッチの具", "ハンバーガーの種類", "ピザの種類",
+            "ケーキの種類", "アイスの種類", "和菓子の種類", "スナック菓子", "駄菓子", "チョコレート菓子",
+            "調味料", "香辛料", "ハーブ", "油の種類", "お酢の種類",
+            "宝石の名前", "金属の名前", "曜日の名前", "月の名前（和風）", "体の部位"
+        ];
+        
+        let isSpinning = false;
+        const beepCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playTick() {
+            if (beepCtx.state === 'suspended') beepCtx.resume();
+            const osc = beepCtx.createOscillator();
+            const gain = beepCtx.createGain();
+            osc.connect(gain);
+            gain.connect(beepCtx.destination);
+            osc.frequency.value = 800; // high pitch tick
+            gain.gain.setValueAtTime(0.05, beepCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, beepCtx.currentTime + 0.05);
+            osc.start(); osc.stop(beepCtx.currentTime + 0.05);
+        }
+
+        function spin() {
+            if (isSpinning) return;
+            isSpinning = true;
+            if (typeof gtag !== "undefined") {
+                gtag('event', 'game_action', { 'event_category': 'engagement', 'event_label': 'odaigacha_spin' });
+            }
+            
+            const btn = document.getElementById('spinBtn');
+            const slot = document.getElementById('slotText');
+            btn.disabled = true;
+            
+            let count = 0;
+            const maxSpins = 20;
+            const interval = setInterval(() => {
+                slot.innerText = topics[Math.floor(Math.random() * topics.length)];
+                slot.style.transform = `translateY(${Math.random() * 10 - 5}px)`;
+                count++;
+                playTick();
+                
+                if (count >= maxSpins) {
+                    clearInterval(interval);
+                    slot.style.transform = "translateY(0)";
+                    slot.style.color = "var(--brand-purple)";
+                    isSpinning = false;
+                    btn.disabled = false;
+                    btn.innerText = "もう一度引く！";
+                    
+                    // キャラクター決定
+                    const chars = ["FODT", "FODY", "FOUT", "FOUY", "FRDT", "FRDY", "FRUT", "FRUY", "LODT", "LODY", "LOUT", "LOUY", "LRDT", "LRDY", "LRUT", "LRUY"];
+                    const charNames = { "FODT":"飲み飲みカウンセラー", "FODY":"涙腺崩壊ベビー", "FOUT":"酒飲み聖母", "FOUY":"情熱のたぎりモンスター", "FRDT":"お会計くん", "FRDY":"空気読みすぎ天使", "FRUT":"酔いどれ学級委員長", "FRUY":"飲んだふり常習犯", "LODT":"飲み参謀", "LODY":"爆発インキャ", "LOUT":"アル中番長", "LOUY":"ハイテンション時限爆弾", "LRDT":"朝までうんちく先輩", "LRDY":"水泥棒", "LRUT":"自称プロ幹事", "LRUY":"ちゃんとした人" };
+                    const charCode = chars[Math.floor(Math.random() * chars.length)];
+                    document.getElementById('char-img').src = `../../酒タイプ画像/${charCode}.jpg`;
+                    document.getElementById('char-speech').innerText = `💬 ${charNames[charCode]} からのお題！`;
+                    document.getElementById('char-area').style.display = 'block';
+
+                    slot.style.transform = "scale(1.1)";
+                    setTimeout(() => slot.style.transform = "scale(1)", 200);
+                }
+            }, 50);
+            
+            slot.style.color = "var(--text-main)";
+        }
+    </script>
+    <script src="https://adm.shinobi.jp/s/1f943b2f77393147a7da8f634acb2c30"></script>
+</body>
+</html>
