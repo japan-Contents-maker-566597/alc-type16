@@ -235,7 +235,7 @@ let lastResult = null;  // saved for CSV export
 /* ════════════════════════════════
    Member management
 ════════════════════════════════ */
-function addMember(name='', age='') {
+function addMember(name='', age='', silent=false) {
     memberIdCnt++;
     const id = `m${memberIdCnt}`;
     const div = document.createElement('div');
@@ -247,9 +247,8 @@ function addMember(name='', age='') {
         <button class="btn-del" onclick="delRow('${id}'); refreshPayerDropdowns()">✕</button>
     `;
     document.getElementById('memberList').appendChild(div);
-    // Update add-listener so name changes refresh dropdowns too
     div.querySelector('.mname').addEventListener('input', refreshPayerDropdowns);
-    refreshPayerDropdowns();
+    if (!silent) refreshPayerDropdowns();
 }
 
 function getMemberNames() {
@@ -561,22 +560,38 @@ function showToast(msg) {
 ════════════════════════════════ */
 function loadFromURL() {
     const params = new URLSearchParams(location.search);
-    if (!params.has('d')) return;
+    if (!params.has('d')) {
+        // Default rows if no data
+        addMember(); addMember();
+        addExpense();
+        return;
+    }
     const state = decodeState(params.get('d'));
     if (!state) return;
 
-    // Populate members first
-    (state.members || []).forEach(m => addMember(m.name, m.age));
+    // Clear initial or default state if any
+    document.getElementById('memberList').innerHTML = '';
+    document.getElementById('expenseList').innerHTML = '';
 
-    // Then expenses (so payer dropdown is populated)
-    setTimeout(() => {
-        (state.expenses || []).forEach(e => addExpense(e.cat, e.payer, e.amt));
-        // Set diff
-        if (state.diff !== undefined) {
-            document.getElementById('diffAmount').value = state.diff;
-        }
-        showToast('📋 共有されたデータを復元しました！');
-    }, 50);
+    // Populate members first (silent to avoid multiple refreshes)
+    (state.members || []).forEach(m => addMember(m.name, m.age, true));
+    refreshPayerDropdowns();
+
+    // Then expenses
+    (state.expenses || []).forEach(e => addExpense(e.cat, e.payer, e.amt));
+    
+    // Set diff
+    if (state.diff !== undefined) {
+        document.getElementById('diffAmount').value = state.diff;
+    }
+
+    // Auto calculate if we have data
+    if ((state.members || []).length >= 2 && (state.expenses || []).length > 0) {
+        setTimeout(() => {
+            calculate();
+            showToast('📋 共有されたデータを復元しました！');
+        }, 100);
+    }
 }
 
 /* ════════════════════════════════
