@@ -407,7 +407,7 @@ function updatePCount(expenseId) {
 }
 
 function delRow(id) { const el = document.getElementById(id); if (el) el.remove(); }
-function esc(s) { return String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+function esc(s) { if (s === undefined || s === null) return ''; return String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 function showTab(idx) {
     document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
     document.querySelectorAll('.tab-content').forEach((c, i) => c.classList.toggle('active', i === idx));
@@ -572,15 +572,33 @@ function showToast(m) { const t=document.getElementById('toast'); t.textContent=
 function loadFromURL() {
     const p = new URLSearchParams(location.search);
     if (!p.has('d')) { addMember(); addMember(); addExpense(); return; }
-    const s = decodeState(p.get('d')); if (!s) return;
+    const s = decodeState(p.get('d'));
+    if (!s) { addMember(); addMember(); addExpense(); return; }
+
     document.getElementById('memberList').innerHTML = '';
     document.getElementById('expenseList').innerHTML = '';
-    (s.members || []).forEach(m => { addMember(m.name, m.age, true); const last=document.querySelector('.member-row:last-child'); if(last && m.id) last.dataset.mid=m.id; const num=parseInt(m.id.substring(1)); if(num>memberIdCnt) memberIdCnt=num; });
+
+    (s.members || []).forEach(m => {
+        addMember(m.name, m.age, true);
+        if (m.id) {
+            const last = document.querySelector('.member-row:last-child');
+            if (last) last.dataset.mid = m.id;
+            const num = parseInt(m.id.substring(1));
+            if (!isNaN(num) && num > memberIdCnt) memberIdCnt = num;
+        }
+    });
+
     refreshPayerDropdowns();
-    (s.expenses || []).forEach(e => addExpense(e.cat, e.payer, e.amt, e.pids));
+
+    (s.expenses || []).forEach(e => {
+        // Handle both old 'amt' and potential 'amount' naming
+        const amount = e.amt || e.amount || '';
+        addExpense(e.cat, e.payer, amount, e.pids || e.participants);
+    });
+
     if (s.mode) setMode(s.mode);
     if (s.diff) document.getElementById('diffAmount').value = s.diff;
-    if (s.members.length >= 2) { setTimeout(() => calculate(), 100); }
+    if (s.members && s.members.length >= 2) { setTimeout(() => calculate(), 100); }
 }
 document.addEventListener('DOMContentLoaded', loadFromURL);
 </script>
