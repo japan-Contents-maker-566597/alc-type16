@@ -563,9 +563,36 @@ function getFormState() {
 function encodeState(s) { try{return btoa(unescape(encodeURIComponent(JSON.stringify(s))));}catch(e){return null;} }
 function decodeState(s) { try{return JSON.parse(decodeURIComponent(escape(atob(s))));}catch(e){return null;} }
 function copyShareLink() {
-    const s = encodeState(getFormState());
-    const url = location.origin + location.pathname + '?d=' + s;
-    navigator.clipboard.writeText(url).then(() => showToast('✅ リンクをコピーしました！'));
+    try {
+        const s = encodeState(getFormState());
+        if (!s) { alert('データの保存に失敗しました。'); return; }
+        const baseUrl = window.location.href.split('?')[0].split('#')[0];
+        const url = baseUrl + '?d=' + s;
+        
+        const success = () => showToast('✅ リンクをコピーしました！');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(success).catch(() => fallbackCopy(url, success));
+        } else {
+            fallbackCopy(url, success);
+        }
+    } catch (e) {
+        console.error(e);
+        alert('リンクの生成中にエラーが発生しました。');
+    }
+}
+function fallbackCopy(text, cb) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+        document.execCommand("copy");
+        if (cb) cb();
+    } catch (err) {
+        alert("リンクをコピーできませんでした。URLを手動でコピーしてください:\n" + text);
+    }
+    document.body.removeChild(ta);
 }
 function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
 
