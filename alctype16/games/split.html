@@ -392,7 +392,7 @@ function updateExpenseParticipantList(expenseId, savedSelection=null) {
     const members = getMembers();
     drawer.innerHTML = members.map(m => `
         <label class="p-item">
-            <input type="checkbox" value="${esc(m.id)}" ${ (savedSelection === null && currentChecked.length === 0) || currentChecked.includes(m.id) ? 'checked' : '' } onchange="updatePCount('${expenseId}')">
+            <input type="checkbox" value="${esc(m.id)}" ${ (savedSelection == null && currentChecked.length === 0) || (savedSelection != null && currentChecked.includes(m.id)) ? 'checked' : '' } onchange="updatePCount('${expenseId}')">
             ${esc(m.name)}
         </label>
     `).join('');
