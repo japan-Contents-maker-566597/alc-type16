@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【公式】大学生タイプ診断（16タイプ） - あなたのキャンパス生態系</title>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css?v=1.0.4">
+    <meta name="description" content="全15問の質問に答えて、あなたのキャンパスライフでの生態系を診断します。SNSの使い方から将来の姿まで丸裸に！">
+
+    <!-- SEO / OGP -->
+    <meta property="og:url" content="https://sync-loft.com/collegetype16/index.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="【公式】大学生タイプ診断（16タイプ） - あなたのキャンパス生態系" />
+    <meta property="og:description" content="全15問の質問に答えて、あなたのキャンパスライフでの生態系を診断します。SNSの使い方から将来の姿まで丸裸に！" />
+    <meta property="og:site_name" content="大学生タイプ診断" />
+    <meta property="og:image" content="https://sync-loft.com/collegetype16/ogp.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <style>
+        /* Extra styles for richer TOP page */
+        .hero-section {
+            background: linear-gradient(135deg, #FFB7B2 0%, #ffdfd3 100%);
+            padding: 40px 15px 50px;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(255, 183, 178, 0.3);
+        }
+        .hero-logo-icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+        .hero-logo { font-size: 2.2rem; color: #fff; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); margin-bottom: 10px; font-weight: 900;}
+        .hero-subtitle { font-size: 1.1rem; color: #fff; font-weight: bold; margin-bottom: 25px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); line-height: 1.5; }
+        
+        /* Collage */
+        .hero-character-collage {
+            display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin-bottom: 30px;
+        }
+        .hero-char img {
+            border-radius: 50%; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border: 4px solid #fff;
+            object-fit: cover; background: #fff;
+        }
+        .char-center img { width: 100px; height: 100px; transform: scale(1.1); z-index: 3; position: relative; border-color: #ff9a9e;}
+        .char-even img { width: 70px; height: 70px; z-index: 1; opacity: 0.9;}
+        .char-odd img { width: 85px; height: 85px; z-index: 2;}
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        @media(max-width: 500px) { .grid-2 { grid-template-columns: 1fr; } }
+        .axis-card { background: #fff; padding: 15px; border-radius: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .axis-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; color: white; font-weight: bold; flex-shrink:0; }
+        .axis-info h4 { margin:0 0 5px 0; font-size: 1rem; color: #333; }
+        .axis-info p { margin:0; font-size: 0.85rem; color: #777; }
+
+        .sns-review-grid { display: flex; flex-direction: column; gap: 15px; }
+        .sns-card { background: #fff; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .sns-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .sns-avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; }
+        .sns-name { font-weight: bold; font-size: 1rem; color: #333; display: block;}
+        .sns-handle { font-size: 0.8rem; color: #888; }
+        .sns-text { font-size: 0.95rem; color: #444; line-height: 1.6; }
+        .sns-tag { color: var(--primary); font-weight: bold; }
+
+        .pickup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .pickup-card { background: #fff; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; transition: 0.2s;}
+        .pickup-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .pickup-img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px; object-fit: cover; }
+        .pickup-name { font-weight: 900; font-size: 0.95rem; color: #333; margin-bottom: 5px; }
+        .pickup-catch { font-size: 0.8rem; color: #777; line-height: 1.4;}
+
+        .faq-item details { background: #fff; padding: 15px; border-radius: 15px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); cursor: pointer; }
+        .faq-item summary { font-weight: bold; color: #333; outline: none; }
+        .faq-item p { margin: 10px 0 0 0; font-size: 0.9rem; color: #666; padding-left: 15px; border-left: 3px solid var(--primary); }
+
+        .highlight-text { background: linear-gradient(transparent 60%, #ffdfd3 60%); font-weight: 900; color: #333;}
+    </style>
+</head>
+<body>
+    <nav class="global-header">
+        <a href="index.html" class="header-logo"><span style="font-size:1.2rem;">🏫</span> 大学生タイプ診断</a>
+        <div class="header-nav">
+            <a href="diagnosis.html">診断を受ける</a>
+            <a href="list.html">16タイプ一覧</a>
+            <a href="../alctype16/index.html">🍺 酒タイプ診断</a>
+        </div>
+        <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('mobileMenu').classList.toggle('active')">☰</button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu" style="position:fixed;">
+        <a href="diagnosis.html">診断を受ける</a>
+        <a href="list.html">16タイプ一覧</a>
+        <a href="../alctype16/index.html">🍺 酒タイプ診断はこちら</a>
+    </div>
+
+    <!-- 1. HERO SECTION -->
+    <header class="hero-section">
+        <div class="container fade-in" style="padding:0;">
+            <span class="hero-logo-icon">🌸</span>
+            <h1 class="hero-logo">大学生タイプ診断</h1>
+            <p class="hero-subtitle">全15問の質問で、あなたのキャンパスライフにおける「本当の生態系」がわかります！</p>
+            
+            <div class="hero-character-collage">
+                <div class="hero-char char-even"><img src="img/語彙無しウェイウェイ.png" alt="ウェイ"></div>
+                <div class="hero-char char-odd"><img src="img/意識高杉くん_イラスト.png" alt="意識高杉"></div>
+                <div class="hero-char char-center"><img src="img/ミスコン天使_イラスト.png" alt="ミスコン天使"></div>
+                <div class="hero-char char-odd"><img src="img/どこでもメロつきウサギ_イラスト.png" alt="メロつき"></div>
+                <div class="hero-char char-even"><img src="img/ガチ勉スライム_イラスト.png" alt="ガチ勉"></div>
+            </div>
+            
+            <a href="diagnosis.html" class="btn btn-primary" style="padding: 20px; font-size: 1.3rem; box-shadow: 0 6px 20px rgba(0,0,0,0.15); background: #fff; color: #ff6b81;">
+                ✨ さっそく診断をはじめる
+            </a>
+            <p style="margin-top: 15px; font-size: 0.85rem; color: rgba(255,255,255,0.9); font-weight: bold;">（完全無料・登録不要）</p>
+        </div>
+    </header>
+
+    <div class="container fade-in">
+
+        <!-- Cross-Site Banner to Sake Type Diagnosis -->
+        <a href="../alctype16/index.html" style="display:block; background: linear-gradient(135deg, #4a148c, #6a1b9a); color:#fff; text-align:center; padding:18px 15px; border-radius:18px; text-decoration:none; margin-bottom:25px; font-weight:bold; box-shadow:0 6px 20px rgba(74, 20, 140, 0.3); overflow:hidden; position:relative; border: 2px solid #fff;">
+            <div style="font-size:1.5rem; margin-bottom: 5px; position:relative; z-index:2;">🍺</div>
+            <div style="position:relative; z-index:2; margin-bottom: 5px; font-size:1rem;">飲み会で一番盛り上がる！</div>
+            <div style="font-size:1.3rem; font-weight:900; position:relative; z-index:2; text-shadow:0 2px 4px rgba(0,0,0,0.2);">🍻 酒タイプ診断はこちら</div>
+            <!-- Character decorators -->
+            <img src="../酒タイプ画像/LOUT.jpg" style="position:absolute; bottom:-10px; right:5px; width:70px; height:70px; object-fit:cover; border-radius:50%; border:3px solid #fff; opacity:0.95; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1;">
+            <img src="../酒タイプ画像/FRDY.jpg" style="position:absolute; top:5px; left:10px; width:55px; height:55px; object-fit:cover; border-radius:50%; border:2px solid #fff; opacity:0.9; box-shadow:0 3px 6px rgba(0,0,0,0.2); z-index:1;">
+        </a>
+
+        <!-- 2. WHAT IS SAKE TYPE? -->
+        <section class="glass-card">
+            <h2 class="section-title">大学生タイプ診断とは？</h2>
+            <div style="line-height: 1.8; color: #555; font-size: 0.95rem;">
+                <p style="font-size: 1.1rem; text-align: center; margin-bottom: 20px;"><strong>「キャンパス」は、生態系の坩堝（るつぼ）</strong></p>
+                <p>大学生タイプ診断は、単なる性格診断ではありません。「キラキラした表向きの顔」ではなく、本音や属性に基づいた<strong style="color: var(--primary);">リアルな生態系</strong>を浮き彫りにするエンタメコンテンツです。</p>
+                <p style="background: #fffafa; padding: 16px; border-radius: 12px; font-weight: 600; text-align: center; margin-top: 20px; border: 1px solid #ffe4e1;">
+                    SNSの使い方、金銭感覚、飲み会での立ち回り、さらには「卒業後の姿」まで...<span class="highlight-text">全16タイプ</span>からあなたの本性を暴きます！
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. DIAGNOSIS AXES -->
+        <section class="glass-card">
+            <h2 class="section-title">4つの要素から精密にプロファイリング</h2>
+            <p class="text-center" style="font-size:0.9rem; color:#666; margin-bottom: 15px;">独自の行動分析アルゴリズムによる4つのベクトルであなたを解析します。</p>
+            
+            <div class="grid-2">
+                <div class="axis-card">
+                    <div class="axis-icon" style="background: linear-gradient(135deg, #ff9a9e, #fecfef);">🏃</div>
+                    <div class="axis-info">
+                        <h4>行動範囲・エネルギー</h4>
+                        <p>飲み会やサークルなど外に向かうか、趣味やプライベート空間を愛するか。</p>
+                    </div>
+                </div>
+                <div class="axis-card">
+                    <div class="axis-icon" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">🎯</div>
+                    <div class="axis-info">
+                        <h4>目的意識・時間とお金</h4>
+                        <p>未来のキャリアや自己研鑽に投資するか、今の楽しさやノリを優先するか。</p>
+                    </div>
+                </div>
+                <div class="axis-card">
+                    <div class="axis-icon" style="background: linear-gradient(135deg, #fbc2eb, #a6c1ee);">📱</div>
+                    <div class="axis-info">
+                        <h4>承認欲求・自己表現</h4>
+                        <p>SNSでキラキラ輝きたいか、他人の目を気にせずマイペースを貫くか。</p>
+                    </div>
+                </div>
+                <div class="axis-card">
+                    <div class="axis-icon" style="background: linear-gradient(135deg, #d4fc79, #96e6a1);">❤️</div>
+                    <div class="axis-info">
+                        <h4>人間関係・恋愛スタンス</h4>
+                        <p>積極的でフッ軽か、いつメンとの平和を重視して奥手か。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mock SNS Reviews Section -->
+        <section class="fade-in" style="margin-top: 40px; margin-bottom: 40px;">
+            <h2 class="section-title">ユーザーからの声</h2>
+            <p style="font-size:0.85rem; color:#888; margin-bottom:20px;">※先行テストプレイの感想を一部編集して掲載しています。</p>
+            
+            <div class="sns-review-grid">
+                <div class="sns-card">
+                    <div class="sns-header">
+                        <img src="img/普通の大学生_イラスト.png" class="sns-avatar" alt="User">
+                        <div class="sns-user">
+                            <span class="sns-name">りょう</span>
+                            <span class="sns-handle">@ryo_campus</span>
+                        </div>
+                    </div>
+                    <div class="sns-text">
+                        ゼミのみんなでやってみたら見事にバラバラでめっちゃ盛り上がった！笑 自分は完全に<span class="sns-tag">#ふつうの大学生</span> だったけど、一番生きやすいから良しとする😂 <span class="sns-tag">#大学生タイプ診断</span>
+                    </div>
+                </div>
+                
+                <div class="sns-card">
+                    <div class="sns-header">
+                        <img src="img/キョロキョロちゃん_イラスト.jpg" class="sns-avatar" alt="User">
+                        <div class="sns-user">
+                            <span class="sns-name">みほ</span>
+                            <span class="sns-handle">@miho_miho12</span>
+                        </div>
+                    </div>
+                    <div class="sns-text">
+                        やばい、これ当たりすぎててちょっと痛い...。SNSで他人の目気にしてるのバレバレだったわ🤣 <span class="sns-tag">#キョロキョロちゃん</span> でした。誰か一緒にサークル行こ...
+                    </div>
+                </div>
+                
+                <div class="sns-card">
+                    <div class="sns-header">
+                        <img src="img/ハイスペ最強キャプテン_イラスト.png" class="sns-avatar" alt="User">
+                        <div class="sns-user">
+                            <span class="sns-name">たける</span>
+                            <span class="sns-handle">@takeru_sports</span>
+                        </div>
+                    </div>
+                    <div class="sns-text">
+                        「気合で解決できない問題はない」って書いてあって、俺の口癖そのまんまで笑った。就活無双できるらしいからこのまま突っ走るわ💪 <span class="sns-tag">#大学生タイプ診断</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 16 TYPES HIGHLIGHT -->
+        <section class="glass-card" id="types">
+            <h2 class="section-title">16の生態系ピックアップ</h2>
+            <p style="font-size:0.9rem; color:#666; margin-bottom: 20px; text-align:center;">あなたのキャンパスにも絶対に一人はいる、個性豊かな界隈たち。</p>
+            
+            <div class="pickup-grid mb-4">
+                <a href="types/type01.html" style="text-decoration:none; color:inherit;">
+                    <div class="pickup-card">
+                        <img src="img/ミスコン天使_イラスト.png" alt="ミスコン天使" class="pickup-img">
+                        <div class="pickup-name">ミスコン天使</div>
+                        <p class="pickup-catch">圧倒的ヒロイン</p>
+                    </div>
+                </a>
+                <a href="types/type12.html" style="text-decoration:none; color:inherit;">
+                    <div class="pickup-card">
+                        <img src="img/ガチ勉スライム_イラスト.png" alt="ガチ勉スライム" class="pickup-img">
+                        <div class="pickup-name">ガチ勉スライム</div>
+                        <p class="pickup-catch">不屈の苦学生</p>
+                    </div>
+                </a>
+                <a href="types/type04.html" style="text-decoration:none; color:inherit;">
+                    <div class="pickup-card">
+                        <img src="img/バイト戦士_イラスト.png" alt="バイト戦士" class="pickup-img">
+                        <div class="pickup-name">バイト戦士</div>
+                        <p class="pickup-catch">プロアルバイター</p>
+                    </div>
+                </a>
+                <a href="types/type13.html" style="text-decoration:none; color:inherit;">
+                    <div class="pickup-card">
+                        <img src="img/夢見がちバンドマン_イラスト.png" alt="夢見がちバンドマン" class="pickup-img">
+                        <div class="pickup-name">夢見がちバンドマン</div>
+                        <p class="pickup-catch">承認欲求マシマシ</p>
+                    </div>
+                </a>
+            </div>
+            <a href="list.html" class="btn btn-secondary" style="margin-top: 15px;">全16タイプの一覧を開く</a>
+        </section>
+
+        <!-- 5. FAQ Section -->
+        <section style="margin-top: 40px; margin-bottom: 40px;">
+            <h2 class="section-title">よくある質問 (FAQ)</h2>
+            <div class="faq-item">
+                <details>
+                    <summary>診断にはどれくらいの時間がかかりますか？</summary>
+                    <p>全15問の選択式で、およそ3分程度でパパッと結果が出ます。空きコマやサークルの待ち時間に最適です。</p>
+                </details>
+            </div>
+            <div class="faq-item">
+                <details>
+                    <summary>もう卒業している社会人でも楽しめますか？</summary>
+                    <p>もちろん楽しめます！「大学生の頃の自分」を思い出しながら回答することで、当時の解像度の高いプロファイリングと、「卒業後の姿」の答え合わせができます。</p>
+                </details>
+            </div>
+            <div class="faq-item">
+                <details>
+                    <summary>会員登録やアプリのダウンロードは必要ですか？</summary>
+                    <p>完全無料で、ブラウザからそのままご利用いただけます。個人情報の登録も一切不要です。</p>
+                </details>
+            </div>
+        </section>
+        
+        <div style="text-align: center; margin-bottom: 40px;">
+            <a href="diagnosis.html" class="btn btn-primary" style="padding: 20px; font-size: 1.3rem;">今すぐ診断する ✨</a>
+        </div>
+
+        <footer style="margin-top:40px; margin-bottom:20px; text-align:center; font-size:0.8rem; color:#aaa; border-top:1px solid #eee; padding-top:20px;">
+            <p style="margin-bottom:10px;">
+                <a href="policy.html" style="color:#888; text-decoration:underline;">プライバシーポリシー</a>
+                <span style="margin: 0 10px; color:#eee;">|</span>
+                <a href="contact.html" style="color:#888; text-decoration:underline;">お問い合わせ</a>
+            </p>
+            <p>© 2024-2026 大学生タイプ診断 事務局</p>
+        </footer>
+    </div>
+</body>
+</html>

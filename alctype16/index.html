@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -92,6 +92,15 @@
 
     <div class="container fade-in" style="animation-delay: 0.2s;">
         
+        <!-- Cross-Site Banner to College Type Diagnosis -->
+        <a href="../collegetype16/index.html" style="display:block; background: linear-gradient(135deg, #ff6b81, #ff9a9e); color:#fff; text-align:center; padding:22px 30px; border-radius:18px; text-decoration:none; margin-bottom:25px; font-weight:bold; box-shadow:0 6px 20px rgba(255, 107, 129, 0.3); overflow:hidden; position:relative; border: 2px solid #fff; word-break: keep-all; overflow-wrap: anywhere;">
+            <div style="font-size:1.5rem; margin-bottom: 5px; position:relative; z-index:2;">🏫</div>
+            <div style="position:relative; z-index:2; margin-bottom: 5px; font-size:1rem; line-height:1.4;">キャンパスの生態系がわかる！？<br>新作リリース</div>
+            <div style="font-size:1.3rem; font-weight:900; position:relative; z-index:2; text-shadow:0 2px 4px rgba(0,0,0,0.2);">🌸 大学生タイプ診断はこちら</div>
+            <!-- Character decorators -->
+            <img src="../collegetype16/img/ミスコン天使_イラスト.png" style="position:absolute; bottom:-10px; right:-10px; width:75px; height:75px; object-fit:cover; border-radius:50%; border:3px solid #fff; opacity:0.95; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1;">
+            <img src="../collegetype16/img/意識高杉くん_イラスト.png" style="position:absolute; top:5px; left:-10px; width:60px; height:60px; object-fit:cover; border-radius:50%; border:2px solid #fff; opacity:0.9; box-shadow:0 3px 6px rgba(0,0,0,0.2); z-index:1;">
+        </a>
 
         <!-- 2. WHAT IS SAKE TYPE? -->
         <section class="glass-card">
@@ -305,44 +314,42 @@
         </div>
     </a>
 
-    <!-- NEW GAMES POPUP -->
+    <!-- NEW GAMES POPUP -> COLLEGE TYPE POPUP -->
     <div id="gamesPopupOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center; backdrop-filter: blur(5px);">
-        <div style="background:#fff; width:92%; max-width:440px; border-radius:32px; padding:36px 24px 32px; text-align:center; position:relative; box-shadow:0 30px 60px rgba(0,0,0,0.6); border: 4px solid var(--brand-purple); overflow:hidden;">
+        <div style="background:#fff; width:92%; max-width:440px; border-radius:32px; padding:36px 24px 32px; text-align:center; position:relative; box-shadow:0 30px 60px rgba(0,0,0,0.6); border: 4px solid #ff9a9e; overflow:hidden;">
             
             <!-- × close button -->
             <button onclick="closePopup()" style="position:absolute; top:16px; right:16px; width:36px; height:36px; font-size:1.4rem; background:#f1f5f9; border:none; border-radius:50%; cursor:pointer; font-weight:bold; color:#64748b; line-height:1; display:flex; align-items:center; justify-content:center;">&times;</button>
             
-            <div style="font-size:3rem; margin-bottom:10px;">🎉</div>
+            <div style="font-size:3rem; margin-bottom:10px;">🌸</div>
             
-            <h2 style="color:var(--brand-purple); font-weight:900; font-size:1.7rem; margin-bottom:16px; line-height:1.3; word-break:keep-all;">飲み会がもっと充実！<br>「飲み会コンテンツ」登場</h2>
+            <h2 style="color:#ff6b81; font-weight:900; font-size:1.7rem; margin-bottom:16px; line-height:1.3; word-break:keep-all;">キャンパスの生態系がわかる！<br>「大学生タイプ診断」リリース</h2>
             
-            <!-- Character illustrations — bigger & prominent -->
+            <!-- Character illustrations -->
             <div style="display:flex; justify-content:center; align-items:flex-end; gap:8px; margin-bottom:18px;">
-                <img src="../酒タイプ画像/FOUY.jpg" style="width:72px; height:72px; border-radius:50%; border:3px solid #e9d5ff; box-shadow:0 4px 14px rgba(74,20,140,0.15); transform:translateY(6px);">
-                <img src="../酒タイプ画像/LOUT.jpg" style="width:90px; height:90px; border-radius:50%; border:4px solid var(--brand-purple); box-shadow:0 6px 20px rgba(74,20,140,0.25);">
-                <img src="../酒タイプ画像/LRUT.jpg" style="width:72px; height:72px; border-radius:50%; border:3px solid #e9d5ff; box-shadow:0 4px 14px rgba(74,20,140,0.15); transform:translateY(6px);">
+                <img src="../collegetype16/img/語彙無しウェイウェイ.png" style="width:72px; height:72px; border-radius:50%; border:3px solid #ffdfd3; box-shadow:0 4px 14px rgba(255,107,129,0.15); transform:translateY(6px);">
+                <img src="../collegetype16/img/ミスコン天使_イラスト.png" style="width:90px; height:90px; border-radius:50%; border:4px solid #ff6b81; box-shadow:0 6px 20px rgba(255,107,129,0.25);">
+                <img src="../collegetype16/img/ガチ勉スライム_イラスト.png" style="width:72px; height:72px; border-radius:50%; border:3px solid #ffdfd3; box-shadow:0 4px 14px rgba(255,107,129,0.15); transform:translateY(6px);">
             </div>
             
-            <p style="font-weight:600; color:var(--text-main); font-size:0.92rem; margin-bottom:24px; line-height:1.9; text-align:left; background:#f8fafc; border-radius:16px; padding:14px 16px; overflow-wrap:break-word; word-break:normal;">
-                <span style="background:linear-gradient(transparent 55%, #fde68a 55%); font-weight:800;">飲み会で使えるゲーム</span>や、<span style="background:linear-gradient(transparent 55%, #fde68a 55%); font-weight:800;">精算・傾斜の計算</span>まで一気にできるツールなど、皆さんの<span style="background:linear-gradient(transparent 55%, #c4b5fd 55%); font-weight:800;">お酒ライフをもっと充実させる</span>コンテンツを多数ご用意しました。ぜひ使ってみてください！
+            <p style="font-weight:600; color:var(--text-main); font-size:0.92rem; margin-bottom:24px; line-height:1.9; text-align:left; background:#fffafa; border:1px solid #ffe4e1; border-radius:16px; padding:14px 16px; overflow-wrap:break-word; word-break:normal;">
+                キャンパスに潜む16タイプの生態系！<span style="background:linear-gradient(transparent 55%, #ffd1dc 55%); font-weight:800;">ミスコン天使</span>や<span style="background:linear-gradient(transparent 55%, #ffd1dc 55%); font-weight:800;">意識高杉くん</span>など、あなたの<b>本当の属性</b>と<b>卒業後の姿</b>を完全プロファイリング。ぜひ遊んでみてください！
             </p>
 
-            <a href="./games/index.html" onclick="closePopup(); gtag('event', 'popup_cta_click', { 'event_category': 'engagement'});" style="display:block; width:100%; box-sizing:border-box; padding:18px 30px; background:linear-gradient(135deg, var(--brand-purple), #3949ab); color:white; font-size:1.2rem; font-weight:900; border-radius:50px; text-decoration:none; transition:all 0.2s; cursor:pointer;">
-                コンテンツを見る！ 🍺
+            <a href="../collegetype16/index.html" onclick="closePopup(); gtag('event', 'college_popup_click', { 'event_category': 'engagement'});" style="display:block; width:100%; box-sizing:border-box; padding:18px 30px; background:linear-gradient(135deg, #FFB7B2, #ff9a9e); color:white; font-size:1.2rem; font-weight:900; border-radius:50px; text-decoration:none; transition:all 0.2s; cursor:pointer; box-shadow:0 4px 15px rgba(255,183,178,0.4);">
+                さっそく診断する！ ✨
             </a>
         </div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Clear any old version keys to avoid confusion
-            ['v1','v2','v3','v4','v5','v6'].forEach(v => localStorage.removeItem('seenGamesPopup_' + v));
-            if(!localStorage.getItem('seenGamesPopup_v7')) {
+            if(!localStorage.getItem('seenCollegePopup_v4')) {
                 document.getElementById('gamesPopupOverlay').style.display = 'flex';
                 document.body.style.overflow = 'hidden'; 
             }
         });
         function closePopup() {
-            localStorage.setItem('seenGamesPopup_v7', 'true');
+            localStorage.setItem('seenCollegePopup_v4', 'true');
             document.getElementById('gamesPopupOverlay').style.display = 'none';
             document.body.style.overflow = 'auto';
         }

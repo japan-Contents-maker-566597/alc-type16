@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>質問 | 大学生タイプ診断</title>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css?v=1.0.4">
+    
+    <!-- SEO / OGP -->
+    <meta property="og:url" content="https://sync-loft.com/collegetype16/diagnosis.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="【公式】大学生タイプ診断（16タイプ） - 診断中" />
+    <meta property="og:description" content="全15問の質問に答えて、あなたのキャンパスライフでの生態系を診断します。SNSの使い方から将来の姿まで丸裸に！" />
+    <meta property="og:site_name" content="大学生タイプ診断" />
+    <meta property="og:image" content="https://sync-loft.com/collegetype16/ogp.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <style>
+        .question-card { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <nav class="global-header">
+        <a href="index.html" class="header-logo"><span style="font-size:1.2rem;">🏫</span> 大学生タイプ診断</a>
+        <div class="header-nav">
+            <a href="diagnosis.html">診断を受ける</a>
+            <a href="list.html">16タイプ一覧</a>
+            <a href="../alctype16/index.html">🍺 酒タイプ診断</a>
+        </div>
+        <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('mobileMenu').classList.toggle('active')">☰</button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu" style="position:fixed;">
+        <a href="diagnosis.html">診断を受ける</a>
+        <a href="list.html">16タイプ一覧</a>
+        <a href="../alctype16/index.html">🍺 酒タイプ診断はこちら</a>
+    </div>
+
+    <div class="progress-container fade-in">
+        <div class="container" style="padding: 0 20px;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">0 / 15 回答完了</div>
+        </div>
+    </div>
+
+    <div class="container fade-in" style="padding-top: 10px;">
+        <div id="questionsContainer" style="overflow-x: hidden;"></div>
+        
+        <button id="submitBtn" class="btn btn-primary" style="display:none; padding: 20px; font-size: 1.2rem; margin-top: 20px;">診断結果を見る✨</button>
+    </div>
+
+    <script src="js/logic.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('questionsContainer');
+            const submitBtn = document.getElementById('submitBtn');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            let answered = new Set();
+            let currentIndex = 0;
+
+            function render() {
+                container.innerHTML = QUESTIONS.map((q, qIndex) => `
+                    <div class="question-view ${qIndex === 0 ? 'active' : ''}" id="qcard-${qIndex}">
+                        <div class="question-card">
+                            <div style="color:var(--primary); font-weight:bold; margin-bottom:5px;">Q${q.id} / 15</div>
+                            <h3 class="question-title">${q.text}</h3>
+                            <div>
+                                ${q.choices.map((c, cIndex) => `
+                                    <button type="button" class="option-btn" onclick="selectChoice(${qIndex}, ${cIndex}, this)">
+                                        ${c.text}
+                                    </button>
+                                `).join('')}
+                            </div>
+                            ${qIndex > 0 ? `<button class="btn btn-secondary" style="margin-top:20px; font-size:0.95rem; padding:10px; background:#f1f5f9; color:#64748b; border:none;" onclick="goBack(${qIndex - 1})">← ひとつ前の質問に戻る</button>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            window.goBack = function(prevIndex) {
+                const currentView = document.querySelector('.question-view.active');
+                if (currentView) currentView.classList.remove('active');
+                
+                const prevView = document.getElementById(`qcard-${prevIndex}`);
+                if (prevView) {
+                    prevView.style.animation = 'none'; // reset animation for going back
+                    prevView.classList.add('active');
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                }
+            };
+
+            window.selectChoice = function(qIndex, choiceIndex, btnElem) {
+                // Record answer (we only care that it is answered, choice is selected)
+                const view = document.getElementById(`qcard-${qIndex}`);
+                view.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                btnElem.classList.add('selected');
+
+                if (!answered.has(qIndex)) {
+                    answered.add(qIndex);
+                    
+                    const perc = (answered.size / QUESTIONS.length) * 100;
+                    progressBar.style.width = perc + '%';
+                    progressText.textContent = `${answered.size} / 15 回答完了`;
+                }
+
+                // Slide next
+                setTimeout(() => {
+                    const currentView = document.getElementById(`qcard-${qIndex}`);
+                    const nextView = document.getElementById(`qcard-${qIndex + 1}`);
+                    
+                    if (nextView) {
+                        currentView.classList.remove('active');
+                        nextView.classList.add('active');
+                        window.scrollTo({top: 0, behavior: 'smooth'});
+                    } else if (answered.size === QUESTIONS.length) {
+                        submitBtn.style.display = 'block';
+                        window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+                    }
+                }, 300); // Wait 300ms so user can see selection
+            };
+
+            submitBtn.addEventListener('click', () => {
+                submitBtn.innerHTML = '🎯 診断中...';
+                submitBtn.style.opacity = '1';
+                
+                TYPES.forEach(t => state.scores[t] = 0);
+
+                const views = document.querySelectorAll('.question-view');
+                views.forEach((view, qIndex) => {
+                    const selected = view.querySelector('.option-btn.selected');
+                    if (selected) {
+                        const btns = Array.from(view.querySelectorAll('.option-btn'));
+                        const choiceIndex = btns.indexOf(selected);
+                        handleAnswer(qIndex, choiceIndex);
+                    }
+                });
+
+                const resultShortCode = getResult();
+                
+                setTimeout(() => {
+                    window.location.href = './types/' + resultShortCode + '.html';
+                }, 600);
+            });
+
+            render();
+        });
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -107,7 +107,6 @@
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 <!-- /Google AdSense -->
-</div>
 
             <div id="questionsContainer"></div>
             
@@ -215,7 +214,8 @@
             diagnosisForm.addEventListener('submit', async e => {
                 e.preventDefault();
                 const formData = new FormData(diagnosisForm);
-                if (Array.from(formData.keys()).length < questions.length) {
+                const answeredQuestions = questions.filter(q => formData.has(`q${q.id}`));
+                if (answeredQuestions.length < questions.length) {
                     alert('Please answer all questions completely.');
                     return;
                 }
