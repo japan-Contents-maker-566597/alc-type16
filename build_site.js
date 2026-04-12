@@ -103,6 +103,38 @@ h1, h2, h3 { color: #555; text-align: center; }
 .catchphrase { font-size: 1.2rem; color: var(--primary); font-weight: 800; text-align: center; margin-bottom: 10px;}
 .type-name { font-size: 2.2rem; color: #333; font-weight: 900; text-align: center; margin-bottom: 20px; line-height: 1.2;}
 
+/* Diagnosis Inputs */
+.name-input {
+    width: 100%; padding: 15px 20px; border-radius: 15px; border: 2px solid #eee;
+    font-size: 1rem; font-family: var(--font); outline: none; transition: border-color 0.3s;
+    background: #fdfdfd; text-align: center; font-weight: bold;
+}
+.name-input:focus { border-color: var(--primary); background: #fff; }
+.select-input {
+    width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd;
+    font-size: 0.95rem; font-family: var(--font); background: #fff; text-align: center;
+}
+.select-input-label { display: block; font-size: 0.8rem; color: #888; font-weight: bold; margin-bottom: 8px; text-align: center; }
+
+/* Question UI */
+.option-btn {
+    display: block; width: 100%; padding: 16px; margin-bottom: 12px;
+    background: #fff; border: 2px solid #f0f0f0; border-radius: 15px;
+    font-size: 0.95rem; font-weight: 600; color: #555; cursor: pointer;
+    transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    text-align: left; position: relative;
+}
+.option-btn:hover { background: #fffcfc; border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.option-btn.selected { 
+    background: #fffafa; border-color: var(--primary); color: #d65c65; 
+    box-shadow: 0 4px 15px rgba(255,183,178,0.25);
+}
+.option-btn.selected::after {
+    content: '✨'; position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+}
+
+.ads-box { margin: 20px 0; text-align: center; display: block; clear: both; overflow: hidden; }
+
 .match-box { display: flex; justify-content: space-between; gap: 10px; margin-top: 15px;}
 .match-item { flex: 1; background: white; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05);}
 .share-btn { display: flex; justify-content: center; align-items: center; background: #000; color: #fff; text-decoration: none; font-weight: bold; padding: 15px; border-radius: 30px; margin-top: 25px;}
@@ -220,6 +252,8 @@ Object.keys(res).forEach(t => {
 
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css?v=1.0.4">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3644642136582562" crossorigin="anonymous"></script>
 </head>
 <body>
     <nav class="global-header">
@@ -239,7 +273,7 @@ Object.keys(res).forEach(t => {
 
     <div class="container fade-in" style="padding-top:20px;">
         <div class="glass-card" style="text-align: center;">
-            <p style="font-weight:bold; color:#888;">あなたの診断結果は...</p>
+            <p id="userNameDisplay" style="font-weight:bold; color:#888;">あなたの診断結果は...</p>
             <div class="catchphrase">${data.catchphrase.replace(/[A-Z]{4}|（.*?）|\(.*?\)/g, '')}</div>
             <h1 class="type-name">${data.name.replace(/[A-Z]{4}|（.*?）|\(.*?\)/g, '')}</h1>
             <img src="../img/${imgName}" alt="${data.name}" class="type-image">
@@ -290,7 +324,7 @@ Object.keys(res).forEach(t => {
             </div>
             
             <h2 class="section-title">迷えるあなたへのアドバイス</h2>
-            <div style="background:#fffafa; padding:15px; border-left:4px solid var(--primary); border-radius:0 10px 10px 0; color:#555; line-height:1.7;">
+            <div style="background:#fffafa; padding:15px; border-radius:10px; color:#555; line-height:1.7;">
                 ${(() => {
                     let adv = data.advice.replace(/\*/g, '');
                     const strongKeywords = ['最強', '大切', '武器', '自分軸', '魅力', '将来', '信頼', '無双', '圧倒的', '必須', 'ポイント', '必要', '大切'];
@@ -306,6 +340,17 @@ Object.keys(res).forEach(t => {
             </div>
             
             <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`私の大学生タイプは【${data.name.replace(/[A-Z]{4}|（.*?）|\(.*?\)/g, '')}】でした！\n\n診断してみる👇\nhttps://sync-loft.com/collegetype16/`)}" class="share-btn" target="_blank" rel="noopener" style="margin-top:30px;">X (Twitter) でシェア</a>
+            
+            <!-- Ad unit in result -->
+            <div class="ads-box">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3644642136582562"
+                     data-ad-slot="1628377322"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
         </div>
 
         <a href="../index.html" class="btn btn-primary" style="margin-top:20px;">もう一度診断する</a>
@@ -320,6 +365,14 @@ Object.keys(res).forEach(t => {
             <p>© 2024-2026 大学生タイプ診断 事務局</p>
         </footer>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const name = localStorage.getItem('college_user_name');
+            if (name && name !== 'ゲスト') {
+                document.getElementById('userNameDisplay').textContent = name + ' さんの診断結果は...';
+            }
+        });
+    </script>
 </body>
 </html>`;
     fs.writeFileSync(path.join(typesDir, shortT + '.html'), html);

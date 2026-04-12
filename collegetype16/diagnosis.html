@@ -17,7 +17,10 @@
     <meta name="twitter:card" content="summary_large_image" />
     <style>
         .question-card { margin-top: 20px; }
+        .intro-section { text-align: center; }
     </style>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3644642136582562" crossorigin="anonymous"></script>
 </head>
 <body>
     <nav class="global-header">
@@ -35,7 +38,7 @@
         <a href="../alctype16/index.html">🍺 酒タイプ診断はこちら</a>
     </div>
 
-    <div class="progress-container fade-in">
+    <div class="progress-container fade-in" id="progressContainer" style="display:none;">
         <div class="container" style="padding: 0 20px;">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressBar"></div>
@@ -45,7 +48,37 @@
     </div>
 
     <div class="container fade-in" style="padding-top: 10px;">
-        <div id="questionsContainer" style="overflow-x: hidden;"></div>
+        <!-- Step 0: User Info -->
+        <div id="introSection" class="glass-card fade-in" style="margin-top:20px;">
+            <h2 style="font-size: 1.4rem; color: var(--primary); margin-bottom: 20px;">診断をはじめる前に</h2>
+            <div style="margin-bottom: 25px;">
+                <p class="select-input-label">ニックネームを入力してください</p>
+                <input type="text" id="userName" class="name-input" placeholder="例：キャンパス太郎" maxlength="15">
+            </div>
+            <div style="margin-bottom: 30px;">
+                <span class="select-input-label">性別</span>
+                <select id="userGender" class="select-input">
+                    <option value="回答しない" selected>回答しない</option>
+                    <option value="男性">男性</option>
+                    <option value="女性">女性</option>
+                </select>
+            </div>
+            
+            <!-- Ad unit in intro -->
+            <div class="ads-box">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3644642136582562"
+                     data-ad-slot="1628377322"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+
+            <button id="startBtn" class="btn btn-primary" style="padding: 20px; font-size: 1.2rem;">診断スタート！ 🚀</button>
+        </div>
+
+        <div id="questionsContainer" style="overflow-x: hidden; display:none;"></div>
         
         <button id="submitBtn" class="btn btn-primary" style="display:none; padding: 20px; font-size: 1.2rem; margin-top: 20px;">診断結果を見る✨</button>
     </div>
@@ -54,12 +87,28 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('questionsContainer');
+            const introSection = document.getElementById('introSection');
+            const progressContainer = document.getElementById('progressContainer');
+            const startBtn = document.getElementById('startBtn');
+            const userNameInput = document.getElementById('userName');
+            const userGenderInput = document.getElementById('userGender');
             const submitBtn = document.getElementById('submitBtn');
             const progressBar = document.getElementById('progressBar');
             const progressText = document.getElementById('progressText');
 
             let answered = new Set();
             let currentIndex = 0;
+
+            startBtn.addEventListener('click', () => {
+                const name = userNameInput.value.trim() || 'ゲスト';
+                localStorage.setItem('college_user_name', name);
+                localStorage.setItem('college_user_gender', userGenderInput.value);
+                
+                introSection.style.display = 'none';
+                container.style.display = 'block';
+                progressContainer.style.display = 'block';
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
 
             function render() {
                 container.innerHTML = QUESTIONS.map((q, qIndex) => `
