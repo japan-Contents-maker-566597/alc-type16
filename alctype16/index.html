@@ -81,6 +81,14 @@
                 </a>
             </div>
 
+            <!-- College Type Banner (Moved higher for visibility) -->
+            <a href="../collegetype16/index.html" style="display:block; background: linear-gradient(135deg, #ff6b81, #ff9a9e); color:#fff; text-align:center; padding:18px 20px; border-radius:18px; text-decoration:none; margin:20px auto 25px; max-width:500px; font-weight:bold; box-shadow:0 6px 20px rgba(255, 107, 129, 0.3); overflow:hidden; position:relative; border: 2px solid #fff; word-break: keep-all; overflow-wrap: anywhere; z-index:10;">
+                <div style="font-size:1.4rem; margin-bottom: 5px; position:relative; z-index:2;">🏫</div>
+                <div style="position:relative; z-index:2; margin-bottom: 5px; font-size:0.95rem; line-height:1.4;">キャンパスの生態系がわかる！？新作</div>
+                <div style="font-size:1.2rem; font-weight:900; position:relative; z-index:2; text-shadow:0 2px 4px rgba(0,0,0,0.2);">🌸 大学生タイプ診断はこちら</div>
+                <img src="../collegetype16/img/ミスコン天使_イラスト.png" style="position:absolute; bottom:-10px; right:-10px; width:65px; height:65px; object-fit:cover; border-radius:50%; border:2px solid #fff; opacity:0.95; z-index:1;">
+            </a>
+
             <!-- Virtual Diagnostic Counter for Authority -->
             <div class="proof-counter fade-in">
                 <div class="proof-counter-label">🎉 大好評続々！</div>
@@ -91,16 +99,6 @@
     </header>
 
     <div class="container fade-in" style="animation-delay: 0.2s;">
-        
-        <!-- Cross-Site Banner to College Type Diagnosis -->
-        <a href="../collegetype16/index.html" style="display:block; background: linear-gradient(135deg, #ff6b81, #ff9a9e); color:#fff; text-align:center; padding:22px 30px; border-radius:18px; text-decoration:none; margin-bottom:25px; font-weight:bold; box-shadow:0 6px 20px rgba(255, 107, 129, 0.3); overflow:hidden; position:relative; border: 2px solid #fff; word-break: keep-all; overflow-wrap: anywhere;">
-            <div style="font-size:1.5rem; margin-bottom: 5px; position:relative; z-index:2;">🏫</div>
-            <div style="position:relative; z-index:2; margin-bottom: 5px; font-size:1rem; line-height:1.4;">キャンパスの生態系がわかる！？<br>新作リリース</div>
-            <div style="font-size:1.3rem; font-weight:900; position:relative; z-index:2; text-shadow:0 2px 4px rgba(0,0,0,0.2);">🌸 大学生タイプ診断はこちら</div>
-            <!-- Character decorators -->
-            <img src="../collegetype16/img/ミスコン天使_イラスト.png" style="position:absolute; bottom:-10px; right:-10px; width:75px; height:75px; object-fit:cover; border-radius:50%; border:3px solid #fff; opacity:0.95; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1;">
-            <img src="../collegetype16/img/意識高杉くん_イラスト.png" style="position:absolute; top:5px; left:-10px; width:60px; height:60px; object-fit:cover; border-radius:50%; border:2px solid #fff; opacity:0.9; box-shadow:0 3px 6px rgba(0,0,0,0.2); z-index:1;">
-        </a>
 
         <!-- 2. WHAT IS SAKE TYPE? -->
         <section class="glass-card">
@@ -343,13 +341,13 @@
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            if(!localStorage.getItem('seenCollegePopup_v4')) {
+            if(!localStorage.getItem('seenCollegePopup_v5')) {
                 document.getElementById('gamesPopupOverlay').style.display = 'flex';
                 document.body.style.overflow = 'hidden'; 
             }
         });
         function closePopup() {
-            localStorage.setItem('seenCollegePopup_v4', 'true');
+            localStorage.setItem('seenCollegePopup_v5', 'true');
             document.getElementById('gamesPopupOverlay').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
