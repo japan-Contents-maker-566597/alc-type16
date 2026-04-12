@@ -254,6 +254,15 @@ Object.keys(res).forEach(t => {
     <link rel="stylesheet" href="../css/main.css?v=1.0.4">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3644642136582562" crossorigin="anonymous"></script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YJFPXNF0M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1YJFPXNF0M');
+    </script>
 </head>
 <body>
     <nav class="global-header">
