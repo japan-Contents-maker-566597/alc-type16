@@ -247,7 +247,7 @@ Object.keys(res).forEach(t => {
     <meta property="og:title" content="【公式】大学生タイプ診断 - 結果は「${data.name}」" />
     <meta property="og:description" content="キャンパスに潜む16タイプの生態系！私の診断結果は【${data.name}】でした✨" />
     <meta property="og:site_name" content="大学生タイプ診断" />
-    <meta property="og:image" content="https://sync-loft.com/collegetype16/ogp.jpg" />
+    <meta property="og:image" content="https://sync-loft.com/collegetype16/ogp/${shortT}.png" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
@@ -348,7 +348,7 @@ Object.keys(res).forEach(t => {
                 })()}
             </div>
             
-            <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`私の大学生タイプは【${data.name.replace(/[A-Z]{4}|（.*?）|\(.*?\)/g, '')}】でした！\n\n診断してみる👇\nhttps://sync-loft.com/collegetype16/`)}" class="share-btn" target="_blank" rel="noopener" style="margin-top:30px;">X (Twitter) でシェア</a>
+            <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`私の大学生タイプは【${data.name.replace(/[A-Z]{4}|（.*?）|\(.*?\)/g, '')}】でした！\n\n#大学生タイプ診断\n\n診断してみる👇\nhttps://sync-loft.com/collegetype16/types/${shortT}.html`)}" class="share-btn" target="_blank" rel="noopener" style="margin-top:30px;">X (Twitter) でシェア</a>
             
             <!-- Ad unit in result -->
             <div class="ads-box">
