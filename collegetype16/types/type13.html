@@ -96,7 +96,8 @@
                 <b>「何かにそこまで情熱を注ぎ、自分を表現しようとするエネルギーは、替えのきかないあなたの才能です。ただ、夢を追うことと、周囲に甘えることは別物。あなたが夢を見続けられるのは、誰かの『支え』があるからこそ。その感謝を形にした時、あなたの表現には本当の意味での『魂』が宿りますよ！」</b> 
             </div>
             
-            <a href="https://twitter.com/intent/tweet?text=%E7%A7%81%E3%81%AE%E5%A4%A7%E5%AD%A6%E7%94%9F%E3%82%BF%E3%82%A4%E3%83%97%E3%81%AF%E3%80%90%E5%A4%A2%E8%A6%8B%E3%81%8C%E3%81%A1%E3%83%90%E3%83%B3%E3%83%89%E3%83%9E%E3%83%B3%E3%80%91%E3%81%A7%E3%81%97%E3%81%9F%EF%BC%81%0A%0A%23%E5%A4%A7%E5%AD%A6%E7%94%9F%E3%82%BF%E3%82%A4%E3%83%97%E8%A8%BA%E6%96%AD%0A%0A%E8%A8%BA%E6%96%AD%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B%F0%9F%91%87%0Ahttps%3A%2F%2Fsync-loft.com%2Fcollegetype16%2Ftypes%2Ftype13.html" class="share-btn" target="_blank" rel="noopener" style="margin-top:30px;">X (Twitter) でシェア</a>
+            <div id="shareMicrocopy" class="share-microcopy" style="margin-top: 25px; margin-bottom: -15px; font-size: 0.88rem; color: #64748b; line-height: 1.6; text-align: center; font-weight: bold; padding: 0 10px;"></div>
+            <a href="https://twitter.com/intent/tweet?text=%E7%A7%81%E3%81%AE%E5%A4%A7%E5%AD%A6%E7%94%9F%E3%82%BF%E3%82%A4%E3%83%97%E3%81%AF%E3%80%90%E5%A4%A2%E8%A6%8B%E3%81%8C%E3%81%A1%E3%83%90%E3%83%B3%E3%83%89%E3%83%9E%E3%83%B3%E3%80%91%E3%81%A7%E3%81%97%E3%81%9F%EF%BC%81%0A%23%E5%A4%A7%E5%AD%A6%E7%94%9F%E3%82%BF%E3%82%A4%E3%83%97%E8%A8%BA%E6%96%AD%20%E3%81%AF%E3%80%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E3%81%AE%E6%96%B9%E3%82%82%E7%A4%BE%E4%BC%9A%E4%BA%BA%E3%81%AE%E6%96%B9%E3%82%82%E6%A5%BD%E3%81%97%E3%82%81%E3%82%8B%E3%80%81%E5%A4%A7%E5%AD%A6%E6%99%82%E4%BB%A3%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%81%8C%E5%88%86%E3%81%8B%E3%82%8B%E8%A8%BA%E6%96%AD%E3%82%B5%E3%82%A4%E3%83%88%E3%81%A7%E3%81%99%E3%80%82%0A%E3%81%9C%E3%81%B2%E8%A8%BA%E6%96%AD%E3%81%97%E3%81%A6%E3%81%BF%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%EF%BC%81%0A%0A%E8%A8%BA%E6%96%AD%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AF%E3%81%93%E3%81%A1%E3%82%89%F0%9F%91%87%0Ahttps%3A%2F%2Fsync-loft.com%2Fcollegetype16%2Findex.html" class="share-btn" target="_blank" rel="noopener" style="margin-top:30px;">X (Twitter) でシェア</a>
             
             <!-- Ad unit in result -->
             <div class="ads-box">
@@ -125,8 +126,42 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const name = localStorage.getItem('college_user_name');
-            if (name && name !== 'ゲスト') {
-                document.getElementById('userNameDisplay').textContent = name + ' さんの診断結果は...';
+            const mode = localStorage.getItem('college_diagnosis_mode') || 'student';
+            
+            const displayEl = document.getElementById('userNameDisplay');
+            if (displayEl) {
+                let suffix = ' さんの診断結果は...';
+                if (mode === 'alumni') {
+                    suffix = ' さんの当時のタイプは...';
+                }
+                displayEl.textContent = (name && name !== 'ゲスト' ? name : 'あなた') + suffix;
+            }
+
+            // Display dynamic context-aware micro-copy above CTA
+            const microcopyEl = document.getElementById('shareMicrocopy');
+            if (microcopyEl) {
+                if (mode === 'alumni') {
+                    microcopyEl.innerHTML = "💡ぜひ大学時代の懐かしいエピソードや、当時の思い出を添えて投稿してみてください！";
+                } else {
+                    microcopyEl.innerHTML = "💡 あなたの大学生タイプをフォロワーにも伝えましょう！";
+                }
+            }
+
+            // Unified X (Twitter) Share Button Logic
+            const shareBtn = document.querySelector('.share-btn');
+            if (shareBtn) {
+                shareBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Unified template matching user specifications with hardcoded landing page URL
+                    const text = "私の大学生タイプは【" + "夢見がちバンドマン" + "】でした！\n" +
+                                 "#大学生タイプ診断 は、大学生の方も社会人の方も楽しめる、大学時代のキャラクターが分かる診断サイトです。\n" +
+                                 "ぜひ診断してみてください！\n\n" +
+                                 "診断サイトはこちら👇\n" + 
+                                 "https://sync-loft.com/collegetype16/index.html";
+                    
+                    const twitterUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
+                    window.open(twitterUrl, '_blank');
+                });
             }
         });
     </script>

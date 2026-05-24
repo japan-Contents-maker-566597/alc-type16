@@ -64,6 +64,13 @@
                 <p class="select-input-label">ニックネームを入力してください</p>
                 <input type="text" id="userName" class="name-input" placeholder="例：キャンパス太郎" maxlength="15">
             </div>
+            <div style="margin-bottom: 25px;">
+                <span class="select-input-label">現在の状況</span>
+                <select id="userMode" class="select-input">
+                    <option value="student" selected>大学生</option>
+                    <option value="alumni">社会人</option>
+                </select>
+            </div>
             <div style="margin-bottom: 30px;">
                 <span class="select-input-label">性別</span>
                 <select id="userGender" class="select-input">
@@ -110,14 +117,27 @@
 
             startBtn.addEventListener('click', () => {
                 const name = userNameInput.value.trim() || 'ゲスト';
+                const mode = document.getElementById('userMode').value;
                 localStorage.setItem('college_user_name', name);
                 localStorage.setItem('college_user_gender', userGenderInput.value);
+                localStorage.setItem('college_diagnosis_mode', mode);
+                
+                // Set the question texts based on mode
+                if (typeof setDiagnosisQuestions === 'function') {
+                    setDiagnosisQuestions(mode);
+                }
+                
+                render(); // Re-render to pick up new question texts
                 
                 introSection.style.display = 'none';
                 container.style.display = 'block';
                 progressContainer.style.display = 'block';
                 window.scrollTo({top: 0, behavior: 'smooth'});
             });
+
+            // Pre-select mode if available
+            const savedMode = localStorage.getItem('college_diagnosis_mode') || 'student';
+            document.getElementById('userMode').value = savedMode;
 
             function render() {
                 container.innerHTML = QUESTIONS.map((q, qIndex) => `

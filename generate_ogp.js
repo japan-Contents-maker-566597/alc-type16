@@ -2,6 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const { createCanvas, loadImage, registerFont } = require('canvas');
 
+// Register custom site font properly
+registerFont(path.join(__dirname, 'MPLUSRounded1c-Bold.ttf'), { family: 'Rounded Mplus 1c' });
+
 // Output directory
 const OGP_DIR = path.join(__dirname, 'collegetype16', 'ogp');
 if (!fs.existsSync(OGP_DIR)) {
@@ -132,24 +135,71 @@ async function generateOgp() {
             if(fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
         }
 
-        // Add text
-        ctx.fillStyle = '#555';
+        // Site Name Logo (Top Right on Pink Background)
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'right';
+        ctx.font = '38px "Rounded Mplus 1c", "M PLUS Rounded 1c", "Yu Gothic UI", "Meiryo", sans-serif';
+        // Right align to the edge of the card (offset by 20px)
+        const cardRight = 80 + (WIDTH - 160);
+        ctx.fillText('🏫 大学生タイプ診断', cardRight, 55);
+
+        // Add text inside card
         ctx.textAlign = 'left';
-        
-        // Catchphrase
-        ctx.font = 'bold 32px sans-serif';
-        const catchText = data.catchphrase.replace(/[A-Z]{4}|（.*?）|\(.*?\)/g, '');
-        ctx.fillText(catchText, 520, 240);
+        let cursorY = 175;
 
-        // Type Name
+        // 1. "私の大学生タイプは..."
+        ctx.fillStyle = '#777';
+        ctx.font = '36px "Rounded Mplus 1c", "M PLUS Rounded 1c", "Yu Gothic UI", "Meiryo", sans-serif';
+        ctx.fillText('私の大学生タイプは...', 520, cursorY);
+        cursorY += 55;
+
+        // 2. Catchphrase
+        ctx.fillStyle = '#ff6b81';
+        ctx.font = '34px "Rounded Mplus 1c", "M PLUS Rounded 1c", "Yu Gothic UI", "Meiryo", sans-serif';
+        const catchText = data.catchphrase.replace(/[A-Z]{4}|（.*?）|\(.*?\)/g, '').trim();
+        ctx.fillText(catchText, 520, cursorY);
+        cursorY += 75;
+
+        // 3. Type Name
         ctx.fillStyle = '#333';
-        ctx.font = 'bold 64px sans-serif';
-        ctx.fillText(cleanName, 520, 330);
+        ctx.font = '68px "Rounded Mplus 1c", "M PLUS Rounded 1c", "Yu Gothic UI", "Meiryo", sans-serif';
+        let nameLines = [cleanName];
+        const splits = {
+            'どこでもメロつきウサギ': ['どこでも', 'メロつきウサギ'],
+            'ハイスペ最強キャプテン': ['ハイスペ最強', 'キャプテン'],
+            '狂気の推し活コレクター': ['狂気の推し活', 'コレクター'],
+            'いつまでも童貞くん': ['いつまでも', '童貞くん'],
+            '語彙無しウェイウェイ': ['語彙無し', 'ウェイウェイ'],
+            '留年ヤニカスジジイ': ['留年ヤニカス', 'ジジイ'],
+            '親のすねかじり虫': ['親のすねかじり虫'] // fits roughly
+        };
+        if (splits[cleanName]) {
+            nameLines = splits[cleanName];
+        } else if (ctx.measureText(cleanName).width > 480) {
+            const half = Math.floor(cleanName.length / 2);
+            nameLines = [cleanName.substring(0, half), cleanName.substring(half)];
+        }
 
-        // Site Name
-        ctx.fillStyle = '#FF9A9E';
-        ctx.font = 'bold 40px sans-serif';
-        ctx.fillText('🏫 大学生タイプ診断', 520, 440);
+        for (const line of nameLines) {
+            ctx.fillText(line, 520, cursorY);
+            cursorY += 85;
+        }
+
+        // 5. CTA Button (Bottom Right of Card)
+        const ctaW = 340;
+        const ctaH = 75;
+        const ctaX = WIDTH - 80 - ctaW - 40; // Padding inside the card
+        const ctaY = HEIGHT - 80 - ctaH - 40;
+
+        ctx.fillStyle = '#ff6b81';
+        ctx.beginPath();
+        ctx.roundRect(ctaX, ctaY, ctaW, ctaH, 37); 
+        ctx.fill();
+
+        ctx.fillStyle = '#fff';
+        ctx.font = '28px "Rounded Mplus 1c", "M PLUS Rounded 1c", "Yu Gothic UI", "Meiryo", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('今すぐ診断する！ 🎯', ctaX + ctaW / 2, ctaY + 48);
 
         // Save
         const outPath = path.join(OGP_DIR, `${shortType}.png`);

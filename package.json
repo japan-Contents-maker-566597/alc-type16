@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "canvas": "^3.2.3"
+    "canvas": "^3.2.3",
+    "puppeteer": "^24.41.0"
   }
 }
